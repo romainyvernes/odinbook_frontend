@@ -1,4 +1,4 @@
-import { USER_LOGOUT, USER_LOGIN, HANDLE_ERRORS } from './types';
+import { USER_LOGOUT, USER_LOGIN, GET_ERRORS } from './types';
 import axios from 'axios';
 
 export const register = (body, history) => dispatch => {
@@ -7,13 +7,13 @@ export const register = (body, history) => dispatch => {
     history.push('/');
   }).catch((err) => {
     dispatch({
-      type: HANDLE_ERRORS,
+      type: GET_ERRORS,
       payload: err.response.data
     });
   });
 };
 
-export const login = (body, history) => dispatch => {
+export const login = (body) => dispatch => {
   axios.post('/api/auth/login', body).then((user) => {
     // if successful, set isLoggedIn to true in state and store username
     // redirect to home page (newsfeed)
@@ -21,11 +21,9 @@ export const login = (body, history) => dispatch => {
       type: USER_LOGIN,
       payload: user
     });
-
-    history.push('/');
   }).catch((err) => {
     dispatch({
-      type: HANDLE_ERRORS,
+      type: GET_ERRORS,
       payload: err.response.data
     });
   });
@@ -33,11 +31,15 @@ export const login = (body, history) => dispatch => {
 
 export const logout = (history) => dispatch => {
   axios.get('/api/auth/logout').then((response) => {
-    // if successful, display success message with link to log in
+    // if successful, delete user from state and redirect to login page
+    dispatch({
+      type: USER_LOGOUT
+    });
+
     history.push('/');
   }).catch((err) => {
     dispatch({
-      type: HANDLE_ERRORS,
+      type: GET_ERRORS,
       payload: err.response.data
     });
   });
@@ -53,7 +55,7 @@ export const verifyAuth = () => dispatch => {
     });
   }).catch((err) => {
     dispatch({
-      type: HANDLE_ERRORS,
+      type: GET_ERRORS,
       payload: err.response.data
     });
   });

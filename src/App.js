@@ -40,14 +40,14 @@ function App(props) {
         {
           /* display navigation bar only if user is authenticated, as it doesn't
           appear on sign in page */
-          props.isLoggedIn && <Navbar />
+          props.auth.isAuthenticated && <Navbar />
         }
-        <Route exact path="/" component={() => {
+        <Route exact path="/" render={() => {
           // display user's newsfeed only if authenticated
-          if (props.isLoggedIn) return <Newsfeed />;
+          if (props.auth.isAuthenticated) return <Newsfeed />;
           return <Login />;
         }} />
-        <Route exact path="/:username" component={(props) => {
+        <Route exact path="/:username" render={(props) => {
           // pass in props to be able to access "match" property that contains
           // the URI's parameter
           <Profile {...props} />
@@ -59,13 +59,13 @@ function App(props) {
 }
 
 App.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
+  auth: PropTypes.object.isRequired,
   verifyAuth: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.auth.isLoggedIn
+    auth: state.auth
   };
 };
 
