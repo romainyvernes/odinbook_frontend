@@ -1,11 +1,35 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import { logout } from '../../actions/authActions';
+import PropTypes from 'prop-types';
 
-const Navbar = () => {
+function Navbar({ logout, history, auth }) {
+  const onLogoutClick = () => {
+    logout(history);
+  };
+  
   return (
     <div>
-      
+      <nav>
+        <Link to={`/${auth.user.username}`} />
+        <Link to="/" />
+        <Link to="/friends" />
+        <button onClick={onLogoutClick}>Logout</button>
+      </nav>
     </div>
   )
 }
 
-export default Navbar
+Navbar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
+
+export default connect(mapStateToProps, { logout })(withRouter(Navbar));

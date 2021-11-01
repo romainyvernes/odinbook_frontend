@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { login } from './actions/authActions';
 import PropTypes from 'prop-types';
 
-function Login(props) {
+function Login({ auth, errors, login, history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   // check whether user appears as logged in when component is mounted
   useEffect(() => {
-    if (props.auth.isAuthenticated) {
-      props.history.push('/');
+    if (auth.isAuthenticated) {
+      history.push('/');
     }
   }, []);
 
@@ -33,7 +33,7 @@ function Login(props) {
       password
     };
 
-    props.login(body);
+    login(body);
   };
 
   // TODO: handle errors passed in from props.errors
