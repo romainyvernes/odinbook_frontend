@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// redux action
 import { verifyAuth } from './actions/authActions';
 
 // stylesheet
@@ -15,11 +16,12 @@ import Login from './components/auth/Login';
 import Friends from './components/Friends';
 import Newsfeed from './components/Newsfeed';
 import Navbar from './components/layout/Navbar';
+import PrivateRoute from './components/PrivateRoute';
 
-function App(props) {
+function App({ auth, verifyAuth }) {
   useEffect(() => {
     // check once, upon rendering of App, whether user is already authenticated
-    props.verifyAuth();
+    verifyAuth();
   }, []);
 
   const getUserProfile = () => {
@@ -40,19 +42,19 @@ function App(props) {
         {
           /* display navigation bar only if user is authenticated, as it doesn't
           appear on sign in page */
-          props.auth.isAuthenticated && <Navbar />
+          auth.isAuthenticated && <Navbar />
         }
         <Route exact path="/" render={() => {
-          // display user's newsfeed only if authenticated
-          if (props.auth.isAuthenticated) return <Newsfeed />;
+          /* display user's newsfeed only if authenticated
+          NOTE: PrivateRoute component is not used in this case because the 
+          path for Newsfeed and Login is the same */
+          if (auth.isAuthenticated) return <Newsfeed />;
           return <Login />;
         }} />
-        <Route exact path="/:username" render={(props) => {
-          // pass in props to be able to access "match" property that contains
-          // the URI's parameter
-          <Profile {...props} />
-        }} />
-        <Route exact path="/friends" component={Friends} />
+        <Switch>
+          <PrivateRoute exact path="/:username" component={Profile} />
+          <PrivateRoute exact path="/friends" component={Friends} />
+        </Switch>
       </div>
     </Router>
   );
