@@ -18,7 +18,7 @@ function Navbar({ logout, history, auth }) {
         <button onClick={onLogoutClick}>Logout</button>
       </nav>
     </div>
-  )
+  );
 }
 
 Navbar.propTypes = {

@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -23,18 +23,6 @@ function App({ auth, verifyAuth }) {
     // check once, upon rendering of App, whether user is already authenticated
     verifyAuth();
   }, []);
-
-  const getUserProfile = () => {
-    axios.get(`/api/users/username`).then((response) => {
-      // do something with response
-    }).catch((err) => console.error(err));
-  };
-
-  const getFriends = () => {
-    axios.get(`/api/users/username/friends`).then((response) => {
-      // do something with response
-    }).catch((err) => console.error(err));
-  };
   
   return (
     <Router>
