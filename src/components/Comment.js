@@ -17,7 +17,7 @@ export default function Comment({ data }) {
   return (
     <li className="comment">
       <div>
-        <a href="" rel="author">{data.author.name}</a>
+        <a href={`/${data.author.username}`} rel="author">{data.author.name}</a>
         <p>{data.content}</p>
       </div>
       <div>

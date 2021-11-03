@@ -3,6 +3,7 @@ import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
 
 export default function Post({ data }) {
+  console.log(data)
   const onLikeClick = () => {
     /* 
     If comment not yet liked, send POST request to "/api/reactions" with 
@@ -18,7 +19,7 @@ export default function Post({ data }) {
   
   return (
     <li className="post">
-      <a href="" rel="author">{data.author.name}</a>
+      <a href={`/${data.author.username}`} rel="author">{data.author.name}</a>
       <time dateTime={data.date}>{data.date}</time>
       <p>{data.content}</p>
       {data.reactions.length > 0 && 
@@ -40,7 +41,9 @@ export default function Post({ data }) {
         ? <CommentsList comments={data.comments} />
         : "Be the first to comment."
       }
-      <AddCommentForm type="comment" parentId={data.id} />
+      <AddCommentForm type="comment" 
+                      parentId={data.id} 
+                      profileId={data.destination_profile} />
     </li>
   );
 }

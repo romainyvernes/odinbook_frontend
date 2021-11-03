@@ -1,18 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import { getPosts } from '../actions/postActions';
+
+// components
 import PostsList from "./PostsList";
 
-const Profile = ({ match }) => {
+function Profile({ match, getPosts, posts }) {
   const [user, setUser] = useState({});
-  const [posts, setPosts] = useState([]);
   
   // retrieve user info, posts, and comments upon mounting
   useEffect(() => {
-    // params property of the match object refers to parameters set in route URI
+    /* params property of the match object refers to parameters set in route URI
+    NOTE: API call is made locally rather than in redux action because the route
+    differs in each component where posts appear */
     axios.get(`/api/users/${match.params.username}`).then((response) => {
+      // save info about owner of profile displayed to local state
       setUser(response.data.user);
-      setPosts(response.data.posts);
+
+      // save posts being displayed to redux store
+      getPosts(response.data.posts);
     }).catch((err) => {
       console.log(err);
     });
@@ -53,6 +62,15 @@ const Profile = ({ match }) => {
       <div>Loading...</div>
     );
   }
+}
+
+Profile.propTypes = {
+  posts: PropTypes.array.isRequired,
+  getPosts: PropTypes.func.isRequired
 };
 
-export default Profile;
+const mapStateToProps = (state) => ({
+  posts: state.posts.items
+});
+
+export default connect(mapStateToProps, { getPosts })(Profile);

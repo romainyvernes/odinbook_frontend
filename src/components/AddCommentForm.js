@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-export default function AddCommentForm({ type, parentId }) {
+export default function AddCommentForm({ type, parentId, profileId }) {
   // "type" variable in props should either be "comment" if the comment is
   // directly under a post, or "reply" if it is a reply to an existing comment
 
@@ -10,9 +11,23 @@ export default function AddCommentForm({ type, parentId }) {
     setNewComment(e.target.value);
   };
 
-  const handleAddComment = () => {
-    // send POST request to "/api/comments" with post ID or commentId as 
-    // parentId, profileId, and content in the body.
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    
+    axios.post(`/api/comments`, {
+      parentId,
+      profileId,
+      content: newComment
+    }).then((response) => {
+      // upon successful response, reset value of comment input
+      if (response.status === 201) {
+        setNewComment('');
+      } else {
+        console.log('Comment could not be added.');
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   return (
@@ -20,7 +35,8 @@ export default function AddCommentForm({ type, parentId }) {
       <input type="text" 
               placeholder={`Write a ${type}...`} 
               value={newComment}
-              onChange={onAddCommentChange}></input>
+              onChange={onAddCommentChange}
+              required></input>
       <button type="submit" style={{ display: 'none' }}></button>
     </form>
   )
