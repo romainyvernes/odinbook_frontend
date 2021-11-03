@@ -3,33 +3,27 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import PostsList from './PostsList';
 
-// component to display recent posts by user's friends
+// component to display recent posts by any user on the platform
 function Newsfeed({ auth }) {
   const [posts, setPosts] = useState([]);
   
-  // retrieve list of friends for authenticated user from API upon mounting
+  // retrieve recent posts from API upon mounting
   useEffect(() => {
-    axios.get(`/api/posts?authorId=`).then((response) => {
-      setPosts();
+    axios.get('/api/posts?recent=true').then((response) => {
+      setPosts(response.data);
     }).catch((err) => {
-      console.log(err.response.data);
+      console.log(err);
     });
   }, []);
 
   return (
     <div>
-      <ul>
-        {posts.map((post) => {
-          return (
-            <li key={post._id}>
-              <h6>{post.author}</h6>
-              <time dateTime={post.date}>{post.date}</time>
-              <p>{post.content}</p>
-            </li>
-          );
-        })}
-        </ul>
+      {posts.length > 0
+        ? <PostsList posts={posts} />
+        : "It looks like no one has posted anything yet." 
+      }
     </div>
   );
 }

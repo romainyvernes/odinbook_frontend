@@ -40,8 +40,8 @@ function App({ auth, verifyAuth }) {
           return <Login />;
         }} />
         <Switch>
-          <PrivateRoute exact path="/:username" component={Profile} />
           <PrivateRoute exact path="/friends" component={Friends} />
+          <PrivateRoute exact path="/:username" component={Profile} />
         </Switch>
       </div>
     </Router>

@@ -13,9 +13,9 @@ function Friends({ auth }) {
   // retrieve list of friends for authenticated user from API upon mounting
   useEffect(() => {
     axios.get(`/api/users/${auth.user.username}/friends`).then((response) => {
-      setFriends(response.friends);
+      setFriends(response.data);
     }).catch((err) => {
-      console.log(err.response.data);
+      console.log(err);
     });
   }, []);
 

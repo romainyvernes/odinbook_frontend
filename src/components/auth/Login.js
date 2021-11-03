@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { login } from './actions/authActions';
+import { login } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 
 function Login({ auth, errors, login, history }) {
