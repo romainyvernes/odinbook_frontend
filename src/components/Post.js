@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // components
 import CommentsList from './CommentsList';
@@ -52,6 +53,10 @@ function Post({ data, comments }) {
     </li>
   );
 }
+
+Post.propTypes = {
+  comments: PropTypes.object.isRequired
+};
 
 const mapStateToProps = (state) => ({
   comments: state.comments

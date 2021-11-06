@@ -20,7 +20,6 @@ export const addComment = (body) => dispatch => {
 };
 
 export const deleteComment = (comment) => dispatch => {
-  console.log(comment)
   axios.delete(`/api/comments/${comment.id}`).then((response) => {
     dispatch({
       type: DELETE_COMMENT,

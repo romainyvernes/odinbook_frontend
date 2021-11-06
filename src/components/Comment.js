@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { deleteComment } from '../actions/commentActions';
 
 // import components
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
 
-function Comment({ data, comments }) {
+function Comment({ data, comments, deleteComment }) {
   const [comment, setComment] = useState(data);
+  const [enableComment, setEnableComment] = useState(false);
   
   const onLikeClick = () => {
     /* 
@@ -63,12 +65,24 @@ function Comment({ data, comments }) {
       {repliesDisplayed.length === 0 && data.replies.length > 0 && (
         <button onClick={loadComments}>Load {data.replies.length} replies</button>
       )}
+      {enableComment && (
+        <AddCommentForm type="reply" 
+                        parentId={data.id} 
+                        profileId={data.destination_profile}
+                        postId={data.post_id} />
+      )
+      }
     </li>
   )
 }
+
+Comment.propTypes = {
+  comments: PropTypes.object.isRequired,
+  deleteComment: PropTypes.func.isRequired
+};
 
 const mapStateToProps = (state) => ({
   comments: state.comments
 });
 
-export default connect(mapStateToProps)(Comment);
+export default connect(mapStateToProps, { deleteComment })(Comment);
