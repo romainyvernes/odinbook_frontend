@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addComment } from '../actions/commentActions';
 
-export default function AddCommentForm({ type, parentId, profileId }) {
+function AddCommentForm({ type, parentId, postId, profileId, comments, addComment }) {
   // "type" variable in props should either be "comment" if the comment is
   // directly under a post, or "reply" if it is a reply to an existing comment
 
   const [newComment, setNewComment] = useState('');
+
+  useEffect(() => {
+    setNewComment('');
+  }, [comments]);
 
   const onAddCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -14,20 +20,14 @@ export default function AddCommentForm({ type, parentId, profileId }) {
   const handleAddComment = (e) => {
     e.preventDefault();
     
-    axios.post(`/api/comments`, {
+    const body = {
       parentId,
       profileId,
+      postId,
       content: newComment
-    }).then((response) => {
-      // upon successful response, reset value of comment input
-      if (response.status === 201) {
-        setNewComment('');
-      } else {
-        console.log('Comment could not be added.');
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
+    };
+
+    addComment(body);
   };
 
   return (
@@ -41,3 +41,14 @@ export default function AddCommentForm({ type, parentId, profileId }) {
     </form>
   )
 }
+
+AddCommentForm.propTypes = {
+  comments: PropTypes.object.isRequired,
+  addComment: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  comments: state.comments
+});
+
+export default connect(mapStateToProps, { addComment })(AddCommentForm);

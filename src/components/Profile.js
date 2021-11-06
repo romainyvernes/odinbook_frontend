@@ -19,7 +19,7 @@ function Profile({ match, getPosts, posts }) {
     axios.get(`/api/users/${match.params.username}`).then((response) => {
       // save info about owner of profile displayed to local state
       setUser(response.data.user);
-
+      
       // save posts being displayed to redux store
       getPosts(response.data.posts);
     }).catch((err) => {
@@ -70,7 +70,7 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  posts: state.posts.items
+  posts: state.posts
 });
 
 export default connect(mapStateToProps, { getPosts })(Profile);

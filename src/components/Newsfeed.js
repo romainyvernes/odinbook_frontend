@@ -39,7 +39,7 @@ Newsfeed.propTypes = {
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
-    posts: state.posts.items
+    posts: state.posts
   };
 };
 

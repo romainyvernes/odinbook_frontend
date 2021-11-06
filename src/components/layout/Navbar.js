@@ -12,9 +12,9 @@ function Navbar({ logout, history, auth }) {
   return (
     <div>
       <nav>
-        <Link to={`/${auth.user.username}`} />
-        <Link to="/" />
-        <Link to="/friends" />
+        <Link to={`/${auth.user.username}`}>Profile</Link>
+        <Link to="/">Home</Link>
+        <Link to="/friends">Friends</Link>
         <button onClick={onLogoutClick}>Logout</button>
       </nav>
     </div>
