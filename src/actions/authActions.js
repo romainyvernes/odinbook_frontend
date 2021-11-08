@@ -8,7 +8,7 @@ export const register = (body, history) => dispatch => {
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response
     });
   });
 };
@@ -24,7 +24,7 @@ export const login = (body) => dispatch => {
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response
     });
   });
 };
@@ -40,7 +40,7 @@ export const logout = (history) => dispatch => {
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response
     });
   });
 };
@@ -56,7 +56,7 @@ export const verifyAuth = () => dispatch => {
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response
     });
   });
 };

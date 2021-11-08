@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addComment } from '../actions/commentActions';
 
-function AddCommentForm({ type, parentId, postId, profileId, comments, addComment }) {
+function AddCommentForm({ 
+  type, 
+  parentId, 
+  postId, 
+  profileId, 
+  comments, 
+  addComment 
+}) {
   // "type" variable in props should either be "comment" if the comment is
   // directly under a post, or "reply" if it is a reply to an existing comment
 

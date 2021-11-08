@@ -1,7 +1,8 @@
 import { 
   ADD_COMMENT, 
   GET_ERRORS,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  UPDATE_COMMENT
 } from "./types";
 import axios from 'axios';
 
@@ -14,7 +15,7 @@ export const addComment = (body) => dispatch => {
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response
     });
   });
 };
@@ -28,7 +29,21 @@ export const deleteComment = (comment) => dispatch => {
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
-      payload: err.response.data
+      payload: err.response
+    });
+  });
+};
+
+export const updateComment = (commentId) => dispatch => {
+  axios.delete(`/api/comments/${commentId}`).then((response) => {
+    dispatch({
+      type: UPDATE_COMMENT,
+      payload: response.data
+    });
+  }).catch((err) => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response
     });
   });
 };

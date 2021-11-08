@@ -1,6 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { 
+  BrowserRouter as Router, 
+  Route, 
+  Switch 
+} from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,7 +22,7 @@ import Newsfeed from './components/Newsfeed';
 import Navbar from './components/layout/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 
-function App({ auth, verifyAuth }) {
+function App({ auth, verifyAuth, errors }) {
   useEffect(() => {
     // check once, upon rendering of App, whether user is already authenticated
     verifyAuth();
@@ -50,12 +54,14 @@ function App({ auth, verifyAuth }) {
 
 App.propTypes = {
   auth: PropTypes.object.isRequired,
-  verifyAuth: PropTypes.func.isRequired
+  verifyAuth: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    errors: state.errors
   };
 };
 
