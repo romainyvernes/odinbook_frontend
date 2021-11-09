@@ -34,8 +34,10 @@ export const deleteComment = (comment) => dispatch => {
   });
 };
 
-export const updateComment = (commentId) => dispatch => {
-  axios.delete(`/api/comments/${commentId}`).then((response) => {
+export const updateComment = (comment) => dispatch => {
+  axios.put(`/api/comments/${comment.id}`, {  
+    content: comment.content
+  }).then((response) => {
     dispatch({
       type: UPDATE_COMMENT,
       payload: response.data

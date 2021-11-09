@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-// templace component for all components for which authentication should be
+// template component for all components for which authentication should be
 // verified prior to rendering
 function PrivateRoute({ component: Component, auth, ...rest }) {
   return (

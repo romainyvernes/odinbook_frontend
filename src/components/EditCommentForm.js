@@ -7,7 +7,9 @@ function EditCommentForm({ comment, updateComment, toggleEditComment }) {
   const [updatedComment, setUpdatedComment] = useState(comment);
 
   const onUpdateCommentChange = (e) => {
-    setUpdatedComment(e.target.value);
+    const update = {...updatedComment};
+    update.content = e.target.value;
+    setUpdatedComment(update);
   };
 
   const handleUpdateComment = (e) => {
@@ -27,7 +29,7 @@ function EditCommentForm({ comment, updateComment, toggleEditComment }) {
               value={updatedComment.content}
               onChange={onUpdateCommentChange}
               required></input>
-      <button onClick={toggleEditComment}>Cancel</button>
+      <button type="button" onClick={toggleEditComment}>Cancel</button>
       <button type="submit" style={{ display: 'none' }}></button>
     </form>
   )

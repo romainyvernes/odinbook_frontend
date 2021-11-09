@@ -7,16 +7,17 @@ import { deleteComment } from '../actions/commentActions';
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
 import EditCommentForm from './EditCommentForm';
+import PrivateButton from './PrivateButton';
 
-function Comment({ data, comments, deleteComment, auth }) {
+function Comment({ data, comments, deleteComment }) {
   const [comment, setComment] = useState(data);
   const [enableAddComment, setEnableAddComment] = useState(false);
   const [enableEditComment, setEnableEditComment] = useState(false);
 
   useEffect(() => {
-    // when there are changes to the comments object (presumably a comment that
-    // was added), hide "new reply" input from display
-    setEnableAddComment(false);
+    // when there are changes to the comments object, hide "edit reply" input 
+    // from display
+    setEnableEditComment(false);
   }, [comments]);
   
   const onLikeClick = () => {
@@ -64,58 +65,62 @@ function Comment({ data, comments, deleteComment, auth }) {
     });
   }
   
-  if (enableEditComment) {
-    return (
-      <li className="comment edit">
-        <EditCommentForm comment={comment} 
-                          toggleEditComment={toggleEditComment} />
-      </li>
-    );
-  } else {
-    return (
-      <li className="comment">
-        <div>
-          <a href={`/${data.author.username}`} rel="author">{data.author.name}</a>
-          <p>{data.content}</p>
-        </div>
-        <div>
-          <button onClick={onLikeClick}>Like</button>
-          <button onClick={onReplyClick}>Reply</button>
-          <button onClick={handleDeleteComment}>Delete</button>
-          <button onClick={toggleEditComment}>Update</button>
-          <time dateTime={data.date}>{data.date}</time>
-        </div>
-        {
-          // if there are replies to display, display them as a list
-          repliesDisplayed.length > 0 && (
-            <CommentsList comments={data.replies} />
-          )
-        }
-        {
-          // if a comment has replies but the user has never asked to display
-          // them before, a "load replies" button should appear instead 
-          repliesDisplayed.length === 0 && data.replies.length > 0 && (
-            <button onClick={loadComments}>
-              Load {data.replies.length} {
-                data.replies.length > 1 
-                  ? 'replies' 
-                  : 'reply'
-              }
-            </button>
-          )
-        }
-        {
-          // display input to write new reply when enableAddComment is true
-          enableAddComment && (
-            <AddCommentForm type="reply" 
-                            parentId={data.id} 
-                            profileId={data.destination_profile}
-                            postId={data.post_id} />
-          )
-        }
-      </li>
-    );
-  }
+  return (
+    <li className={`comment ${enableEditComment && 'edit'}`}>
+      {
+        enableEditComment
+          ? <EditCommentForm comment={comment} 
+                            toggleEditComment={toggleEditComment} />
+          : <div>
+              <div>
+                <a href={`/${data.author.username}`} rel="author">
+                  {data.author.name}
+                </a>
+                <p>{data.content}</p>
+              </div>
+              <div>
+                <button onClick={onLikeClick}>Like</button>
+                <button onClick={onReplyClick}>Reply</button>
+                <PrivateButton onClick={handleDeleteComment} 
+                                parentElement={data}
+                                label="Delete" />
+                <PrivateButton onClick={toggleEditComment} 
+                                parentElement={data}
+                                label="Update" />
+                <time dateTime={data.date}>{data.date}</time>
+              </div>
+            </div>
+      }
+      {
+        // if there are replies to display, display them as a list
+        repliesDisplayed.length > 0 && (
+          <CommentsList comments={data.replies} />
+        )
+      }
+      {
+        // if a comment has replies but the user has never asked to display
+        // them before, a "load replies" button should appear instead 
+        repliesDisplayed.length === 0 && data.replies.length > 0 && (
+          <button onClick={loadComments}>
+            Load {data.replies.length} {
+              data.replies.length > 1 
+                ? 'replies' 
+                : 'reply'
+            }
+          </button>
+        )
+      }
+      {
+        // display input to write new reply when enableAddComment is true
+        enableAddComment && (
+          <AddCommentForm type="reply" 
+                          parentId={data.id} 
+                          profileId={data.destination_profile}
+                          postId={data.post_id} />
+        )
+      }
+    </li>
+  );
 }
 
 Comment.propTypes = {
