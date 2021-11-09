@@ -10,7 +10,7 @@ export const addComment = (body) => dispatch => {
   axios.post('/api/comments', body).then((response) => {
     dispatch({
       type: ADD_COMMENT,
-      payload: response.data
+      payload: [response.data]
     });
   }).catch((err) => {
     dispatch({
@@ -49,3 +49,18 @@ export const updateComment = (comment) => dispatch => {
     });
   });
 };
+
+export const loadComments = (parentId) => dispatch => {
+  axios.get(`/api/comments?parentId=${parentId}`).then((response) => {
+    dispatch({
+      type: ADD_COMMENT,
+      payload: response.data
+    });
+  }).catch((err) => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response
+    });
+  });
+};
+

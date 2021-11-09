@@ -16,39 +16,39 @@ export default function(state = initialState, { type, payload }) {
       return payload;
     
     case ADD_COMMENT:
-      const newComment = payload;
+      const newStateArr = [...state[payload[0].post_id]];
+    
+      // eslint-disable-next-line array-callback-return
+      payload.map((newComment) => {
+        // add new comment to its parent comment when it is a reply to a comment
+        if (newComment.post_id !== newComment.parent_id) {
+          // look for the new comment's parent comment and add it to
+          // parent's replies
+          for (let comment of newStateArr) {
+            if (comment.id === newComment.parent_id) {
+              // check whether new comment is already in its parent's replies
+              const index = comment.replies.findIndex((reply) => (
+                reply.id === newComment.id
+              ));
 
-      // add new comment to its parent comment when it is a reply to a comment
-      if (newComment.post_id !== newComment.parent_id) {
-        return {
-          ...state,
-          [newComment.post_id]: state[newComment.post_id].reduce(
-            (newArr, comment, index, currentArr) => {
-              // look for the new comment's parent comment and add it to
-              // parent's replies
-              if (comment.id === newComment.parent_id) {
+              if (index > -1) { // implies comment was found
+                comment.replies[index] = newComment;
+              } else {
                 comment.replies.push(newComment);
               }
-
-              newArr.push(comment);
-
-              // when the loop is reaching the last item, insert the new
-              // comment at the end
-              if (index === currentArr.length - 1) {
-                newArr.push(newComment);
-              }
               
-              return newArr;
-            }, 
-            []
-          )
-        };
-      }
+              break;
+            }
+          }
+        }
 
-      // otherwise, simply add the new comment to the existing array of comments
+        // insert the new comment at the end of comments array in state
+        newStateArr.push(newComment);
+      });
+
       return {
         ...state,
-        [newComment.post_id]: [...state[newComment.post_id], newComment]
+        [newStateArr[0].post_id]: newStateArr
       };
     
     case DELETE_COMMENT:

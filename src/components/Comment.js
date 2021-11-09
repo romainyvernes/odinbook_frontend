@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deleteComment } from '../actions/commentActions';
+import { deleteComment, loadComments } from '../actions/commentActions';
 import { addReaction, deleteReaction } from '../actions/reactionActions';
 
 // import components
@@ -16,7 +16,8 @@ function Comment({
   deleteComment, 
   auth, 
   addReaction, 
-  deleteReaction 
+  deleteReaction,
+  loadComments
 }) {
   const [comment, setComment] = useState(data);
   const [enableAddComment, setEnableAddComment] = useState(false);
@@ -52,8 +53,8 @@ function Comment({
     setEnableAddComment(true);
   };
 
-  const loadComments = () => {
-    // send GET request to "/api/comments" with comment ID as parentId in the body.
+  const handleLoadComments = () => {
+    loadComments(comment.id);
   };
 
   const handleDeleteComment = () => {
@@ -127,7 +128,7 @@ function Comment({
         // if a comment has replies but the user has never asked to display
         // them before, a "load replies" button should appear instead 
         repliesDisplayed.length === 0 && data.replies.length > 0 && (
-          <button onClick={loadComments}>
+          <button onClick={handleLoadComments}>
             Load {data.replies.length} {
               data.replies.length > 1 
                 ? 'replies' 
@@ -154,7 +155,8 @@ Comment.propTypes = {
   deleteComment: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   addReaction: PropTypes.func.isRequired,
-  deleteReaction: PropTypes.func.isRequired
+  deleteReaction: PropTypes.func.isRequired,
+  loadComments: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -165,5 +167,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, { 
   deleteComment,
   addReaction,
-  deleteReaction
+  deleteReaction,
+  loadComments
 })(Comment);
