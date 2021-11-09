@@ -2,7 +2,9 @@ import {
   GET_COMMENTS, 
   ADD_COMMENT, 
   DELETE_COMMENT, 
-  UPDATE_COMMENT 
+  UPDATE_COMMENT,
+  ADD_COMMENT_REACTION,
+  DELETE_COMMENT_REACTION
 } from "../actions/types";
 
 const initialState = {};
@@ -58,7 +60,7 @@ export default function(state = initialState, { type, payload }) {
         return {
           ...state,
           [deletedComment.post_id]: state[deletedComment.post_id].reduce(
-            (newArr, comment, index, currentArr) => {
+            (newArr, comment) => {
               // save only comments that are not the deleted comment
               if (comment.id !== deletedComment.id) {
                 newArr.push(comment);
@@ -97,6 +99,35 @@ export default function(state = initialState, { type, payload }) {
               comment.content = updatedComment.content;
             }
             return comment;
+          }
+        )
+      };
+    
+    case ADD_COMMENT_REACTION:
+      const { comment, reaction } = payload;
+      return {
+        ...state,
+        [comment.post_id]: state[comment.post_id].map(
+          (item) => {
+            if (item.id === comment.id) {
+              item.reactions.push(reaction);
+            }
+            return item;
+          }
+        )
+      };
+
+    case DELETE_COMMENT_REACTION:
+      return {
+        ...state,
+        [payload.comment.post_id]: state[payload.comment.post_id].map(
+          (item) => {
+            if (item.id === payload.comment.id) {
+              item.reactions = item.reactions.filter((element) => (
+                element._id !== payload.reaction._id
+              ));
+            }
+            return item;
           }
         )
       };

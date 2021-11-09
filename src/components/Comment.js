@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteComment } from '../actions/commentActions';
+import { addReaction, deleteReaction } from '../actions/reactionActions';
 
 // import components
 import CommentsList from './CommentsList';
@@ -9,7 +10,14 @@ import AddCommentForm from './AddCommentForm';
 import EditCommentForm from './EditCommentForm';
 import PrivateButton from './PrivateButton';
 
-function Comment({ data, comments, deleteComment }) {
+function Comment({ 
+  data, 
+  comments, 
+  deleteComment, 
+  auth, 
+  addReaction, 
+  deleteReaction 
+}) {
   const [comment, setComment] = useState(data);
   const [enableAddComment, setEnableAddComment] = useState(false);
   const [enableEditComment, setEnableEditComment] = useState(false);
@@ -20,13 +28,23 @@ function Comment({ data, comments, deleteComment }) {
     setEnableEditComment(false);
   }, [comments]);
   
-  const onLikeClick = () => {
-    /* 
-    If comment not yet liked, send POST request to "/api/reactions" with 
-    post ID as parentId, profileId, and value in the body.
-    If comment needs to be unliked, send DELETE request to 
-    "/api/reactions/:reactionId"
-    */
+  const toggleLike = () => {
+    // look for an existing reaction by authenticated user
+    const currentReaction = data.reactions.find((reaction) => (
+      reaction.author.id === auth.user.id
+    ));
+    
+    if (currentReaction) {
+      deleteReaction(currentReaction, comment);
+    } else {
+      const body = {
+        parentId: comment.id,
+        profileId: comment.destination_profile,
+        value: 'Like'
+      };
+
+      addReaction(body, comment);
+    }
   };
 
   const onReplyClick = () => {
@@ -79,7 +97,15 @@ function Comment({ data, comments, deleteComment }) {
                 <p>{data.content}</p>
               </div>
               <div>
-                <button onClick={onLikeClick}>Like</button>
+                <button onClick={toggleLike}>
+                  {
+                    data.reactions.find((reaction) => (
+                      reaction.author.id === auth.user.id
+                    ))
+                      ? 'Unlike'
+                      : 'Like'
+                  }
+                </button>
                 <button onClick={onReplyClick}>Reply</button>
                 <PrivateButton onClick={handleDeleteComment} 
                                 parentElement={data}
@@ -126,7 +152,9 @@ function Comment({ data, comments, deleteComment }) {
 Comment.propTypes = {
   comments: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  addReaction: PropTypes.func.isRequired,
+  deleteReaction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -134,7 +162,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps, 
-  { deleteComment }
-)(Comment);
+export default connect(mapStateToProps, { 
+  deleteComment,
+  addReaction,
+  deleteReaction
+})(Comment);
