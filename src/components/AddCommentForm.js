@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addComment } from '../actions/commentActions';
@@ -9,16 +9,24 @@ function AddCommentForm({
   postId, 
   profileId, 
   comments, 
-  addComment 
+  addComment,
+  isFocused
 }) {
   // "type" variable in props should either be "comment" if the comment is
   // directly under a post, or "reply" if it is a reply to an existing comment
 
   const [newComment, setNewComment] = useState('');
+  const commentInput = useRef();
 
   useEffect(() => {
     setNewComment('');
   }, [comments]);
+
+  useEffect(() => {
+    if (isFocused) {
+      commentInput.current.focus();
+    }
+  }, [isFocused]);
 
   const onAddCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -43,6 +51,7 @@ function AddCommentForm({
               placeholder={`Write a ${type}...`} 
               value={newComment}
               onChange={onAddCommentChange}
+              ref={commentInput}
               required></input>
       <button type="submit" style={{ display: 'none' }}></button>
     </form>

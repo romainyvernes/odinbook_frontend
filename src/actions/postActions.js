@@ -1,7 +1,10 @@
 import {
   GET_ERRORS,
   GET_POSTS,
-  GET_COMMENTS
+  GET_COMMENTS,
+  DELETE_POST,
+  UPDATE_POST,
+  ADD_POST
 } from "./types";
 import axios from 'axios';
 
@@ -33,5 +36,49 @@ export const getPosts = (posts) => dispatch => {
   dispatch({
     type: GET_COMMENTS,
     payload: commentsObj
+  });
+};
+
+export const deletePost = (post) => dispatch => {
+  axios.delete(`/api/posts/${post.id}`).then((response) => {
+    dispatch({
+      type: DELETE_POST,
+      payload: post
+    });
+  }).catch((err) => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response
+    });
+  });
+};
+
+export const updatePost = (post) => dispatch => {
+  axios.put(`/api/posts/${post.id}`, {  
+    content: post.content
+  }).then((response) => {
+    dispatch({
+      type: UPDATE_POST,
+      payload: response.data
+    });
+  }).catch((err) => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response
+    });
+  });
+};
+
+export const addPost = (body) => dispatch => {
+  axios.post('/api/posts', body).then((response) => {
+    dispatch({
+      type: ADD_POST,
+      payload: response.data
+    });
+  }).catch((err) => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response
+    });
   });
 };

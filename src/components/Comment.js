@@ -87,6 +87,8 @@ function Comment({
   return (
     <li className={`comment ${enableEditComment && 'edit'}`}>
       {
+        // toggle between display to edit a comment and display to view a
+        // comment
         enableEditComment
           ? <EditCommentForm comment={comment} 
                             toggleEditComment={toggleEditComment} />
