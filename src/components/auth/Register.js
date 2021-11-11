@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { register } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 
-function Register({ auth, errors, register, history }) {
+function Register({ auth, errors, register, history, toggleRegisterDisplay }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -55,35 +55,44 @@ function Register({ auth, errors, register, history }) {
 
     register(body, history);
   };
-
-  // TODO: handle errors passed in from props.errors
   
   return (
-    <div>
+    <section>
+      <header>
+        <h2>Sign Up</h2>
+        <p>It's quick and easy.</p>
+        <button onClick={toggleRegisterDisplay}>X</button>
+      </header>
       <form onSubmit={handleSubmit}>
         <input type="text" 
+                name="first-name"
+                placeholder="First name"
+                value={firstName}
+                onChange={onChange}></input>
+        <input type="text" 
+               name="last-name"
+               placeholder="Last name"
+               value={lastName}
+               onChange={onChange}></input>
+        <input type="text" 
                name="username"
+               placeholder="Username"
                value={username}
                onChange={onChange}></input>
         <input type="text" 
-               name="email" 
+               name="email"
+               placeholder="Email"
                value={email} 
                onChange={onChange}></input>
         <input type="text" 
                name="password"
+               placeholder="Password"
                value={password}
                onChange={onChange}></input>
-        <input type="text" 
-               name="first-name"
-               value={firstName}
-               onChange={onChange}></input>
-        <input type="text" 
-               name="last-name"
-               value={lastName}
-               onChange={onChange}></input>
-        <button type="submit">Log In</button>
+        
+        <button type="submit">Sign Up</button>
       </form>
-    </div>
+    </section>
   )
 };
 

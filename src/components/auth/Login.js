@@ -5,9 +5,13 @@ import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 
+// components
+import Register from './Register';
+
 function Login({ auth, errors, login, history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [enableRegister, setEnableRegister] = useState(false);
 
   // check whether user appears as logged in when component is mounted
   useEffect(() => {
@@ -38,21 +42,34 @@ function Login({ auth, errors, login, history }) {
     login(body);
   };
 
-  // TODO: handle errors passed in from props.errors
+  const toggleRegisterDisplay = () => {
+    setEnableRegister(!enableRegister);
+  };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" 
-               name="email" 
-               value={email} 
-               onChange={onChange}></input>
-        <input type="text" 
-               name="password"
-               value={password}
-               onChange={onChange}></input>
-        <button type="submit">Log In</button>
-      </form>
+      {
+        enableRegister && (
+          <Register toggleRegisterDisplay={toggleRegisterDisplay} />
+        )
+      }
+
+      <section>
+        <form onSubmit={handleSubmit}>
+          <input type="text" 
+                name="email"
+                placeholder="Email"
+                value={email} 
+                onChange={onChange}></input>
+          <input type="text" 
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={onChange}></input>
+          <button type="submit">Log In</button>
+        </form>
+        <button onClick={toggleRegisterDisplay}>Create new account</button>
+      </section>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 function Navbar({ logout, history, auth }) {
   const onLogoutClick = () => {
     logout(history);
-  };
+  }; 
   
   return (
     <div>

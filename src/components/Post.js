@@ -20,6 +20,8 @@ function Post({
   posts,
   enablePostForm
 }) {
+  // NOTE: posts is only passed in as a prop to force re-render when a single
+  // post is updated in redux store
   const post = useRef(data);
   const [isFocused, setIsFocused] = useState(false);
 

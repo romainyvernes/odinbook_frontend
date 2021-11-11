@@ -7,6 +7,9 @@ import {
 } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+// use unique IDs to force re-renders of components every time navigation links
+// are clicked
+import { v4 as uuid } from 'uuid';
 
 // redux action
 import { verifyAuth } from './actions/authActions';
@@ -44,7 +47,7 @@ function App({ auth, verifyAuth, errors, postForm }) {
           /* display user's newsfeed only if authenticated
           NOTE: PrivateRoute component is not used in this case because the 
           path for Newsfeed and Login is the same */
-          if (auth.isAuthenticated) return <Newsfeed />;
+          if (auth.isAuthenticated) return <Newsfeed key={uuid()} />;
           return <Login />;
         }} />
         {
