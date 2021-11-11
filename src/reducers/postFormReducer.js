@@ -9,7 +9,7 @@ const initialState = {
   post: {
     content: ''
   },
-  author: {}
+  profile: {}
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -20,13 +20,14 @@ export default function(state = initialState, { type, payload }) {
         return {
           ...state,
           isEnabled: true,
-          post: payload.post
+          post: payload.post,
+          profile: payload.post.destination_profile
         };
       } else { // imples a new post is being created
         return {
           ...state,
           isEnabled: true,
-          author: payload.author
+          profile: payload.profile
         };
       }
 
@@ -37,7 +38,7 @@ export default function(state = initialState, { type, payload }) {
         post: {
           content: ''
         },
-        author: {}
+        profile: {}
       };
 
     case UPDATE_POST_FORM:

@@ -6,7 +6,8 @@ import {
   ADD_COMMENT_REACTION,
   DELETE_COMMENT_REACTION,
   MAP_POST_TO_COMMENTS,
-  UNMAP_POST_TO_COMMENTS
+  UNMAP_POST_TO_COMMENTS,
+  RESET_COMMENTS
 } from "../actions/types";
 
 const initialState = {};
@@ -18,6 +19,7 @@ export default function(state = initialState, { type, payload }) {
       return payload;
     
     case ADD_COMMENT:
+      console.log(payload)
       const newStateArr = [...state[payload[0].post_id]];
     
       // eslint-disable-next-line array-callback-return
@@ -137,7 +139,7 @@ export default function(state = initialState, { type, payload }) {
     case MAP_POST_TO_COMMENTS:
       return {
         ...state,
-        [payload.id]: {}
+        [payload.id]: []
       };
 
     case UNMAP_POST_TO_COMMENTS:
@@ -145,6 +147,9 @@ export default function(state = initialState, { type, payload }) {
       delete newState[payload.id];
     
       return newState;
+
+    case RESET_COMMENTS:
+      return {};
 
     default:
       return state;

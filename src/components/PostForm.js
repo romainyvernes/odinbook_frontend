@@ -23,7 +23,7 @@ function PostForm({
       updatePost(postForm.post);
     } else {
       const body = {
-        profileId: postForm.author.id,
+        profileId: postForm.profile.id,
         content: postForm.post.content
       };
 
@@ -45,7 +45,11 @@ function PostForm({
       </div>
       <p>{auth.user.name}</p>
       <input type="text" 
-              placeholder="What's on your mind?"
+              placeholder={
+                postForm.profile.id === auth.user.id
+                  ? `What's on your mind?`
+                  : `Write something to ${postForm.profile.first_name}...`
+              }
               value={postForm.post.content}
               onChange={onContentChange}
               required></input>

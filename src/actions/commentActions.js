@@ -13,6 +13,7 @@ export const addComment = (body) => dispatch => {
       payload: [response.data]
     });
   }).catch((err) => {
+    console.log(err)
     dispatch({
       type: GET_ERRORS,
       payload: err.response

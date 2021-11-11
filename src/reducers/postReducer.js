@@ -4,6 +4,7 @@ import {
   DELETE_POST, 
   DELETE_POST_REACTION, 
   GET_POSTS, 
+  RESET_POSTS, 
   UPDATE_POST
 } from "../actions/types";
 
@@ -58,6 +59,9 @@ export default function(state = initialState, { type, payload }) {
         payload,
         ...state
       ];
+
+    case RESET_POSTS:
+      return [];
 
     default:
       return state;

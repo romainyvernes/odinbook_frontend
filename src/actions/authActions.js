@@ -1,4 +1,10 @@
-import { USER_LOGOUT, USER_LOGIN, GET_ERRORS } from './types';
+import { 
+  USER_LOGOUT, 
+  USER_LOGIN, 
+  GET_ERRORS, 
+  RESET_POSTS, 
+  RESET_COMMENTS 
+} from './types';
 import axios from 'axios';
 
 export const register = (body, history) => dispatch => {
@@ -34,6 +40,14 @@ export const logout = (history) => dispatch => {
     // if successful, delete user from state and redirect to login page
     dispatch({
       type: USER_LOGOUT
+    });
+
+    dispatch({
+      type: RESET_POSTS
+    });
+
+    dispatch({
+      type: RESET_COMMENTS
     });
 
     history.push('/');

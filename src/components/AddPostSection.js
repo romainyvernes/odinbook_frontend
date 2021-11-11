@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { enablePostForm } from '../actions/postFormActions';
 
 function AddPostSection({ user, auth, enablePostForm }) {
-  // NOTE: if user is undefined, it implies the component is being used from
-  // the Newsfeed page where the user is assumed to be the authenticated user
+  /* NOTE: if user is undefined, it implies the component is being used from
+  the Newsfeed page, meaning the profile where the post is added is the 
+  authenticated user's */
   
   const handleAddPost = () => {
     enablePostForm(null, user || auth.user);

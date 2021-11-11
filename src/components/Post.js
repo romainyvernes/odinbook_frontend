@@ -34,7 +34,7 @@ function Post({
     } else {
       const body = {
         parentId: post.current.id,
-        profileId: post.current.destination_profile,
+        profileId: post.current.destination_profile.id,
         value: 'Like'
       };
       
@@ -100,7 +100,7 @@ function Post({
       }
       <AddCommentForm type="comment" 
                       parentId={data.id} 
-                      profileId={data.destination_profile}
+                      profileId={data.destination_profile.id}
                       postId={data.id}
                       isFocused />
     </li>

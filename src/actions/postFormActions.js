@@ -4,12 +4,12 @@ import {
   UPDATE_POST_FORM
 } from "./types";
 
-export const enablePostForm = (post = {}, author = {}) => dispatch => {
+export const enablePostForm = (post = {}, profile = {}) => dispatch => {
   dispatch({
     type: ENABLE_POST_FORM,
     payload: {
       post,
-      author
+      profile
     }
   });
 };

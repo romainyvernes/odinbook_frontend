@@ -47,10 +47,14 @@ function App({ auth, verifyAuth, errors, postForm }) {
           if (auth.isAuthenticated) return <Newsfeed />;
           return <Login />;
         }} />
-        <Switch>
-          <PrivateRoute exact path="/friends" component={Friends} />
-          <PrivateRoute exact path="/:username" component={Profile} />
-        </Switch>
+        {
+          auth.isAuthenticated && (
+            <Switch>
+              <PrivateRoute exact path="/friends" component={Friends} />
+              <PrivateRoute exact path="/:username" component={Profile} />
+            </Switch>
+          )
+        }
       </div>
     </Router>
   );
