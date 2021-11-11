@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addReaction, deleteReaction } from '../actions/reactionActions';
@@ -21,7 +21,7 @@ function Post({
   enablePostForm
 }) {
   const post = useRef(data);
-  const isFocused = useRef(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const toggleLike = () => {
     // look for an existing reaction by authenticated user
@@ -44,7 +44,7 @@ function Post({
 
   const onCommentClick = () => {
     // when comment button is clicked, focus on comment input area
-    isFocused.current = true;
+    setIsFocused(true);
   };
 
   const handleDeletePost = () => {
@@ -53,6 +53,10 @@ function Post({
 
   const handleUpdatePost = () => {
     enablePostForm(post.current);
+  };
+
+  const disableAddCommentFocus = () => {
+    setIsFocused(false);
   };
   
   return (
@@ -102,7 +106,8 @@ function Post({
                       parentId={data.id} 
                       profileId={data.destination_profile.id}
                       postId={data.id}
-                      isFocused />
+                      isFocused={isFocused}
+                      disableAddCommentFocus={disableAddCommentFocus} />
     </li>
   );
 }

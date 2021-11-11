@@ -10,11 +10,12 @@ function AddCommentForm({
   profileId, 
   comments, 
   addComment,
-  isFocused
+  isFocused,
+  disableAddCommentFocus
 }) {
   // "type" variable in props should either be "comment" if the comment is
   // directly under a post, or "reply" if it is a reply to an existing comment
-
+  // console.log(postId + ': ' + isFocused)
   const [commentContent, setCommentContent] = useState('');
   const commentInputEl = useRef();
 
@@ -51,6 +52,7 @@ function AddCommentForm({
               placeholder={`Write a ${type}...`} 
               value={commentContent}
               onChange={onAddCommentChange}
+              onBlur={disableAddCommentFocus}
               ref={commentInputEl}
               required></input>
       <button type="submit" style={{ display: 'none' }}></button>
