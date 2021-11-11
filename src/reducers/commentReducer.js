@@ -4,7 +4,9 @@ import {
   DELETE_COMMENT, 
   UPDATE_COMMENT,
   ADD_COMMENT_REACTION,
-  DELETE_COMMENT_REACTION
+  DELETE_COMMENT_REACTION,
+  MAP_POST_TO_COMMENTS,
+  UNMAP_POST_TO_COMMENTS
 } from "../actions/types";
 
 const initialState = {};
@@ -131,6 +133,18 @@ export default function(state = initialState, { type, payload }) {
           }
         )
       };
+
+    case MAP_POST_TO_COMMENTS:
+      return {
+        ...state,
+        [payload.id]: {}
+      };
+
+    case UNMAP_POST_TO_COMMENTS:
+      const newState = {...state};
+      delete newState[payload.id];
+    
+      return newState;
 
     default:
       return state;

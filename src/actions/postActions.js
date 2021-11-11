@@ -4,7 +4,9 @@ import {
   GET_COMMENTS,
   DELETE_POST,
   UPDATE_POST,
-  ADD_POST
+  ADD_POST,
+  MAP_POST_TO_COMMENTS,
+  UNMAP_POST_TO_COMMENTS
 } from "./types";
 import axios from 'axios';
 
@@ -45,6 +47,11 @@ export const deletePost = (post) => dispatch => {
       type: DELETE_POST,
       payload: post
     });
+
+    dispatch({
+      type: UNMAP_POST_TO_COMMENTS,
+      payload: post
+    });
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
@@ -73,6 +80,11 @@ export const addPost = (body) => dispatch => {
   axios.post('/api/posts', body).then((response) => {
     dispatch({
       type: ADD_POST,
+      payload: response.data
+    });
+
+    dispatch({
+      type: MAP_POST_TO_COMMENTS,
       payload: response.data
     });
   }).catch((err) => {

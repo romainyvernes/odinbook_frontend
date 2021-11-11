@@ -7,8 +7,9 @@ import { getPosts } from '../actions/postActions';
 
 // components
 import PostsList from "./PostsList";
+import AddPostSection from "./AddPostSection";
 
-function Profile({ match, getPosts, posts }) {
+function Profile({ match, getPosts, posts, auth }) {
   const [user, setUser] = useState({});
   
   // retrieve user info, posts, and comments upon mounting
@@ -26,10 +27,6 @@ function Profile({ match, getPosts, posts }) {
       console.log(err);
     });
   }, []);
-
-  const onAddPostClick = () => {
-    // display an add post form over the entire page
-  };
   
   if (user.name !== undefined) {
     return (
@@ -44,9 +41,7 @@ function Profile({ match, getPosts, posts }) {
           </ul>
         </section>
 
-        <section>
-          <button onClick={onAddPostClick}>What's on your mind?</button>
-        </section>
+        <AddPostSection user={user} />
 
         <section>
           <h3>Posts</h3>
@@ -66,11 +61,13 @@ function Profile({ match, getPosts, posts }) {
 
 Profile.propTypes = {
   posts: PropTypes.array.isRequired,
-  getPosts: PropTypes.func.isRequired
+  getPosts: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  posts: state.posts
+  posts: state.posts,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { getPosts })(Profile);

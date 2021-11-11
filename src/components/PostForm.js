@@ -1,47 +1,76 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updatePost } from '../actions/postActions';
+import { updatePost, addPost } from '../actions/postActions';
+import { disablePostForm, updatePostForm } from '../actions/postFormActions';
 
-function PostForm({ post, updatePost, toggleEditPost, auth }) {
-  const [updatedPost, setUpdatedPost] = useState(post || { content: '' });
-
+function PostForm({  
+  updatePost, 
+  auth, 
+  addPost,
+  disablePostForm,
+  postForm,
+  updatePostForm
+}) {
   const onContentChange = (e) => {
-    const update = {...updatedPost};
-    update.content = e.target.value;
-    setUpdatedPost(update);
+    updatePostForm(e.target.value);
   };
 
-  const handleUpdatePost = (e) => {
+  const handlePostSubmit = (e) => {
     e.preventDefault();
 
-    updatePost(updatedPost);
+    if (postForm.post.id) { // implies post already exists in DB
+      updatePost(postForm.post);
+    } else {
+      const body = {
+        profileId: postForm.author.id,
+        content: postForm.post.content
+      };
+
+      addPost(body);
+    }
+    
+    disablePostForm();
+  };
+
+  const closePostForm = () => {
+    disablePostForm();
   };
 
   return (
-    <form onSubmit={handleUpdatePost} className="post-form">
+    <form onSubmit={handlePostSubmit} className="post-form">
       <div>
-        <h2>{`${post.id ? 'Edit' : 'Create'} Post`}</h2>
-        <button type="button" onClick={toggleEditPost}>X</button>
+        <h2>{`${postForm.post.id ? 'Edit' : 'Create'} Post`}</h2>
+        <button type="button" onClick={closePostForm}>X</button>
       </div>
       <p>{auth.user.name}</p>
       <input type="text" 
               placeholder="What's on your mind?"
-              value={updatedPost.content}
+              value={postForm.post.content}
               onChange={onContentChange}
               required></input>
-      <button type="submit">{post.id ? 'Save' : 'Post'}</button>
+      <button type="submit">{postForm.post.id ? 'Save' : 'Post'}</button>
     </form>
   )
 }
 
 PostForm.propTypes = {
   updatePost: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  addPost: PropTypes.func.isRequired,
+  postForm: PropTypes.object.isRequired,
+  disablePostForm: PropTypes.func.isRequired,
+  updatePostForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
+  postForm: state.postForm
 });
 
-export default connect(mapStateToProps, { updatePost })(PostForm);
+export default connect(mapStateToProps, { 
+  updatePost, 
+  addPost,
+  disablePostForm,
+  updatePostForm
+})(PostForm);

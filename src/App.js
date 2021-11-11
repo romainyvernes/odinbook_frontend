@@ -21,8 +21,9 @@ import Friends from './components/Friends';
 import Newsfeed from './components/Newsfeed';
 import Navbar from './components/layout/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import PostForm from './components/PostForm';
 
-function App({ auth, verifyAuth, errors }) {
+function App({ auth, verifyAuth, errors, postForm }) {
   useEffect(() => {
     // check once, upon rendering of App, whether user is already authenticated
     verifyAuth();
@@ -31,6 +32,9 @@ function App({ auth, verifyAuth, errors }) {
   return (
     <Router>
       <div className="App">
+        {
+          postForm.isEnabled && <PostForm />
+        }
         {
           /* display navigation bar only if user is authenticated, as it doesn't
           appear on sign in page */
@@ -55,13 +59,15 @@ function App({ auth, verifyAuth, errors }) {
 App.propTypes = {
   auth: PropTypes.object.isRequired,
   verifyAuth: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  postForm: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
-    errors: state.errors
+    errors: state.errors,
+    postForm: state.postForm
   };
 };
 

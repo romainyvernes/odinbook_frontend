@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addReaction, deleteReaction } from '../actions/reactionActions';
 import { deletePost } from '../actions/postActions';
+import { enablePostForm } from '../actions/postFormActions';
 
 // components
 import CommentsList from './CommentsList';
@@ -16,9 +17,10 @@ function Post({
   addReaction, 
   deleteReaction, 
   deletePost,
-  posts
+  posts,
+  enablePostForm
 }) {
-  const [post, setPost] = useState(data);
+  const post = useRef(data);
   const isFocused = useRef(false);
 
   const toggleLike = () => {
@@ -28,15 +30,15 @@ function Post({
     ));
     
     if (currentReaction) {
-      deleteReaction(currentReaction, post);
+      deleteReaction(currentReaction, post.current);
     } else {
       const body = {
-        parentId: post.id,
-        profileId: post.destination_profile,
+        parentId: post.current.id,
+        profileId: post.current.destination_profile,
         value: 'Like'
       };
       
-      addReaction(body, post);
+      addReaction(body, post.current);
     }
   };
 
@@ -46,11 +48,11 @@ function Post({
   };
 
   const handleDeletePost = () => {
-    deletePost(post);
+    deletePost(post.current);
   };
 
   const handleUpdatePost = () => {
-
+    enablePostForm(post.current);
   };
   
   return (
@@ -111,7 +113,8 @@ Post.propTypes = {
   addReaction: PropTypes.func.isRequired,
   deleteReaction: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired
+  posts: PropTypes.array.isRequired,
+  enablePostForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -123,5 +126,6 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   addReaction,
   deleteReaction,
-  deletePost
+  deletePost,
+  enablePostForm
 })(Post);

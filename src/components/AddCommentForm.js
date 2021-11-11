@@ -15,21 +15,21 @@ function AddCommentForm({
   // "type" variable in props should either be "comment" if the comment is
   // directly under a post, or "reply" if it is a reply to an existing comment
 
-  const [newComment, setNewComment] = useState('');
-  const commentInput = useRef();
+  const [commentContent, setCommentContent] = useState('');
+  const commentInputEl = useRef();
 
   useEffect(() => {
-    setNewComment('');
+    setCommentContent('');
   }, [comments]);
 
   useEffect(() => {
     if (isFocused) {
-      commentInput.current.focus();
+      commentInputEl.current.focus();
     }
   }, [isFocused]);
 
   const onAddCommentChange = (e) => {
-    setNewComment(e.target.value);
+    setCommentContent(e.target.value);
   };
 
   const handleAddComment = (e) => {
@@ -39,7 +39,7 @@ function AddCommentForm({
       parentId,
       profileId,
       postId,
-      content: newComment
+      content: commentContent
     };
 
     addComment(body);
@@ -49,9 +49,9 @@ function AddCommentForm({
     <form onSubmit={handleAddComment}>
       <input type="text" 
               placeholder={`Write a ${type}...`} 
-              value={newComment}
+              value={commentContent}
               onChange={onAddCommentChange}
-              ref={commentInput}
+              ref={commentInputEl}
               required></input>
       <button type="submit" style={{ display: 'none' }}></button>
     </form>

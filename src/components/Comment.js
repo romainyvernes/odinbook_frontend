@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteComment, loadComments } from '../actions/commentActions';
@@ -19,7 +19,7 @@ function Comment({
   deleteReaction,
   loadComments
 }) {
-  const [comment, setComment] = useState(data);
+  const comment = useRef(data);
   const [enableAddComment, setEnableAddComment] = useState(false);
   const [enableEditComment, setEnableEditComment] = useState(false);
 
@@ -36,15 +36,15 @@ function Comment({
     ));
     
     if (currentReaction) {
-      deleteReaction(currentReaction, comment);
+      deleteReaction(currentReaction, comment.current);
     } else {
       const body = {
-        parentId: comment.id,
-        profileId: comment.destination_profile,
+        parentId: comment.current.id,
+        profileId: comment.current.destination_profile,
         value: 'Like'
       };
 
-      addReaction(body, comment);
+      addReaction(body, comment.current);
     }
   };
 
@@ -54,11 +54,11 @@ function Comment({
   };
 
   const handleLoadComments = () => {
-    loadComments(comment.id);
+    loadComments(comment.current.id);
   };
 
   const handleDeleteComment = () => {
-    deleteComment(comment);
+    deleteComment(comment.current);
   };
 
   const toggleEditComment = () => {
@@ -90,7 +90,7 @@ function Comment({
         // toggle between display to edit a comment and display to view a
         // comment
         enableEditComment
-          ? <EditCommentForm comment={comment} 
+          ? <EditCommentForm comment={comment.current} 
                             toggleEditComment={toggleEditComment} />
           : <div>
               <div>

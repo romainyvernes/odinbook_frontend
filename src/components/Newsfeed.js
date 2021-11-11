@@ -6,6 +6,9 @@ import axios from 'axios';
 import PostsList from './PostsList';
 import { getPosts } from '../actions/postActions';
 
+// components
+import AddPostSection from './AddPostSection';
+
 // component to display recent posts by any user on the platform
 function Newsfeed({ auth, getPosts, posts }) {
   // retrieve recent posts from API upon mounting
@@ -22,9 +25,12 @@ function Newsfeed({ auth, getPosts, posts }) {
 
   return (
     <div>
-      {posts.length > 0
-        ? <PostsList posts={posts} />
-        : "It looks like no one has posted anything yet." 
+      <AddPostSection />
+      
+      {
+        posts.length > 0
+          ? <PostsList posts={posts} />
+          : "It looks like no one has posted anything yet." 
       }
     </div>
   );
