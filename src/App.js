@@ -22,7 +22,7 @@ import Profile from './components/Profile';
 import Login from './components/auth/Login';
 import Friends from './components/Friends';
 import Newsfeed from './components/Newsfeed';
-import Navbar from './components/layout/Navbar';
+import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import PostForm from './components/PostForm';
 

@@ -1,0 +1,47 @@
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation-links {
+  display: flex;
+}
+
+.nav-link {
+  border: 3px solid #fff;
+}
+
+/* applies to navigation links whose page is NOT currently displayed */
+:not(.selected).nav-link:hover {
+  background: #f0f2f5;
+  border-radius: 10px;
+}
+
+/* applies to navigation links whose page is currently displayed */
+.selected.nav-link {
+  border-width: 3px 0;
+  border-bottom-color: #1679ea;
+}
+
+.icon {
+  font-size: 1.5em;
+}
+
+/* by default, hide "filled" version of navigation link icons */
+.icon.filled {
+  display: none;
+}
+
+.icon.outline {
+  color: #65676b;
+}
+
+/* when page associated with icon is displayed, show "filled" icons */
+.selected .icon.filled {
+  display: inline;
+}
+
+/* when page associated with icon is displayed, hide "outline" icons */
+.selected .icon.outline {
+  display: none;
+}

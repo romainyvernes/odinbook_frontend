@@ -16,6 +16,7 @@ function Register({ auth, errors, register, history, toggleRegisterDisplay }) {
     if (auth.isAuthenticated) {
       history.push('/');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onChange = (e) => {
