@@ -1,0 +1,8 @@
+.sidebar {
+  width: 250px;
+  padding: 1em 0.8em;
+}
+
+.sidebar li {
+  padding: 0.6em;
+}

@@ -6,8 +6,12 @@ import axios from 'axios';
 import PostsList from './PostsList';
 import { getPosts } from '../actions/postActions';
 
+// stylesheets
+import '../styles/Newsfeed.css';
+
 // components
 import AddPostSection from './AddPostSection';
+import Sidebar from './Sidebar';
 
 // component to display recent posts by any user on the platform
 function Newsfeed({ auth, getPosts, posts }) {
@@ -24,14 +28,18 @@ function Newsfeed({ auth, getPosts, posts }) {
   }, []);
 
   return (
-    <div>
-      <AddPostSection />
-      
-      {
-        posts.length > 0
-          ? <PostsList posts={posts} />
-          : "It looks like no one has posted anything yet." 
-      }
+    <div className="newsfeed">
+      <Sidebar />
+
+      <main>
+        <AddPostSection />
+        
+        {
+          posts.length > 0
+            ? <PostsList posts={posts} />
+            : "It looks like no one has posted anything yet." 
+        }
+      </main>
     </div>
   );
 }

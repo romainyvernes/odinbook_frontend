@@ -4,9 +4,6 @@ import { withRouter, NavLink, Link } from 'react-router-dom';
 import { logout } from '../actions/authActions';
 import PropTypes from 'prop-types';
 
-// stylesheet
-import '../styles/Navbar.css';
-
 // icons
 import { IoHomeOutline } from 'react-icons/io5';
 import { IoHomeSharp } from 'react-icons/io5';
@@ -15,6 +12,9 @@ import { IoPeopleSharp } from 'react-icons/io5';
 
 // bootstrap components
 import Dropdown from 'react-bootstrap/Dropdown';
+
+// stylesheet
+import '../styles/Navbar.css';
 
 function Navbar({ logout, history, auth }) {
   const onLogoutClick = () => {
@@ -27,33 +27,43 @@ function Navbar({ logout, history, auth }) {
         <Link to="/">Site icon</Link>
       </div>
 
-      <div className="navigation-links">
-        <NavLink exact to={`/${auth.user.username}`} 
-                activeClassName="selected" 
-                className="nav-link">
-          Profile
-        </NavLink>
-        <NavLink exact to="/" activeClassName="selected" className="nav-link">
-          <IoHomeOutline className="icon outline" />
-          <IoHomeSharp className="icon filled" />
-        </NavLink>
-        <NavLink exact to="/friends" activeClassName="selected" className="nav-link">
-          <IoPeopleOutline className="icon outline" />
-          <IoPeopleSharp className="icon filled" />
-        </NavLink>
-      </div>
+      <ul className="navigation-links">
+        <li>
+          <NavLink exact to="/" activeClassName="selected" className="nav-link hovered-link">
+            <IoHomeOutline className="icon outline" />
+            <IoHomeSharp className="icon filled" />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink exact to="/friends" activeClassName="selected" className="nav-link hovered-link">
+            <IoPeopleOutline className="icon outline" />
+            <IoPeopleSharp className="icon filled" />
+          </NavLink>
+        </li>
+      </ul>
       
-      <Dropdown>
-        <Dropdown.Toggle variant="secondary"></Dropdown.Toggle>
-        
-        <Dropdown.Menu variant="dark">
-          <Dropdown.Item href={`/${auth.user.username}`}>
-            <h2>{auth.user.name}</h2>
-            <p>See your profile</p>
-          </Dropdown.Item>
-          <Dropdown.Item onClick={onLogoutClick}>Logout</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <div className="navigation-buttons">
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary" className="nav-button"></Dropdown.Toggle>
+          
+          <Dropdown.Menu variant="light">
+            <ul>
+              <li>
+                <Dropdown.Item href={`/${auth.user.username}`} className="hovered-link">
+                  <h2>{auth.user.name}</h2>
+                  <p>See your profile</p>
+                </Dropdown.Item>
+                <hr/>
+              </li>
+              <li>
+                <Dropdown.Item onClick={onLogoutClick} className="hovered-link">
+                  <h6>Log out</h6>
+                </Dropdown.Item>
+              </li>
+            </ul>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
     </nav>
   );
 }

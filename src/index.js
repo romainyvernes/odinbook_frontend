@@ -4,8 +4,8 @@ import App from './App';
 import { Provider } from 'react-redux';
 
 // stylesheets
-import './styles/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/index.css';
 
 // redux global state
 import store from './store';
