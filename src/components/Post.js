@@ -13,14 +13,11 @@ import { FiThumbsUp } from 'react-icons/fi';
 import { IoMdThumbsUp } from 'react-icons/io';
 import { VscComment } from 'react-icons/vsc';
 import { FaThumbsUp } from 'react-icons/fa';
-import { BsThreeDots } from 'react-icons/bs';
-
-// bootstrap components
-import Dropdown from 'react-bootstrap/Dropdown';
 
 // components
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
+import PrivateDropdown from './PrivateDropdown';
 
 function Post({ 
   data, 
@@ -82,30 +79,9 @@ function Post({
           </a>
           <time dateTime={data.date} className="post-date secondary-font-color">{data.date}</time>
         </div>
-        {
-          (
-            auth.user.id === data.author.id 
-            || auth.user.id === data.destination_profile
-          )
-          && (
-            <Dropdown className="secondary-font-color">
-              <Dropdown.Toggle>
-                <BsThreeDots className="post-more-btn secondary-bg-color-hover" />
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <ul>
-                  <li>
-                    <Dropdown.Item onClick={handleDeletePost}>Delete</Dropdown.Item>
-                  </li>
-                  <li>
-                    <Dropdown.Item onClick={handleUpdatePost}>Update</Dropdown.Item>
-                  </li>
-                </ul>
-              </Dropdown.Menu>
-            </Dropdown>
-          )
-        }
+        <PrivateDropdown data={data} 
+                        handleDelete={handleDeletePost}
+                        handleUpdate={handleUpdatePost} />
         
       </header>
 

@@ -14,7 +14,7 @@ import { BsArrowReturnRight } from 'react-icons/bs';
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
 import EditCommentForm from './EditCommentForm';
-import PrivateButton from './PrivateButton';
+import PrivateDropdown from './PrivateDropdown';
 
 function Comment({ 
   data, 
@@ -99,11 +99,16 @@ function Comment({
           ? <EditCommentForm comment={comment.current} 
                             toggleEditComment={toggleEditComment} />
           : <div className="sub-wrapper">
-              <div className="secondary-bg-color tertiary-frame">
-                <a href={`/${data.author.username}`} rel="author">
-                  <h4>{data.author.name}</h4>
-                </a>
-                <p>{data.content}</p>
+              <div className="sub-sub-wrapper">
+                <div className="comment-main secondary-bg-color tertiary-frame">
+                  <a href={`/${data.author.username}`} rel="author">
+                    <h4>{data.author.name}</h4>
+                  </a>
+                  <p>{data.content}</p>
+                </div>
+                <PrivateDropdown data={data}
+                                  handleUpdate={toggleEditComment}
+                                  handleDelete={handleDeleteComment} />
               </div>
               <div className="comment-btns secondary-font-color">
                 <div className="left light-bold">
@@ -119,12 +124,6 @@ function Comment({
                   }
                   <i>&middot;</i>
                   <button onClick={onReplyClick}>Reply</button>
-                  <PrivateButton onClick={handleDeleteComment} 
-                                  parentElement={data}
-                                  label="Delete" />
-                  <PrivateButton onClick={toggleEditComment} 
-                                  parentElement={data}
-                                  label="Update" />
                 </div>
                 <i>&middot;</i>
                 <button className="comment-date">
@@ -143,7 +142,7 @@ function Comment({
         // if a comment has replies but the user has never asked to display
         // them before, a "load replies" button should appear instead 
         repliesDisplayed.length === 0 && data.replies.length > 0 && (
-          <div className="more-btn light-bold secondary-font-color">
+          <div className="more-comments-btn light-bold secondary-font-color">
             <BsArrowReturnRight className="arrow-icon" />
             <button onClick={handleLoadComments}>
               View {data.replies.length} more {
