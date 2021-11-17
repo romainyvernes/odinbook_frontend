@@ -2,16 +2,80 @@
   line-height: 1.2em;
 }
 
-.reply-list {
-  margin-left: 100px;
-}
-
-.post {
-  margin: 50px 0;
-}
-
 /* default styling for select links on hover */
 .hovered-link:hover {
   background: #f0f2f5;
   border-radius: 7px;
+}
+
+/******************
+  CONTAINER STYLING
+*******************/
+
+/* applies to posts and add post section */
+.primary-frame {
+  border-radius: 5px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  padding: 1em 1.3em;
+}
+
+.secondary-frame {
+  border-radius: 40px;
+  padding: 0.45em 1em;
+}
+
+.tertiary-frame {
+  border-radius: 20px;
+  padding: 0.7em 1em;
+}
+
+/*************
+  TEXT STYLING
+**************/
+
+.primary-font-color {
+  color: #1679ea;
+}
+
+/* applies to navigation links within profile, and buttons within posts */
+.secondary-font-color {
+  color: #777;
+}
+
+.light-bold {
+  font-weight: 600;
+}
+
+/*************
+  BACKGROUNDS
+**************/
+
+.primary-bg-color {
+  background-color: #fff;
+}
+
+.secondary-bg-color {
+  background-color: #f0f2f5;
+}
+
+.secondary-bg-color-hover:hover {
+  background-color: #e4e6eb;
+}
+
+/********************
+  DROPDOWN MENU RESET
+*********************/
+
+.dropdown .btn.dropdown-toggle,
+.dropdown .btn.dropdown-toggle:hover,
+.dropdown .btn.dropdown-toggle:focus,
+.dropdown .btn.dropdown-toggle:active,
+.show.dropdown .btn.dropdown-toggle,
+.show.dropdown .btn.dropdown-toggle:hover,
+.show.dropdown .btn.dropdown-toggle:focus,
+.show.dropdown .btn.dropdown-toggle:active {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  box-shadow: none;
 }

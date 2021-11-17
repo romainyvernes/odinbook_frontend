@@ -5,10 +5,22 @@ import { addReaction, deleteReaction } from '../actions/reactionActions';
 import { deletePost } from '../actions/postActions';
 import { enablePostForm } from '../actions/postFormActions';
 
+// stylesheets
+import '../styles/Post.css';
+
+// icons
+import { FiThumbsUp } from 'react-icons/fi';
+import { IoMdThumbsUp } from 'react-icons/io';
+import { VscComment } from 'react-icons/vsc';
+import { FaThumbsUp } from 'react-icons/fa';
+import { BsThreeDots } from 'react-icons/bs';
+
+// bootstrap components
+import Dropdown from 'react-bootstrap/Dropdown';
+
 // components
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
-import PrivateButton from './PrivateButton';
 
 function Post({ 
   data, 
@@ -62,48 +74,91 @@ function Post({
   };
   
   return (
-    <li className="post">
-      <a href={`/${data.author.username}`} rel="author">{data.author.name}</a>
-      <time dateTime={data.date}>{data.date}</time>
-      <p>{data.content}</p>
-      {
-        data.reactions.length > 0 && 
-          <div>
-            {data.reactions.length}
-          </div>
-      }
-      <div>
-        <button onClick={toggleLike}>
-          <i></i>
-          <span>
-            {
-              data.reactions.find((reaction) => (
-                reaction.author.id === auth.user.id
-              ))
-                ? 'Unlike'
-                : 'Like'
-            }
-          </span>
-        </button>
-        <button onClick={onCommentClick}>
-          <i></i>
+    <li className="post primary-frame primary-bg-color">
+      <header>
+        <div>
+          <a href={`/${data.author.username}`} rel="author">
+            <h3>{data.author.name}</h3>
+          </a>
+          <time dateTime={data.date} className="post-date secondary-font-color">{data.date}</time>
+        </div>
+        {
+          (
+            auth.user.id === data.author.id 
+            || auth.user.id === data.destination_profile
+          )
+          && (
+            <Dropdown className="secondary-font-color">
+              <Dropdown.Toggle>
+                <BsThreeDots className="post-more-btn secondary-bg-color-hover" />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <ul>
+                  <li>
+                    <Dropdown.Item onClick={handleDeletePost}>Delete</Dropdown.Item>
+                  </li>
+                  <li>
+                    <Dropdown.Item onClick={handleUpdatePost}>Update</Dropdown.Item>
+                  </li>
+                </ul>
+              </Dropdown.Menu>
+            </Dropdown>
+          )
+        }
+        
+      </header>
+
+      <p className="post-content">{data.content}</p>
+
+      <div className="post-data secondary-font-color">
+        {
+          data.reactions.length > 0
+            ? <button className="like-btn">
+                <i className="primary-font-color"><FaThumbsUp /></i>
+                <span> {data.reactions.length}</span>
+              </button>
+            : <div></div>
+        }
+        {
+          comments[data.id] && comments[data.id].length > 0 && 
+            <button>
+              {`${comments[data.id].length} Comment${
+                comments[data.id].length > 1 ? 's' : ''
+              }`}
+            </button>
+        }
+      </div>
+
+      <div className="post-btns secondary-font-color light-bold">
+        {
+          data.reactions.find((reaction) => (
+            reaction.author.id === auth.user.id
+          ))
+            ? <button onClick={toggleLike} className="primary-font-color post-btn hovered-link">
+                <i><IoMdThumbsUp /></i>
+                <span>Unlike</span>
+              </button>
+            : <button onClick={toggleLike} className="post-btn hovered-link">
+                <i><FiThumbsUp /></i>
+                <span>Like</span>
+              </button>
+        }
+        <button onClick={onCommentClick} className="post-btn hovered-link">
+          <i><VscComment /></i>
           <span>Comment</span>
         </button>
-        <PrivateButton onClick={handleDeletePost} 
-                        parentElement={data}
-                        label="Delete" />
-        <PrivateButton onClick={handleUpdatePost} 
-                        parentElement={data}
-                        label="Update" />
       </div>
+
       {
         // list of the post's comments
         comments[data.id] && comments[data.id].length > 0
           ? <CommentsList comments={comments[data.id].filter((comment) => (
             comment.parent_id === data.id
           ))} />
-          : "Be the first to comment."
+          : <p className="no-comment">Be the first to comment.</p>
       }
+
       <AddCommentForm type="comment" 
                       parentId={data.id} 
                       profileId={data.destination_profile.id}

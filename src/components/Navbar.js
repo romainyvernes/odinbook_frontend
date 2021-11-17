@@ -22,38 +22,38 @@ function Navbar({ logout, history, auth }) {
   }; 
   
   return (
-    <nav className="nav-bar">
-      <div>
+    <nav className="nav-bar primary-bg-color">
+      <i>
         <Link to="/">Site icon</Link>
-      </div>
+      </i>
 
       <ul className="navigation-links">
         <li>
           <NavLink exact to="/" activeClassName="selected" className="nav-link hovered-link">
-            <IoHomeOutline className="icon outline" />
-            <IoHomeSharp className="icon filled" />
+            <i className="icon outline"><IoHomeOutline /></i>
+            <i className="icon filled"><IoHomeSharp /></i>
           </NavLink>
         </li>
         <li>
           <NavLink exact to="/friends" activeClassName="selected" className="nav-link hovered-link">
-            <IoPeopleOutline className="icon outline" />
-            <IoPeopleSharp className="icon filled" />
+            <i className="icon outline"><IoPeopleOutline /></i>
+            <i className="icon filled"><IoPeopleSharp /></i>
           </NavLink>
         </li>
       </ul>
       
       <div className="navigation-buttons">
         <Dropdown>
-          <Dropdown.Toggle variant="secondary" className="nav-button"></Dropdown.Toggle>
+          <Dropdown.Toggle variant="secondary"></Dropdown.Toggle>
           
           <Dropdown.Menu variant="light">
             <ul>
               <li>
                 <Dropdown.Item href={`/${auth.user.username}`} className="hovered-link">
                   <h2>{auth.user.name}</h2>
-                  <p>See your profile</p>
+                  <p className="secondary-font-color">See your profile</p>
                 </Dropdown.Item>
-                <hr/>
+                <hr className="secondary-font-color" />
               </li>
               <li>
                 <Dropdown.Item onClick={onLogoutClick} className="hovered-link">

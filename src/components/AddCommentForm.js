@@ -47,7 +47,8 @@ function AddCommentForm({
   };
 
   return (
-    <form onSubmit={handleAddComment}>
+    <form onSubmit={handleAddComment} 
+          className="secondary-bg-color secondary-frame">
       <input type="text" 
               placeholder={`Write a ${type}...`} 
               value={commentContent}

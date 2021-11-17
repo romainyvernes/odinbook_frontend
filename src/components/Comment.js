@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { deleteComment, loadComments } from '../actions/commentActions';
 import { addReaction, deleteReaction } from '../actions/reactionActions';
 
+// stylesheets
+import '../styles/Comment.css';
+
+// icons
+import { BsArrowReturnRight } from 'react-icons/bs';
+
 // import components
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
@@ -85,38 +91,45 @@ function Comment({
   }
   
   return (
-    <li className={`comment ${enableEditComment && 'edit'}`}>
+    <li className={`comment${enableEditComment ? ' edit' : ''}`}>
       {
         // toggle between display to edit a comment and display to view a
         // comment
         enableEditComment
           ? <EditCommentForm comment={comment.current} 
                             toggleEditComment={toggleEditComment} />
-          : <div>
-              <div>
+          : <div className="sub-wrapper">
+              <div className="secondary-bg-color tertiary-frame">
                 <a href={`/${data.author.username}`} rel="author">
-                  {data.author.name}
+                  <h4>{data.author.name}</h4>
                 </a>
                 <p>{data.content}</p>
               </div>
-              <div>
-                <button onClick={toggleLike}>
+              <div className="comment-btns secondary-font-color">
+                <div className="left light-bold">
                   {
                     data.reactions.find((reaction) => (
                       reaction.author.id === auth.user.id
                     ))
-                      ? 'Unlike'
-                      : 'Like'
+                      ? <button onClick={toggleLike} 
+                                className="primary-font-color">
+                          Unlike
+                        </button>
+                      : <button onClick={toggleLike}>Like</button>
                   }
+                  <i>&middot;</i>
+                  <button onClick={onReplyClick}>Reply</button>
+                  <PrivateButton onClick={handleDeleteComment} 
+                                  parentElement={data}
+                                  label="Delete" />
+                  <PrivateButton onClick={toggleEditComment} 
+                                  parentElement={data}
+                                  label="Update" />
+                </div>
+                <i>&middot;</i>
+                <button className="comment-date">
+                  <time dateTime={data.date}>{data.date}</time>
                 </button>
-                <button onClick={onReplyClick}>Reply</button>
-                <PrivateButton onClick={handleDeleteComment} 
-                                parentElement={data}
-                                label="Delete" />
-                <PrivateButton onClick={toggleEditComment} 
-                                parentElement={data}
-                                label="Update" />
-                <time dateTime={data.date}>{data.date}</time>
               </div>
             </div>
       }
@@ -130,13 +143,16 @@ function Comment({
         // if a comment has replies but the user has never asked to display
         // them before, a "load replies" button should appear instead 
         repliesDisplayed.length === 0 && data.replies.length > 0 && (
-          <button onClick={handleLoadComments}>
-            Load {data.replies.length} {
-              data.replies.length > 1 
-                ? 'replies' 
-                : 'reply'
-            }
-          </button>
+          <div className="more-btn light-bold secondary-font-color">
+            <BsArrowReturnRight className="arrow-icon" />
+            <button onClick={handleLoadComments}>
+              View {data.replies.length} more {
+                data.replies.length > 1 
+                  ? 'replies' 
+                  : 'reply'
+              }
+            </button>
+          </div>
         )
       }
       {

@@ -1,0 +1,39 @@
+.comment {
+  margin: 1em 0;
+}
+
+.comment .sub-wrapper {
+  font-size: 0.9em;
+}
+
+.comment-btns {
+  margin: 0.3em 0 0 1em;
+  display: flex;
+  align-items: center;
+
+}
+
+.comment-btns .left {
+  font-size: 0.95em;
+}
+
+.comment-date {
+  font-size: 0.9em;
+}
+
+.comment-btns i {
+  margin: 0 0.2em;
+}
+
+.comment-btns button:hover {
+  text-decoration: underline;
+}
+
+.more-btn {
+  margin: 0.3em 0 0 1em;
+}
+
+.arrow-icon {
+  stroke-width: 0.5;
+  margin-right: 0.3em;
+}

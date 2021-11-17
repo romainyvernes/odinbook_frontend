@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import { enablePostForm } from '../actions/postFormActions';
 
+// stylesheets
+import '../styles/AddPostSection.css';
+
 function AddPostSection({ user, auth, enablePostForm }) {
   /* NOTE: if user is undefined, it implies the component is being used from
   the Newsfeed page, meaning the profile where the post is added is the 
@@ -13,8 +16,9 @@ function AddPostSection({ user, auth, enablePostForm }) {
   };
 
   return (
-    <section>
-      <button onClick={handleAddPost}>
+    <section className="add-post-section primary-frame primary-bg-color secondary-font-color">
+      <button onClick={handleAddPost} 
+              className="secondary-bg-color secondary-frame secondary-bg-color-hover">
         {
           !user || auth.user.id === user.id
             ? `What's on your mind?`

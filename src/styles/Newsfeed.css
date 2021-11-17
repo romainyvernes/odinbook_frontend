@@ -1,3 +1,7 @@
 .newsfeed {
   display: flex;
 }
+
+.newsfeed main {
+  width: 500px;
+}

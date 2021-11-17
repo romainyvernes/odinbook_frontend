@@ -1,6 +1,9 @@
 import React from 'react';
 import Comment from './Comment';
 
+// stylesheets
+import '../styles/CommentsList.css';
+
 export default function CommentsList({ comments }) {
   return (
     <ul className={
