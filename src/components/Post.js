@@ -12,12 +12,12 @@ import '../styles/Post.css';
 import { FiThumbsUp } from 'react-icons/fi';
 import { IoMdThumbsUp } from 'react-icons/io';
 import { VscComment } from 'react-icons/vsc';
-import { FaThumbsUp } from 'react-icons/fa';
 
 // components
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
 import PrivateDropdown from './PrivateDropdown';
+import LikeButton from './LikeButton';
 
 function Post({ 
   data, 
@@ -33,6 +33,7 @@ function Post({
   // post is updated in redux store
   const post = useRef(data);
   const [isFocused, setIsFocused] = useState(false);
+  const [enableComments, setEnableComments] = useState(true);
 
   const toggleLike = () => {
     // look for an existing reaction by authenticated user
@@ -69,6 +70,10 @@ function Post({
   const disableAddCommentFocus = () => {
     setIsFocused(false);
   };
+
+  const toggleCommentArea = () => {
+    setEnableComments(!enableComments);
+  };
   
   return (
     <li className="post primary-frame primary-bg-color">
@@ -90,15 +95,12 @@ function Post({
       <div className="post-data secondary-font-color">
         {
           data.reactions.length > 0
-            ? <button className="like-btn">
-                <i className="primary-font-color"><FaThumbsUp /></i>
-                <span> {data.reactions.length}</span>
-              </button>
+            ? <LikeButton data={data} />
             : <div></div>
         }
         {
           comments[data.id] && comments[data.id].length > 0 && 
-            <button>
+            <button onClick={toggleCommentArea}>
               {`${comments[data.id].length} Comment${
                 comments[data.id].length > 1 ? 's' : ''
               }`}
@@ -125,22 +127,28 @@ function Post({
           <span>Comment</span>
         </button>
       </div>
-
+      
       {
-        // list of the post's comments
-        comments[data.id] && comments[data.id].length > 0
-          ? <CommentsList comments={comments[data.id].filter((comment) => (
-            comment.parent_id === data.id
-          ))} />
-          : <p className="no-comment">Be the first to comment.</p>
+        // list of comments
+        enableComments
+         ? comments[data.id] && comments[data.id].length > 0
+            ? <CommentsList comments={comments[data.id].filter((comment) => (
+              comment.parent_id === data.id
+            ))} />
+            : <p className="no-comment">Be the first to comment.</p>
+         : null
       }
 
-      <AddCommentForm type="comment" 
-                      parentId={data.id} 
-                      profileId={data.destination_profile.id}
-                      postId={data.id}
-                      isFocused={isFocused}
-                      disableAddCommentFocus={disableAddCommentFocus} />
+      {
+        enableComments
+          ? <AddCommentForm type="comment" 
+                            parentId={data.id} 
+                            profileId={data.destination_profile.id}
+                            postId={data.id}
+                            isFocused={isFocused}
+                            disableAddCommentFocus={disableAddCommentFocus} />
+          : null
+      }
     </li>
   );
 }

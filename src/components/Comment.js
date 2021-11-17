@@ -15,6 +15,7 @@ import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
 import EditCommentForm from './EditCommentForm';
 import PrivateDropdown from './PrivateDropdown';
+import LikeButton from './LikeButton';
 
 function Comment({ 
   data, 
@@ -105,6 +106,11 @@ function Comment({
                     <h4>{data.author.name}</h4>
                   </a>
                   <p>{data.content}</p>
+                  {
+                    data.reactions.length > 0
+                      ? <LikeButton data={data} />
+                      : <div></div>
+                  }
                 </div>
                 <PrivateDropdown data={data}
                                   handleUpdate={toggleEditComment}
@@ -113,6 +119,8 @@ function Comment({
               <div className="comment-btns secondary-font-color">
                 <div className="left light-bold">
                   {
+                    // adapt like button display based on whether authenticated
+                    // user has already liked the comment
                     data.reactions.find((reaction) => (
                       reaction.author.id === auth.user.id
                     ))

@@ -27,19 +27,6 @@
   text-decoration: underline;
 }
 
-.like-btn {
-  display: flex;
-  align-items: center;
-}
-
-.like-btn span {
-  padding-top: 0.2em;
-}
-
-.like-btn i {
-  margin-right: 0.4em;
-}
-
 .post-btns {
   display: flex;
   border-top: 1px solid #ccc;
