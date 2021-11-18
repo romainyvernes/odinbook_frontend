@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// redux actions
 import { updatePost, addPost } from '../actions/postActions';
-import { disablePostForm, updatePostForm } from '../actions/postFormActions';
+import { disablePostForm, updatePostForm } from '../actions/overlaysActions';
 
 function PostForm({  
   updatePost, 
   auth, 
   addPost,
   disablePostForm,
-  postForm,
+  overlays,
   updatePostForm
 }) {
   const onContentChange = (e) => {
@@ -19,12 +21,12 @@ function PostForm({
   const handlePostSubmit = (e) => {
     e.preventDefault();
 
-    if (postForm.post.id) { // implies post already exists in DB
-      updatePost(postForm.post);
+    if (overlays.postForm.post.id) { // implies post already exists in DB
+      updatePost(overlays.postForm.post);
     } else {
       const body = {
-        profileId: postForm.profile.id,
-        content: postForm.post.content
+        profileId: overlays.postForm.profile.id,
+        content: overlays.postForm.post.content
       };
 
       addPost(body);
@@ -40,20 +42,20 @@ function PostForm({
   return (
     <form onSubmit={handlePostSubmit} className="post-form">
       <div>
-        <h2>{`${postForm.post.id ? 'Edit' : 'Create'} Post`}</h2>
+        <h2>{`${overlays.postForm.post.id ? 'Edit' : 'Create'} Post`}</h2>
         <button type="button" onClick={closePostForm}>X</button>
       </div>
       <p>{auth.user.name}</p>
       <input type="text" 
               placeholder={
-                postForm.profile.id === auth.user.id
+                overlays.postForm.profile.id === auth.user.id
                   ? `What's on your mind?`
-                  : `Write something to ${postForm.profile.first_name}...`
+                  : `Write something to ${overlays.postForm.profile.first_name}...`
               }
-              value={postForm.post.content}
+              value={overlays.postForm.post.content}
               onChange={onContentChange}
               required></input>
-      <button type="submit">{postForm.post.id ? 'Save' : 'Post'}</button>
+      <button type="submit">{overlays.postForm.post.id ? 'Save' : 'Post'}</button>
     </form>
   )
 }
@@ -62,14 +64,14 @@ PostForm.propTypes = {
   updatePost: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   addPost: PropTypes.func.isRequired,
-  postForm: PropTypes.object.isRequired,
+  overlays: PropTypes.object.isRequired,
   disablePostForm: PropTypes.func.isRequired,
   updatePostForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  postForm: state.postForm
+  overlays: state.overlays
 });
 
 export default connect(mapStateToProps, { 

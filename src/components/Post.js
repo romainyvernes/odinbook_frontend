@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// redux actions
 import { addReaction, deleteReaction } from '../actions/reactionActions';
 import { deletePost } from '../actions/postActions';
-import { enablePostForm } from '../actions/postFormActions';
+import { enablePostForm } from '../actions/overlaysActions';
 
 // stylesheets
 import '../styles/Post.css';

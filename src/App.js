@@ -26,7 +26,7 @@ import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import PostForm from './components/PostForm';
 
-function App({ auth, verifyAuth, errors, postForm }) {
+function App({ auth, verifyAuth, errors, overlays }) {
   useEffect(() => {
     // check once, upon rendering of App, whether user is already authenticated
     verifyAuth();
@@ -36,7 +36,7 @@ function App({ auth, verifyAuth, errors, postForm }) {
     <Router>
       <div className="App">
         {
-          postForm.isEnabled && <PostForm />
+          overlays.postForm.isEnabled && <PostForm />
         }
         {
           /* display navigation bar only if user is authenticated, as it doesn't
@@ -67,14 +67,14 @@ App.propTypes = {
   auth: PropTypes.object.isRequired,
   verifyAuth: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  postForm: PropTypes.object.isRequired
+  overlays: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
     errors: state.errors,
-    postForm: state.postForm
+    overlays: state.overlays
   };
 };
 

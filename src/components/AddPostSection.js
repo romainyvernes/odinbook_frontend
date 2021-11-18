@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-import { enablePostForm } from '../actions/postFormActions';
+
+// redux actions
+import { enablePostForm } from '../actions/overlaysActions';
 
 // stylesheets
 import '../styles/AddPostSection.css';
