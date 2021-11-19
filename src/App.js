@@ -101,8 +101,8 @@ function App({
               <Navbar />
               <Switch>
                 <Route exact path="/" render={() => <Newsfeed key={uuid()} />} />
-                <PrivateRoute exact path="/friends" component={Friends} />
-                <PrivateRoute exact path="/:username" component={Profile} />
+                <PrivateRoute path="/friends" component={Friends} />
+                <PrivateRoute path="/:username" component={Profile} />
               </Switch>
              </>
            : <Route exact path="/" component={Login} />

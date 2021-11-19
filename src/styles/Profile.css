@@ -1,0 +1,30 @@
+.profile main {
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
+  width: 830px;
+  margin: 0 auto;
+}
+
+.profile h1 {
+  text-align: center;
+  font-size: 1.8em;
+  font-weight: 700;
+}
+
+.profile h2 {
+  font-size: 1.1em;
+}
+
+.profile .profile-header {
+  padding: 2em;
+}
+
+.snapshot {
+  margin-right: 15px;
+  width: 40%;
+}
+
+.profile-posts {
+  width: 60%;
+}

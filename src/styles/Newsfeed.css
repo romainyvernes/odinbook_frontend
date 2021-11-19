@@ -1,7 +1,5 @@
-.newsfeed {
-  display: flex;
-}
-
 .newsfeed main {
   width: 500px;
+  margin: 0 auto;
+  padding-top: 15px;
 }

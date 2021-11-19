@@ -26,7 +26,7 @@ function Navbar({ logout, history, auth }) {
   }; 
   
   return (
-    <nav className="nav-bar primary-bg-color">
+    <nav className="nav-bar primary-bg-color quinary-frame">
       <div className="search">
         <i>
           <Link to="/">Site icon</Link>

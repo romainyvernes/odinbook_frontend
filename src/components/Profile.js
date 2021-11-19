@@ -3,11 +3,18 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
+import { Switch, Route } from "react-router";
+
+// stylesheet
+import '../styles/Profile.css';
+
+// redux actions
 import { getPosts } from '../actions/postActions';
 
 // components
 import PostsList from "./PostsList";
 import AddPostSection from "./AddPostSection";
+
 
 function Profile({ match, getPosts, posts, auth }) {
   const [user, setUser] = useState({});
@@ -28,35 +35,53 @@ function Profile({ match, getPosts, posts, auth }) {
     });
   }, []);
   
-  if (user.name !== undefined) {
-    return (
-      <div>
-        <h2>{user.name}</h2>
-        <section>
-          <h3>Friends</h3>
-          <ul>
-            {user.friends.slice(0, 9).map((friend) => (
-              <li key={friend.username}>{friend.name}</li>
-            ))}
-          </ul>
-        </section>
-
-        <AddPostSection user={user} />
-
-        <section>
-          <h3>Posts</h3>
-          {posts.length > 0
-           ? <PostsList posts={posts} />
-           : "You don't have any posts yet." 
-          }
-        </section>
-      </div>
-    );
-  } else {
-    return (
-      <div>Loading...</div>
-    );
-  }
+  return (
+    <div className="profile">
+      {
+        user.name !== undefined
+          ? <>
+              <header className="profile-header primary-bg-color quinary-frame">
+                <h1>{user.name}</h1>
+              </header>
+              <main>
+                <Switch>
+                  <Route path="/:username">
+                    <>
+                      <section className="snapshot">
+                        <article className="primary-frame primary-bg-color">
+                          <header>
+                            <h2>Friends</h2>
+                          </header>
+                          <ul>
+                            {user.friends.slice(0, 9).map((friend) => (
+                              <li key={friend.username}>{friend.name}</li>
+                            ))}
+                          </ul>
+                        </article>
+                      </section>
+                      
+                      <section className="profile-posts">
+                        <AddPostSection user={user} />
+        
+                        <section>
+                          <h2 className="primary-frame primary-bg-color">Posts</h2>
+                          {posts.length > 0
+                          ? <PostsList posts={posts} />
+                          : "You don't have any posts yet." 
+                          }
+                        </section>
+                      </section>
+                    </>
+                  </Route>
+                </Switch>
+              </main>
+            </>
+          : <>
+              Loading...
+            </>
+      }
+    </div>
+  );
 }
 
 Profile.propTypes = {
