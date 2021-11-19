@@ -151,3 +151,13 @@ dropdown menu */
 .navigation-buttons .dropdown-menu h6 {
   font-weight: 500;
 }
+
+.logout-btn.dropdown-item {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn i {
+  font-size: 1.5em;
+  margin-right: 0.5em;
+}

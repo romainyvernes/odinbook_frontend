@@ -1,7 +1,6 @@
 import { 
   ENABLE_POST_FORM, 
   DISABLE_POST_FORM,
-  UPDATE_POST_FORM,
   ENABLE_REACTIONS_LIST,
   DISABLE_REACTIONS_LIST
 } from "../actions/types";
@@ -9,9 +8,6 @@ import {
 const initialState = {
   postForm: {
     isEnabled: false,
-    post: {
-      content: ''
-    },
     profile: {}
   },
   reactionsList: {
@@ -24,7 +20,7 @@ const initialState = {
 export default function(state = initialState, { type, payload }) {
   switch(type) {
     case ENABLE_POST_FORM:
-      if (payload.post && payload.post.id) { // implies a post was passed in
+      if (payload?.post?.id) { // implies a post was passed in
         return {
           ...state,
           postForm: {
@@ -38,9 +34,6 @@ export default function(state = initialState, { type, payload }) {
           ...state,
           postForm: {
             isEnabled: true,
-            post: {
-              content: ''
-            },
             profile: payload.profile
           }
         };
@@ -51,22 +44,7 @@ export default function(state = initialState, { type, payload }) {
         ...state,
         postForm: {
           isEnabled: false,
-          post: {
-            content: ''
-          },
           profile: {}
-        }
-      };
-
-    case UPDATE_POST_FORM:
-      const updatedPost = {...state.post};
-      updatedPost.content = payload;
-      
-      return {
-        ...state,
-        postForm: {
-          ...state.postForm,
-          post: updatedPost
         }
       };
 

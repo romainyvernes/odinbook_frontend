@@ -5,10 +5,14 @@ import { logout } from '../actions/authActions';
 import PropTypes from 'prop-types';
 
 // icons
-import { IoHomeOutline } from 'react-icons/io5';
-import { IoHomeSharp } from 'react-icons/io5';
-import { IoPeopleOutline } from 'react-icons/io5';
-import { IoPeopleSharp } from 'react-icons/io5';
+import { 
+  IoHomeOutline, 
+  IoHomeSharp, 
+  IoPeopleOutline, 
+  IoPeopleSharp,
+  IoLogOut
+} from 'react-icons/io5';
+
 
 // bootstrap components
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -58,7 +62,8 @@ function Navbar({ logout, history, auth }) {
                 <hr className="secondary-font-color" />
               </li>
               <li>
-                <Dropdown.Item onClick={onLogoutClick} className="hovered-link">
+                <Dropdown.Item onClick={onLogoutClick} className="logout-btn hovered-link">
+                  <i><IoLogOut /></i>
                   <h6>Log out</h6>
                 </Dropdown.Item>
               </li>

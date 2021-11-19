@@ -1,0 +1,15 @@
+.post-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-form textarea {
+  flex-grow: 1;
+  resize: none;
+}
+
+.post-form button {
+  border-radius: 5px;
+  padding: 0.6em 0;
+  font-weight: 500;
+}

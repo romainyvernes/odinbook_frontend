@@ -8,7 +8,7 @@ function ReactionsList({ overlays }) {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Likes</Modal.Title>
+        <Modal.Title as={"h2"}>Likes</Modal.Title>
       </Modal.Header>
       <Modal.Body as={'ul'}>
         {

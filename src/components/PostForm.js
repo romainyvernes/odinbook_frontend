@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Modal } from 'react-bootstrap';
+
+// stylesheets
+import '../styles/PostForm.css';
 
 // redux actions
 import { updatePost, addPost } from '../actions/postActions';
@@ -11,22 +15,35 @@ function PostForm({
   auth, 
   addPost,
   disablePostForm,
-  overlays,
-  updatePostForm
+  overlays: { postForm, ...otherKeys},
 }) {
+
+  const [postContent, setPostContent] = useState(postForm?.post?.content || '');
+  const submitBtn = useRef();
+
+  useEffect(() => {
+    if (postContent === '') {
+      submitBtn.current.disabled = true;
+    } else {
+      submitBtn.current.disabled = false;
+    }
+  }, [postContent]);
+
   const onContentChange = (e) => {
-    updatePostForm(e.target.value);
+    setPostContent(e.target.value);
   };
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
 
-    if (overlays.postForm.post.id) { // implies post already exists in DB
-      updatePost(overlays.postForm.post);
+    if (postForm.post) { // implies post already exists in DB
+      const updatedPost = {...postForm.post};
+      updatedPost.content = postContent;
+      updatePost(updatedPost);
     } else {
       const body = {
-        profileId: overlays.postForm.profile.id,
-        content: overlays.postForm.post.content
+        profileId: postForm.profile.id,
+        content: postContent
       };
 
       addPost(body);
@@ -35,28 +52,32 @@ function PostForm({
     disablePostForm();
   };
 
-  const closePostForm = () => {
-    disablePostForm();
-  };
-
   return (
-    <form onSubmit={handlePostSubmit} className="post-form">
-      <div>
-        <h2>{`${overlays.postForm.post.id ? 'Edit' : 'Create'} Post`}</h2>
-        <button type="button" onClick={closePostForm}>X</button>
-      </div>
-      <p>{auth.user.name}</p>
-      <input type="text" 
-              placeholder={
-                overlays.postForm.profile.id === auth.user.id
-                  ? `What's on your mind?`
-                  : `Write something to ${overlays.postForm.profile.first_name}...`
-              }
-              value={overlays.postForm.post.content}
-              onChange={onContentChange}
-              required></input>
-      <button type="submit">{overlays.postForm.post.id ? 'Save' : 'Post'}</button>
-    </form>
+    <>
+      <Modal.Header closeButton>
+        <Modal.Title as={"h2"}>
+          {`${postForm.post ? 'Edit' : 'Create'} Post`}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body as={"form"} onSubmit={handlePostSubmit} className="post-form">
+        <h3>{auth.user.name}</h3>
+        <textarea type="text" 
+                placeholder={
+                  postForm.profile.id === auth.user.id
+                    ? `What's on your mind?`
+                    : `Write something to ${postForm.profile.first_name}...`
+                }
+                value={postContent}
+                onChange={onContentChange}
+                required></textarea>
+        <button ref={submitBtn} 
+                type="submit" 
+                className="tertiary-bg-color tertiary-font-color" 
+                disabled>
+          {postForm.post ? 'Save' : 'Post'}
+        </button>
+      </Modal.Body>
+    </>
   )
 }
 

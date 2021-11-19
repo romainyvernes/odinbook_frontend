@@ -104,7 +104,8 @@ button {
   font: inherit;
 }
 
-input {
+input,
+textarea {
   border: none;
   background-color: transparent;
   outline: none;
