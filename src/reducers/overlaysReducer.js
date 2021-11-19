@@ -2,7 +2,9 @@ import {
   ENABLE_POST_FORM, 
   DISABLE_POST_FORM,
   ENABLE_REACTIONS_LIST,
-  DISABLE_REACTIONS_LIST
+  DISABLE_REACTIONS_LIST,
+  ENABLE_SIGNUP_FORM,
+  DISABLE_SIGNUP_FORM
 } from "../actions/types";
 
 const initialState = {
@@ -13,6 +15,9 @@ const initialState = {
   reactionsList: {
     isEnabled: false,
     reactions: []
+  },
+  signupForm: {
+    isEnabled: false
   }
 };
 
@@ -63,6 +68,22 @@ export default function(state = initialState, { type, payload }) {
         reactionsList: {
           isEnabled: false,
           reactions: []
+        }
+      };
+
+    case ENABLE_SIGNUP_FORM:
+      return {
+        ...state,
+        signupForm: {
+          isEnabled: true
+        }
+      };
+
+    case DISABLE_SIGNUP_FORM:
+      return {
+        ...state,
+        signupForm: {
+          isEnabled: false
         }
       };
       

@@ -3,7 +3,10 @@ import {
   USER_LOGIN, 
   GET_ERRORS, 
   RESET_POSTS, 
-  RESET_COMMENTS 
+  RESET_COMMENTS, 
+  DISABLE_SIGNUP_FORM,
+  DISABLE_POST_FORM,
+  DISABLE_REACTIONS_LIST
 } from './types';
 import axios from 'axios';
 
@@ -48,6 +51,18 @@ export const logout = (history) => dispatch => {
 
     dispatch({
       type: RESET_COMMENTS
+    });
+
+    dispatch({
+      type: DISABLE_SIGNUP_FORM
+    });
+
+    dispatch({
+      type: DISABLE_POST_FORM
+    });
+
+    dispatch({
+      type: DISABLE_REACTIONS_LIST
     });
 
     history.push('/');

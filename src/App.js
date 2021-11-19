@@ -10,11 +10,17 @@ import PropTypes from 'prop-types';
 // use unique IDs to force re-renders of components every time navigation links
 // are clicked
 import { v4 as uuid } from 'uuid';
-import { Modal } from 'react-bootstrap';
+
+// bootstrap components
+import Modal from 'react-bootstrap/Modal';
 
 // redux action
 import { verifyAuth } from './actions/authActions';
-import { disablePostForm, disableReactionsList } from './actions/overlaysActions';
+import { 
+  disablePostForm, 
+  disableReactionsList, 
+  disableSignupForm 
+} from './actions/overlaysActions';
 
 // stylesheet
 import './styles/App.css';
@@ -28,6 +34,7 @@ import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import PostForm from './components/PostForm';
 import ReactionsList from './components/ReactionsList';
+import Register from './components/auth/Register';
 
 function App({ 
   auth, 
@@ -36,6 +43,7 @@ function App({
   overlays,
   disablePostForm,
   disableReactionsList,
+  disableSignupForm
 }) {
   
   useEffect(() => {
@@ -43,7 +51,7 @@ function App({
     verifyAuth();
   }, []);
 
-  const { postForm, reactionsList } = overlays;
+  const { postForm, reactionsList, signupForm } = overlays;
 
   const handleHideModal = () => {
     if (postForm.isEnabled) {
@@ -51,6 +59,9 @@ function App({
     }
     if (reactionsList.isEnabled) {
       disableReactionsList();
+    }
+    if (signupForm.isEnabled) {
+      disableSignupForm();
     }
   };
 
@@ -79,6 +90,9 @@ function App({
           {
             reactionsList.isEnabled && <ReactionsList />
           }
+          {
+            signupForm.isEnabled && <Register />
+          }
         </Modal>
         
         {
@@ -105,6 +119,7 @@ App.propTypes = {
   overlays: PropTypes.object.isRequired,
   disablePostForm: PropTypes.func.isRequired,
   disableReactionsList: PropTypes.func.isRequired,
+  disableSignupForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -119,4 +134,5 @@ export default connect(mapStateToProps, {
   verifyAuth,
   disablePostForm,
   disableReactionsList,
+  disableSignupForm,
 })(App);

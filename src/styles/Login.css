@@ -1,0 +1,35 @@
+.login {
+  width: fit-content;
+  margin: 100px auto 0 auto;
+}
+
+.site-name {
+  font-weight: 900;
+  font-size: 2em;
+  margin: 1em 0;
+}
+
+.login section {
+  width: 400px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login button {
+  font-size: 1.1em;
+  font-weight: 700;
+}
+
+.login-form {
+  flex-grow: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.login-form input[name="password"] {
+  margin: 1em 0;
+}
+
+.login-form button {
+  width: 100%;
+}

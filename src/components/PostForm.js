@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
+
+// bootstrap components
+import Modal from 'react-bootstrap/Modal';
 
 // stylesheets
 import '../styles/PostForm.css';
@@ -72,7 +74,7 @@ function PostForm({
                 required></textarea>
         <button ref={submitBtn} 
                 type="submit" 
-                className="tertiary-bg-color tertiary-font-color" 
+                className="tertiary-bg-color tertiary-font-color validation-btn" 
                 disabled>
           {postForm.post ? 'Save' : 'Post'}
         </button>

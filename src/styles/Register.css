@@ -1,0 +1,11 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.signup-form .signup-btn {
+  padding: 0.4em 4em;
+  font-weight: 900;
+  font-size: 1.1em;
+}

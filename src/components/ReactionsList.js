@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
+
+// bootstrap components
+import Modal from 'react-bootstrap/Modal';
 
 function ReactionsList({ overlays }) {
   return (

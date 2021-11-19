@@ -2,16 +2,24 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { login } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 
-// components
-import Register from './Register';
+// redux actions
+import { login } from '../../actions/authActions';
 
-function Login({ auth, errors, login, history }) {
+// bootstrap components
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
+// redux actions
+import { enableSignupForm } from "../../actions/overlaysActions";
+
+// stylesheet
+import '../../styles/Login.css';
+
+function Login({ auth, errors, login, history, enableSignupForm }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [enableRegister, setEnableRegister] = useState(false);
 
   // check whether user appears as logged in when component is mounted
   useEffect(() => {
@@ -42,33 +50,32 @@ function Login({ auth, errors, login, history }) {
     login(body);
   };
 
-  const toggleRegisterDisplay = () => {
-    setEnableRegister(!enableRegister);
-  };
-
   return (
-    <div>
-      {
-        enableRegister && (
-          <Register toggleRegisterDisplay={toggleRegisterDisplay} />
-        )
-      }
+    <div className="login">
+      <h1 className="site-name primary-font-color">odinbook</h1>
+      <section className="primary-frame primary-bg-color">
+        <Form onSubmit={handleSubmit} className="login-form">
+          <Form.Control type="text" 
+                        name="email"
+                        placeholder="Email"
+                        value={email} 
+                        onChange={onChange} />
+          <Form.Control type="text" 
+                        name="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={onChange} />
+          <button className="tertiary-bg-color tertiary-font-color validation-btn"
+                  type="submit">
+            Log In
+          </button>
+        </Form>
 
-      <section>
-        <form onSubmit={handleSubmit}>
-          <input type="text" 
-                name="email"
-                placeholder="Email"
-                value={email} 
-                onChange={onChange}></input>
-          <input type="text" 
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={onChange}></input>
-          <button type="submit">Log In</button>
-        </form>
-        <button onClick={toggleRegisterDisplay}>Create new account</button>
+        <Button className="signup-btn" 
+                variant="success" 
+                onClick={enableSignupForm}>
+          Create new account
+        </Button>
       </section>
     </div>
   );
@@ -77,7 +84,8 @@ function Login({ auth, errors, login, history }) {
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  enableSignupForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -87,4 +95,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { login })(withRouter(Login));
+export default connect(mapStateToProps, { 
+  login, 
+  enableSignupForm 
+})(withRouter(Login));

@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { register } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 
-function Register({ auth, errors, register, history, toggleRegisterDisplay }) {
+// redux actions
+import { register } from '../../actions/authActions';
+
+// bootstrap components
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
+// stylesheet
+import '../../styles/Register.css';
+
+function Register({ auth, errors, register, history }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -58,42 +68,44 @@ function Register({ auth, errors, register, history, toggleRegisterDisplay }) {
   };
   
   return (
-    <section>
-      <header>
-        <h2>Sign Up</h2>
-        <p>It's quick and easy.</p>
-        <button onClick={toggleRegisterDisplay}>X</button>
-      </header>
-      <form onSubmit={handleSubmit}>
-        <input type="text" 
-                name="first-name"
-                placeholder="First name"
-                value={firstName}
-                onChange={onChange}></input>
-        <input type="text" 
-               name="last-name"
-               placeholder="Last name"
-               value={lastName}
-               onChange={onChange}></input>
-        <input type="text" 
-               name="username"
-               placeholder="Username"
-               value={username}
-               onChange={onChange}></input>
-        <input type="text" 
-               name="email"
-               placeholder="Email"
-               value={email} 
-               onChange={onChange}></input>
-        <input type="text" 
-               name="password"
-               placeholder="Password"
-               value={password}
-               onChange={onChange}></input>
-        
-        <button type="submit">Sign Up</button>
-      </form>
-    </section>
+    <>
+      <Modal.Header closeButton>
+        <div>
+          <Modal.Title as={"h2"}>Sign Up</Modal.Title>
+          <p>It's quick and easy.</p>
+        </div>
+      </Modal.Header>
+      <Modal.Body as={"form"} onSubmit={handleSubmit} className="signup-form">
+        <Form.Control type="text" 
+                      name="first-name"
+                      placeholder="First name"
+                      value={firstName}
+                      onChange={onChange} />
+        <Form.Control type="text" 
+                      name="last-name"
+                      placeholder="Last name"
+                      value={lastName}
+                      onChange={onChange} />
+        <Form.Control type="text" 
+                      name="username"
+                      placeholder="Username"
+                      value={username}
+                      onChange={onChange} />
+        <Form.Control type="text" 
+                      name="email"
+                      placeholder="Email"
+                      value={email} 
+                      onChange={onChange} />
+        <Form.Control type="text" 
+                      name="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={onChange} />
+        <Button className="signup-btn" variant="success">
+          Sign Up
+        </Button>
+      </Modal.Body>
+    </>
   )
 };
 
