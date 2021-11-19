@@ -8,7 +8,7 @@ import '../styles/PostForm.css';
 
 // redux actions
 import { updatePost, addPost } from '../actions/postActions';
-import { disablePostForm, updatePostForm } from '../actions/overlaysActions';
+import { disablePostForm } from '../actions/overlaysActions';
 
 function PostForm({  
   updatePost, 
@@ -87,7 +87,6 @@ PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
   overlays: PropTypes.object.isRequired,
   disablePostForm: PropTypes.func.isRequired,
-  updatePostForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -99,5 +98,4 @@ export default connect(mapStateToProps, {
   updatePost, 
   addPost,
   disablePostForm,
-  updatePostForm
 })(PostForm);
