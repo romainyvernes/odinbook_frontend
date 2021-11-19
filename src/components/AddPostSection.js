@@ -13,13 +13,13 @@ function AddPostSection({ user, auth, enablePostForm }) {
   the Newsfeed page, meaning the profile where the post is added is the 
   authenticated user's */
   
-  const handleAddPost = () => {
+  const displayPostForm = () => {
     enablePostForm(null, user || auth.user);
   };
 
   return (
     <section className="add-post-section primary-frame primary-bg-color secondary-font-color">
-      <button onClick={handleAddPost} 
+      <button onClick={displayPostForm} 
               className="secondary-bg-color secondary-frame secondary-bg-color-hover">
         {
           !user || auth.user.id === user.id

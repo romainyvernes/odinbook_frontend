@@ -23,9 +23,11 @@ function Navbar({ logout, history, auth }) {
   
   return (
     <nav className="nav-bar primary-bg-color">
-      <i>
-        <Link to="/">Site icon</Link>
-      </i>
+      <div className="search">
+        <i>
+          <Link to="/">Site icon</Link>
+        </i>
+      </div>
 
       <ul className="navigation-links">
         <li>

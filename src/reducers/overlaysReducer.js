@@ -1,7 +1,9 @@
 import { 
   ENABLE_POST_FORM, 
   DISABLE_POST_FORM,
-  UPDATE_POST_FORM
+  UPDATE_POST_FORM,
+  ENABLE_REACTIONS_LIST,
+  DISABLE_REACTIONS_LIST
 } from "../actions/types";
 
 const initialState = {
@@ -11,6 +13,10 @@ const initialState = {
       content: ''
     },
     profile: {}
+  },
+  reactionsList: {
+    isEnabled: false,
+    reactions: []
   }
 };
 
@@ -32,6 +38,9 @@ export default function(state = initialState, { type, payload }) {
           ...state,
           postForm: {
             isEnabled: true,
+            post: {
+              content: ''
+            },
             profile: payload.profile
           }
         };
@@ -58,6 +67,24 @@ export default function(state = initialState, { type, payload }) {
         postForm: {
           ...state.postForm,
           post: updatedPost
+        }
+      };
+
+    case ENABLE_REACTIONS_LIST:
+      return {
+        ...state,
+        reactionsList: {
+          isEnabled: true,
+          reactions: payload
+        }
+      };
+
+    case DISABLE_REACTIONS_LIST:
+      return {
+        ...state,
+        reactionsList: {
+          isEnabled: false,
+          reactions: []
         }
       };
       

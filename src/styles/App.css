@@ -12,21 +12,29 @@
   CONTAINER STYLING
 *******************/
 
-/* applies to posts and add post section */
+/* applies to posts */
 .primary-frame {
   border-radius: 5px;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
   padding: 1em 1.3em;
 }
 
+/* applies to add comment and add post sections */
 .secondary-frame {
   border-radius: 40px;
   padding: 0.45em 1em;
 }
 
+/* applies to comments */
 .tertiary-frame {
   border-radius: 20px;
   padding: 0.7em 1em;
+}
+
+/* applies to dialog box for overlays */
+.quaternary-frame {
+  border-radius: 20px;
+  box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.1);
 }
 
 /*************
@@ -62,14 +70,13 @@
   background-color: #e4e6eb;
 }
 
-.overlay {
-  background-color: rgb(240, 242, 245, 0.5);
-  position: relative;
-  z-index: 50;
+.overlay-bg.modal-backdrop.show {
+  background-color: #f5f5f5;
+  opacity: 0.8;
 }
 
 /********************
-  DROPDOWN MENU RESET
+  BOOTSTRAP DROPDOWN MENU RESET
 *********************/
 
 .dropdown .btn.dropdown-toggle,
@@ -84,4 +91,20 @@
   border: none;
   color: inherit;
   box-shadow: none;
+}
+
+/********************
+  BOOTSTRAP MODAL
+*********************/
+
+.modal-dialog .modal-content {
+  border: none;
+}
+
+.modal-dialog.quaternary-frame {
+  margin-top: 70px;
+}
+
+.modal-body {
+  overflow: scroll;
 }

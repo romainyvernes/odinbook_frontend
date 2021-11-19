@@ -29,7 +29,7 @@ function Post({
   deleteReaction, 
   deletePost,
   posts,
-  enablePostForm
+  enablePostForm,
 }) {
   // NOTE: posts is only passed in as a prop to force re-render when a single
   // post is updated in redux store
@@ -162,7 +162,7 @@ Post.propTypes = {
   deleteReaction: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
-  enablePostForm: PropTypes.func.isRequired
+  enablePostForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -175,5 +175,5 @@ export default connect(mapStateToProps, {
   addReaction,
   deleteReaction,
   deletePost,
-  enablePostForm
+  enablePostForm,
 })(Post);
