@@ -24,8 +24,6 @@ export const register = (body, history) => dispatch => {
 
 export const login = (body) => dispatch => {
   axios.post('/api/auth/login', body).then((response) => {
-    // if successful, set isLoggedIn to true in state and store username
-    // redirect to home page (newsfeed)
     dispatch({
       type: USER_LOGIN,
       payload: response.data
@@ -40,7 +38,6 @@ export const login = (body) => dispatch => {
 
 export const logout = (history) => dispatch => {
   axios.get('/api/auth/logout').then((response) => {
-    // if successful, delete user from state and redirect to login page
     dispatch({
       type: USER_LOGOUT
     });
@@ -76,8 +73,6 @@ export const logout = (history) => dispatch => {
 
 export const verifyAuth = () => dispatch => {
   axios.get('/api/auth/verify').then((response) => {
-    // if user is already authenticated, follow same process as new login and
-    // load user's data into state
     dispatch({
       type: USER_LOGIN,
       payload: response.data

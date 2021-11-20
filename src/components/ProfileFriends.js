@@ -1,17 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 // stylesheet
 import '../styles/ProfileFriends.css';
 
+// redux actions
+import { deleteFriend } from '../actions/friendActions';
+
 // components
 import DropdownMenu from './DropdownMenu';
 
-export default function ProfileFriends({ friends }) {
+function ProfileFriends({ friends, deleteFriend }) {
+  const handleUnfriend = () => {
+    // pass in required args
+    deleteFriend();
+  };
+  
   const dropdownItems = [
     {
       label: "Unfriend",
-      function: ""
+      function: handleUnfriend
     }
   ];
   
@@ -39,3 +49,13 @@ export default function ProfileFriends({ friends }) {
     </section>
   )
 }
+
+ProfileFriends.propTypes = {
+  deleteFriend: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+
+});
+
+export default connect(mapStateToProps, { deleteFriend })(ProfileFriends);
