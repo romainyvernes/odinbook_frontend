@@ -143,3 +143,37 @@ button[type="submit"]:disabled {
 .modal-body {
   overflow: scroll;
 }
+
+/********************
+  NAVIGATION MENU
+*********************/
+
+.navigation-links {
+  display: flex;
+}
+
+.nav-link {
+  border: 3px solid #fff;
+  text-align: center;
+}
+
+/* override default styling for hovered links with rounder corners */
+.nav-link:hover {
+  border-radius: 10px;
+}
+
+/* applies to navigation links whose page is currently displayed */
+.selected {
+  border-width: 3px 0;
+  border-bottom-color: #1679ea;
+}
+
+/* cancel hovered link styling when link is matches page displayed */
+.selected.hovered-link {
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.no-data-msg {
+  margin: 1em 0;
+}

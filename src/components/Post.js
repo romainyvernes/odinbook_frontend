@@ -18,8 +18,9 @@ import { VscComment } from 'react-icons/vsc';
 // components
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
-import PrivateDropdown from './PrivateDropdown';
+import PrivateComponent from './PrivateComponent';
 import LikeButton from './LikeButton';
+import DropdownMenu from './DropdownMenu';
 
 function Post({ 
   data, 
@@ -76,6 +77,17 @@ function Post({
   const toggleCommentArea = () => {
     setEnableComments(!enableComments);
   };
+
+  const dropdownItems = [
+    {
+      label: "Delete",
+      function: handleDeletePost
+    },
+    {
+      label: "Update",
+      function: handleUpdatePost
+    }
+  ];
   
   return (
     <li className="post primary-frame primary-bg-color">
@@ -86,10 +98,7 @@ function Post({
           </a>
           <time dateTime={data.date} className="post-date secondary-font-color">{data.date}</time>
         </div>
-        <PrivateDropdown data={data} 
-                        handleDelete={handleDeletePost}
-                        handleUpdate={handleUpdatePost} />
-        
+        <PrivateComponent component={DropdownMenu} parent={data} items={dropdownItems} />
       </header>
 
       <p className="post-content">{data.content}</p>
@@ -137,7 +146,7 @@ function Post({
             ? <CommentsList comments={comments[data.id].filter((comment) => (
               comment.parent_id === data.id
             ))} />
-            : <p className="no-comment">Be the first to comment.</p>
+            : <p className="no-data-msg">Be the first to comment.</p>
          : null
       }
 

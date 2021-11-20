@@ -1,8 +1,8 @@
-.private-dropdown .dropdown-toggle {
+.custom-dropdown .dropdown-toggle {
   padding: 0;
 }
 
-.private-dropdown .dropdown-toggle::after {
+.custom-dropdown .dropdown-toggle::after {
   display: none;
 }
 
@@ -12,6 +12,6 @@
   border-radius: 50%;
 }
 
-.private-dropdown .dropdown-menu {
+.custom-dropdown .dropdown-menu {
   margin-top: -0.1em;
 }

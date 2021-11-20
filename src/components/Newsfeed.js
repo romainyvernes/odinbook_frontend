@@ -37,7 +37,9 @@ function Newsfeed({ auth, getPosts, posts }) {
         {
           posts.length > 0
             ? <PostsList posts={posts} />
-            : "It looks like no one has posted anything yet." 
+            : <p className="no-data-msg">
+                It looks like no one has posted anything yet.
+              </p>
         }
       </main>
     </div>

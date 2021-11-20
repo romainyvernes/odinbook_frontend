@@ -6,25 +6,35 @@
   margin: 0 auto;
 }
 
-.profile h1 {
+.profile main,
+.profile-nav {
+  width: 830px;
+}
+
+.profile-header {
   text-align: center;
+}
+
+.profile h1 {
   font-size: 1.8em;
   font-weight: 700;
+  padding: 1.5em 0 0.5em 0;
+}
+
+.profile-nav {
+  margin: 0 auto;
+  border-top: 1px solid #ccc;
+}
+
+.profile .nav-link {
+  padding: 1em 0.8em;
+  font-size: 0.9em;
+}
+
+.profile :not(.selected).nav-link {
+  color: #65676b;
 }
 
 .profile h2 {
   font-size: 1.1em;
-}
-
-.profile .profile-header {
-  padding: 2em;
-}
-
-.snapshot {
-  margin-right: 15px;
-  width: 40%;
-}
-
-.profile-posts {
-  width: 60%;
 }

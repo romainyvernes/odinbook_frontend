@@ -14,7 +14,8 @@ import { BsArrowReturnRight } from 'react-icons/bs';
 import CommentsList from './CommentsList';
 import AddCommentForm from './AddCommentForm';
 import EditCommentForm from './EditCommentForm';
-import PrivateDropdown from './PrivateDropdown';
+import DropdownMenu from './DropdownMenu';
+import PrivateComponent from './PrivateComponent';
 import LikeButton from './LikeButton';
 
 function Comment({ 
@@ -90,6 +91,17 @@ function Comment({
       return false;
     });
   }
+
+  const dropdownItems = [
+    {
+      label: "Delete",
+      function: handleDeleteComment
+    },
+    {
+      label: "Update",
+      function: toggleEditComment
+    }
+  ];
   
   return (
     <li className={`comment${enableEditComment ? ' edit' : ''}`}>
@@ -112,9 +124,7 @@ function Comment({
                       : <div></div>
                   }
                 </div>
-                <PrivateDropdown data={data}
-                                  handleUpdate={toggleEditComment}
-                                  handleDelete={handleDeleteComment} />
+                <PrivateComponent component={DropdownMenu} parent={data} items={dropdownItems} />
               </div>
               <div className="comment-btns secondary-font-color">
                 <div className="left light-bold">
