@@ -101,12 +101,12 @@ function ProfileFriends({
       </header>
       {
         friendsArr.length > 0
-          ? <ul>
+          ? <ul className="friends-list">
               {
                 friendsArr.map((friend) => (
-                  <li key={friend.id}>
+                  <li key={friend.id} className="senary-frame">
                     <a href={`/${friend.username}`}>
-                      {friend.name}
+                      <h3>{friend.name}</h3>
                     </a>
                     {
                       // only display something if listed user is not 
