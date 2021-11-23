@@ -8,33 +8,22 @@ import { Switch, Route, NavLink } from "react-router-dom";
 // stylesheet
 import '../styles/Profile.css';
 
-// bootstrap components
-import Button from 'react-bootstrap/Button';
-
 // redux actions
 import { getPosts } from '../actions/postActions';
 import { 
-  saveFriends, 
-  sendFriendRequest, 
-  deleteFriend, 
-  acceptFriendRequest, 
-  cancelFriendRequest
+  saveFriends,
 } from "../actions/friendActions";
 
 // components
 import ProfilePosts from "./ProfilePosts";
 import ProfileFriends from "./ProfileFriends";
+import FriendButton from "./FriendButton";
 
 function Profile({ 
   match, 
   getPosts, 
-  posts, 
-  auth, 
+  posts,
   saveFriends, 
-  friends, 
-  sendFriendRequest,
-  deleteFriend,
-  acceptFriendRequest
 }) {
   const [user, setUser] = useState({});
   
@@ -56,46 +45,6 @@ function Profile({
       console.log(err);
     });
   }, []);
-
-  const handleAddFriend = () => {
-    const body = {
-      friendId: user.id
-    };
-    
-    sendFriendRequest(body, auth.user.username, user);
-  };
-
-  const handleDeleteFriend = () => {
-    deleteFriend(user.id);
-  };
-
-  const handleAcceptRequest = () => {
-    const body = {
-      friendId: user.id
-    };
-
-    acceptFriendRequest(body, auth.user.username);
-  };
-
-  const handleCancelRequest = () => {
-    cancelFriendRequest(auth.user.username, user.id);
-  };
-
-  const renderFriendButton = () => {
-    if (auth.user.id !== user.id) {
-      if (friends[auth.user.id]) {
-        return <Button onClick={handleDeleteFriend}>Unfriend</Button>;
-      } else if (auth.user.incomingFriendRequests[user.id]) {
-        return <Button onClick={handleAcceptRequest}>Accept friend request</Button>;
-      } else if (auth.user.outgoingFriendRequests[user.id]) {
-        return <Button onClik={handleCancelRequest}>Cancel friend request</Button>;
-      } else {
-        return <Button onClick={handleAddFriend}>Add as friend</Button>;
-      }
-    } else {
-      return null;
-    }
-  };
   
   return (
     <div className="profile">
@@ -121,18 +70,16 @@ function Profile({
                       </NavLink>
                     </li>
                   </ul>
-                  {
-                    renderFriendButton()
-                  }
+                  <FriendButton user={user} />
                 </div>
               </header>
               <main>
                 <Switch>
                   <Route exact path="/:username" render={() => (
-                    <ProfilePosts user={user} posts={posts} />
+                    <ProfilePosts user={user} />
                   )} />
                   <Route path="/:username/friends" render={() => (
-                    <ProfileFriends friends={user.friends} />
+                    <ProfileFriends user={user} />
                   )} />
                 </Switch>
               </main>
@@ -148,23 +95,14 @@ function Profile({
 Profile.propTypes = {
   posts: PropTypes.array.isRequired,
   getPosts: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   saveFriends: PropTypes.func.isRequired,
-  sendFriendRequest: PropTypes.func.isRequired,
-  deleteFriend: PropTypes.func.isRequired,
-  acceptFriendRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   posts: state.posts,
-  auth: state.auth,
-  friends: state.friends
 });
 
 export default connect(mapStateToProps, { 
   getPosts, 
   saveFriends,
-  sendFriendRequest,
-  deleteFriend,
-  acceptFriendRequest,
 })(Profile);

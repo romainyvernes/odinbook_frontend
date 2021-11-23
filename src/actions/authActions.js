@@ -6,7 +6,7 @@ import {
   RESET_COMMENTS, 
   DISABLE_SIGNUP_FORM,
   DISABLE_POST_FORM,
-  DISABLE_REACTIONS_LIST
+  DISABLE_REACTIONS_LIST,
 } from './types';
 import axios from 'axios';
 

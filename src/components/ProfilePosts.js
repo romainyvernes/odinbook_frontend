@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 // stylesheet
 import '../styles/ProfilePosts.css';
@@ -7,7 +9,9 @@ import '../styles/ProfilePosts.css';
 import PostsList from "./PostsList";
 import AddPostSection from "./AddPostSection";
 
-export default function ProfilePosts({ user, posts }) {
+function ProfilePosts({ user, friends, posts }) {
+  const friendsArr = Object.keys(friends).map((key) => friends[key]);
+  
   return (
     <>
       <section className="snapshot">
@@ -16,10 +20,12 @@ export default function ProfilePosts({ user, posts }) {
             <h2>Friends</h2>
           </header>
           {
-            user.friends.length > 0
+            friendsArr.length > 0
               ? <ul>
-                  {user.friends.slice(0, 9).map((friend) => (
-                    <li key={friend.username}>{friend.name}</li>
+                  {friendsArr.slice(0, 9).map((friend) => (
+                    <li key={friend.username}>
+                      <a href={`/${friend.username}`}>{friend.name}</a>
+                    </li>
                   ))}
                 </ul>
               : <p className="no-data-msg">There is no one here.</p>
@@ -41,3 +47,15 @@ export default function ProfilePosts({ user, posts }) {
     </>
   )
 }
+
+ProfilePosts.propTypes = {
+  posts: PropTypes.array.isRequired,
+  friends: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  posts: state.posts,
+  friends: state.friends,
+});
+
+export default connect(mapStateToProps)(ProfilePosts);

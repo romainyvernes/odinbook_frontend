@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,15 +6,33 @@ import PropTypes from 'prop-types';
 import '../styles/ProfileFriends.css';
 
 // redux actions
-import { deleteFriend } from '../actions/friendActions';
+import { 
+  deleteFriend, 
+  deleteFriendFromAuth,
+} from '../actions/friendActions';
 
 // components
 import DropdownMenu from './DropdownMenu';
+import FriendButton from './FriendButton';
 
-function ProfileFriends({ friends, deleteFriend }) {
+function ProfileFriends({ 
+  friends, 
+  deleteFriend, 
+  auth, 
+  user,
+  deleteFriendFromAuth,
+}) {
+  const friendsArr = Object.keys(friends).map((key) => friends[key]);
+  
   const handleUnfriend = () => {
-    // pass in required args
-    deleteFriend();
+    // check if list of friends on display belongs to authenticated user
+    if (user.id === auth.user.id) {
+      // delete friend from posts to reflect change in the list of friends
+      deleteFriend(auth.user, user.id);
+    } else {
+      // only delete friend from auth object
+      deleteFriendFromAuth(auth.user, user.id);
+    }
   };
   
   const dropdownItems = [
@@ -31,15 +48,24 @@ function ProfileFriends({ friends, deleteFriend }) {
         <h2>Friends</h2>
       </header>
       {
-        friends.length > 0
+        friendsArr.length > 0
           ? <ul>
               {
-                friends.map((friend) => (
+                friendsArr.map((friend) => (
                   <li key={friend.id}>
-                    <Link to={`/${friend.username}`}>
+                    <a href={`/${friend.username}`}>
                       {friend.name}
-                    </Link>
-                    <DropdownMenu items={dropdownItems} />
+                    </a>
+                    {
+                      // only display something if listed user is not 
+                      // authenticated user, and display an add friend button
+                      // if listed user is not friends w/ authenticated user
+                      friend.id !== auth.user.id
+                        ? !auth.user.friends[friend.id]
+                            ? <FriendButton user={user} />
+                            : <DropdownMenu items={dropdownItems} />
+                        : null
+                    }
                   </li>
                 ))
               }
@@ -52,10 +78,17 @@ function ProfileFriends({ friends, deleteFriend }) {
 
 ProfileFriends.propTypes = {
   deleteFriend: PropTypes.func.isRequired,
+  friends: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  deleteFriendFromAuth: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-
+  friends: state.friends,
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deleteFriend })(ProfileFriends);
+export default connect(mapStateToProps, { 
+  deleteFriend,
+  deleteFriendFromAuth,
+})(ProfileFriends);

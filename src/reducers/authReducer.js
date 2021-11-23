@@ -1,6 +1,8 @@
 import { mapArrayToObject } from '../utils/reduxMiddleware';
 import { 
-  SEND_FRIEND_REQUEST, 
+  ADD_FRIEND_REQUEST, 
+  DELETE_FRIEND_FROM_AUTH, 
+  DELETE_FRIEND_REQUEST, 
   USER_LOGIN, 
   USER_LOGOUT,
 } from '../actions/types';
@@ -23,6 +25,10 @@ export default function(state = initialState, { type, payload }) {
       authenticatedUser.outgoingFriendRequests = mapArrayToObject(
         authenticatedUser.outgoingFriendRequests
       );
+
+      authenticatedUser.friends = mapArrayToObject(
+        authenticatedUser.friends
+      );
       
       return {
         ...state,
@@ -37,7 +43,7 @@ export default function(state = initialState, { type, payload }) {
         user: {}
       };
 
-    case SEND_FRIEND_REQUEST:
+    case ADD_FRIEND_REQUEST:
       const newObj = {};
       newObj[payload.id] = payload;
       
@@ -50,7 +56,35 @@ export default function(state = initialState, { type, payload }) {
             ...newObj
           }
         }
-      }
+      };
+    
+    case DELETE_FRIEND_REQUEST:
+      const updatedOutbound = {...state.user.outgoingFriendRequests};
+      delete updatedOutbound[payload];
+
+      const updatedInbound = {...state.user.incomingFriendRequests};
+      delete updatedInbound[payload];
+    
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          outgoingFriendRequests: updatedOutbound,
+          incomingFriendRequests: updatedInbound
+        }
+      };
+
+    case DELETE_FRIEND_FROM_AUTH:
+      const updatedFriends = {...state.user.friends};
+      delete updatedFriends[payload];
+    
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          friends: updatedFriends
+        }
+      };
 
     default:
       return state;
