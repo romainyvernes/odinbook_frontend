@@ -9,6 +9,9 @@ import '../styles/ProfileFriends.css';
 import { 
   deleteFriend, 
   deleteFriendFromAuth,
+  addFriendToAuth,
+  declineFriendRequest,
+  cancelFriendRequest,
 } from '../actions/friendActions';
 
 // components
@@ -21,26 +24,75 @@ function ProfileFriends({
   auth, 
   user,
   deleteFriendFromAuth,
+  addFriendToAuth,
+  declineFriendRequest,
+  cancelFriendRequest,
 }) {
   const friendsArr = Object.keys(friends).map((key) => friends[key]);
   
-  const handleUnfriend = () => {
-    // check if list of friends on display belongs to authenticated user
-    if (user.id === auth.user.id) {
-      // delete friend from posts to reflect change in the list of friends
-      deleteFriend(auth.user, user.id);
+  const handleUnfriend = (userId, friendId) => {
+    // check if unfriended user is displayed on authenticated user's profile
+    if (userId === auth.user.id) {
+      deleteFriend(auth.user, friendId);
     } else {
-      // only delete friend from auth object
-      deleteFriendFromAuth(auth.user, user.id);
+      deleteFriendFromAuth(auth.user, friendId);
     }
   };
-  
-  const dropdownItems = [
-    {
-      label: "Unfriend",
-      function: handleUnfriend
+
+  const handleAcceptRequest = (friendId) => {
+    const body = {
+      friendId
+    };
+
+    addFriendToAuth(body, auth.user.username);
+  };
+
+  const handleDeclineRequest = (friendId) => {
+    declineFriendRequest(auth.user.username, friendId);
+  };
+
+  const handleCancelRequest = (friendId) => {
+    cancelFriendRequest(auth.user.username, friendId);
+  };
+
+  const getDropdownItems = (friend) => {
+    if (auth.user.friends[friend.id]) {
+      return [
+        {
+          label: "Unfriend",
+          function: () => {
+            handleUnfriend(user.id, friend.id);
+          }
+        }
+      ];
+    } else if (auth.user.incomingFriendRequests[friend.id]) {
+      return [
+        {
+          label: "Accept friend request",
+          function: () => {
+            handleAcceptRequest(friend.id);
+          }
+        },
+        {
+          label: "Decline friend request",
+          function: () => {
+            handleDeclineRequest(friend.id);
+          }
+        }
+      ];
+    } else if (auth.user.outgoingFriendRequests[friend.id]) {
+      return [
+        {
+          label: "Cancel friend request",
+          function: () => {
+            handleCancelRequest(friend.id);
+          }
+        }
+      ];
+    } else {
+      return [];
     }
-  ];
+  };
   
   return (
     <section className="profile-friends primary-frame primary-bg-color">
@@ -62,8 +114,8 @@ function ProfileFriends({
                       // if listed user is not friends w/ authenticated user
                       friend.id !== auth.user.id
                         ? !auth.user.friends[friend.id]
-                            ? <FriendButton user={user} />
-                            : <DropdownMenu items={dropdownItems} />
+                            ? <FriendButton shortVersion={true} parent={friend} />
+                            : <DropdownMenu items={getDropdownItems(friend)} />
                         : null
                     }
                   </li>
@@ -81,6 +133,9 @@ ProfileFriends.propTypes = {
   friends: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteFriendFromAuth: PropTypes.func.isRequired,
+  addFriendToAuth: PropTypes.func.isRequired,
+  declineFriendRequest: PropTypes.func.isRequired,
+  cancelFriendRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -91,4 +146,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, { 
   deleteFriend,
   deleteFriendFromAuth,
+  addFriendToAuth,
+  declineFriendRequest,
+  cancelFriendRequest,
 })(ProfileFriends);

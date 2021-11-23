@@ -9,62 +9,77 @@ import Button from 'react-bootstrap/Button';
 import {
   sendFriendRequest, 
   deleteFriend, 
-  acceptFriendRequest, 
+  addFriend, 
   cancelFriendRequest,
   declineFriendRequest
 } from "../actions/friendActions";
 
 function FriendButton({ 
-  user, 
+  parent,
   auth, 
   sendFriendRequest, 
   deleteFriend,
-  acceptFriendRequest,
+  addFriend,
   declineFriendRequest,
   cancelFriendRequest,
-  friends
+  friends,
+  shortVersion
 }) {
+  // NOTE: shortVersion allows to only display add friend button
+
   const handleAddFriend = () => {
     const body = {
-      friendId: user.id
+      friendId: parent.id
     };
     
     sendFriendRequest(body, auth.user.username);
   };
 
   const handleDeleteFriend = () => {
-    deleteFriend(auth.user, user.id);
+    deleteFriend(auth.user, parent.id);
   };
 
   const handleAcceptRequest = () => {
     const body = {
-      friendId: user.id
+      friendId: parent.id
     };
 
-    acceptFriendRequest(body, auth.user.username);
+    addFriend(body, auth.user.username);
   };
 
   const handleDeclineRequest = () => {
-    declineFriendRequest(auth.user.username, user.id);
+    declineFriendRequest(auth.user.username, parent.id);
   };
 
   const handleCancelRequest = () => {
-    cancelFriendRequest(auth.user.username, user.id);
+    cancelFriendRequest(auth.user.username, parent.id);
   };
 
   const renderFriendButton = () => {
-    if (auth.user.id !== user.id) {
+    if (auth.user.id !== parent.id) {
       if (friends[auth.user.id]) {
-        return <Button onClick={handleDeleteFriend}>Unfriend</Button>;
-      } else if (auth.user.incomingFriendRequests[user.id]) {
-        return (
-          <>
-            <Button onClick={handleAcceptRequest}>Accept friend request</Button>
-            <Button onClick={handleDeclineRequest}>Decline friend request</Button>
-          </>
-        );
-      } else if (auth.user.outgoingFriendRequests[user.id]) {
-        return <Button onClick={handleCancelRequest}>Cancel friend request</Button>;
+        if (shortVersion !== true) {
+          return <Button onClick={handleDeleteFriend}>Unfriend</Button>;
+        } else {
+          return null;
+        }
+      } else if (auth.user.incomingFriendRequests[parent.id]) {
+        if (shortVersion !== true) {
+          return (
+            <>
+              <Button onClick={handleAcceptRequest}>Accept friend request</Button>
+              <Button onClick={handleDeclineRequest}>Decline friend request</Button>
+            </>
+          );
+        } else {
+          return null;
+        }
+      } else if (auth.user.outgoingFriendRequests[parent.id]) {
+        if (shortVersion !== true) {
+          return <Button onClick={handleCancelRequest}>Cancel friend request</Button>;
+        } else {
+          return null;
+        }
       } else {
         return <Button onClick={handleAddFriend}>Add as friend</Button>;
       }
@@ -74,11 +89,11 @@ function FriendButton({
   };
   
   return (
-    <div>
+    <>
       {
         renderFriendButton()
       }
-    </div>
+    </>
   )
 }
 
@@ -86,7 +101,7 @@ FriendButton.propTypes = {
   auth: PropTypes.object.isRequired,
   sendFriendRequest: PropTypes.func.isRequired,
   deleteFriend: PropTypes.func.isRequired,
-  acceptFriendRequest: PropTypes.func.isRequired,
+  addFriend: PropTypes.func.isRequired,
   cancelFriendRequest: PropTypes.func.isRequired,
   declineFriendRequest: PropTypes.func.isRequired,
 }
@@ -99,7 +114,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   sendFriendRequest,
   deleteFriend,
-  acceptFriendRequest,
+  addFriend,
   cancelFriendRequest,
   declineFriendRequest,
 }

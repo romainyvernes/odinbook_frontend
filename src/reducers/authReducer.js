@@ -1,6 +1,7 @@
 import { mapArrayToObject } from '../utils/reduxMiddleware';
 import { 
   ADD_FRIEND_REQUEST, 
+  ADD_FRIEND_TO_AUTH, 
   DELETE_FRIEND_FROM_AUTH, 
   DELETE_FRIEND_REQUEST, 
   USER_LOGIN, 
@@ -71,6 +72,18 @@ export default function(state = initialState, { type, payload }) {
           ...state.user,
           outgoingFriendRequests: updatedOutbound,
           incomingFriendRequests: updatedInbound
+        }
+      };
+
+    case ADD_FRIEND_TO_AUTH:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          friends: {
+            ...state.user.friends,
+            [payload.id]: payload
+          }
         }
       };
 
