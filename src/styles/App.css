@@ -1,10 +1,18 @@
 .App {
   line-height: 1.2em;
+  height: 100vh;
 }
 
 /* default styling for select links on hover */
 .hovered-link:hover {
   background: #f0f2f5;
+  border-radius: 7px;
+}
+
+.sidebar-link {
+  padding: 0.6em;
+  display: flex;
+  align-items: center;
   border-radius: 7px;
 }
 

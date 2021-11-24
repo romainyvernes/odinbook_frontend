@@ -28,7 +28,7 @@ import './styles/App.css';
 // components
 import Profile from './components/Profile';
 import Login from './components/auth/Login';
-import Friends from './components/Friends';
+import FriendsDashboard from './components/FriendsDashboard';
 import Newsfeed from './components/Newsfeed';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
@@ -101,7 +101,7 @@ function App({
               <Navbar />
               <Switch>
                 <Route exact path="/" render={() => <Newsfeed key={uuid()} />} />
-                <PrivateRoute path="/friends" component={Friends} />
+                <PrivateRoute path="/friends" component={FriendsDashboard} />
                 <PrivateRoute path="/:username" component={Profile} />
               </Switch>
              </>

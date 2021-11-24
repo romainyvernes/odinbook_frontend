@@ -14,14 +14,16 @@ function Sidebar({ auth }) {
   return (
     <aside className="sidebar">
       <ul>
-        <li className="hovered-link secondary-bg-color-hover">
-          <Link to={`/${auth.user.username}`}>
+        <li>
+          <Link to={`/${auth.user.username}`}
+                className="hovered-link secondary-bg-color-hover sidebar-link">
             <i className="primary-font-color"><BsPersonCircle /></i>
             <h6>{auth.user.name}</h6>
           </Link>
         </li>
-        <li className="hovered-link">
-          <Link to="/friends">
+        <li>
+          <Link to="/friends" 
+                className="hovered-link secondary-bg-color-hover sidebar-link">
             <i className="primary-font-color"><IoPeopleCircleOutline /></i>
             <h6>Friends</h6>
           </Link>

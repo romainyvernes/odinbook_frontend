@@ -41,7 +41,7 @@ function Navbar({ logout, history, auth }) {
           </NavLink>
         </li>
         <li>
-          <NavLink exact to="/friends" activeClassName="selected" className="nav-link hovered-link">
+          <NavLink to="/friends" activeClassName="selected" className="nav-link hovered-link">
             <i className="icon outline"><IoPeopleOutline /></i>
             <i className="icon filled"><IoPeopleSharp /></i>
           </NavLink>
