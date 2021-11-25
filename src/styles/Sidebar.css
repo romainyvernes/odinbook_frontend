@@ -7,6 +7,10 @@
   left: 0;
 }
 
+.sidebar li {
+  border-radius: 7px;
+}
+
 .sidebar li:hover {
   background-color: #e4e6eb;
 }

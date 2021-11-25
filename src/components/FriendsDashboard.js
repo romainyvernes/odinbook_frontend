@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { v4 as uuid } from 'uuid';
 
 // stylesheet
 import '../styles/FriendsDashboard.css';
@@ -15,26 +16,41 @@ import { BsFillPersonPlusFill } from 'react-icons/bs';
 import { 
   getFriends,
   getIncomingFriendRequests,
-  getOutgoingFriendRequests,
+  deleteFriend,
+  addFriend,
+  declineFriendRequest,
 } from '../actions/friendActions';
+
+// react components
+import FriendsList from './FriendsList';
 
 /* this component is only meant to display the authenticated user's friends
 within his/her account. A separate component should be used to display any 
 user's friends */
 function FriendsDashboard({ 
   auth, 
-  getFriends, 
-  friends,
+  getFriends,
   getIncomingFriendRequests,
-  getOutgoingFriendRequests,
+  deleteFriend,
+  addFriend,
+  declineFriendRequest,
 }) {
-  
-  const friendsArr = Object.keys(friends).map((key) => friends[key]);
-  
-  // retrieve list of friends for authenticated user from API upon mounting
-  useEffect(() => {
-    getFriends(auth.user.username);
-  }, []);
+
+  const handleAddFriend = (parentId) => {
+    const body = {
+      friendId: parentId
+    };
+    
+    addFriend(body, auth.user.username);
+  };
+
+  const handleDeleteFriend = (parentId) => {
+    deleteFriend(auth.user, parentId);
+  };
+
+  const handleDeclineRequest = (parentId) => {
+    declineFriendRequest(auth.user.username, parentId);
+  };
 
   return (
     <div className="friends-dashboard">
@@ -64,36 +80,37 @@ function FriendsDashboard({
       <main>
         <Switch>
           <Route exact path="/friends" render={() => (
-            <>
-              <h2>All Friends</h2>
-              <ul>
-                {friendsArr.map((friend) => {
-                  return (
-                    <li key={friend.username} 
-                        className="primary-frame primary-bg-color">
-                      <p>{friend.name}</p>
-                      <button>Unfriend</button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </>
+            <FriendsList heading={"All Friends"}
+                          key={uuid()}
+                          getApiData={() => {
+                            getFriends(auth.user.username);
+                          }}
+                          buttonItems={[
+                            {
+                              label: "Unfriend",
+                              function: handleDeleteFriend
+                            }
+                          ]} />
           )} />
           <Route path="/friends/requests" render={() => (
-            <>
-              <h2>Friend Requests</h2>
-              <ul>
-                {friendsArr.map((friend) => {
-                  return (
-                    <li key={friend.username}
-                        className="primary-frame primary-bg-color">
-                      <p>{friend.name}</p>
-                      <button>Unfriend</button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </>
+            <FriendsList heading={"Friend Requests"}
+                          key={uuid()}
+                          getApiData={() => {
+                            getIncomingFriendRequests(auth.user.username);
+                          }}
+                          buttonItems={[
+                            {
+                              label: "Accept",
+                              function: handleAddFriend
+                            },
+                            {
+                              label: "Decline",
+                              function: handleDeclineRequest,
+                              props: {
+                                className: "secondary-bg-color"
+                              }
+                            }
+                          ]} />
           )} />
         </Switch>
       </main>
@@ -103,23 +120,25 @@ function FriendsDashboard({
 
 FriendsDashboard.propTypes = {
   auth: PropTypes.object.isRequired,
-  friends: PropTypes.object.isRequired,
   getFriends: PropTypes.func.isRequired,
   getIncomingFriendRequests: PropTypes.func.isRequired,
-  getOutgoingFriendRequests: PropTypes.func.isRequired,
+  deleteFriend: PropTypes.func.isRequired,
+  addFriend: PropTypes.func.isRequired,
+  declineFriendRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
-    friends: state.friends,
   };
 };
 
 const mapDispatchToProps = {
   getFriends,
   getIncomingFriendRequests,
-  getOutgoingFriendRequests,
+  deleteFriend,
+  addFriend,
+  declineFriendRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendsDashboard);

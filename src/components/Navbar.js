@@ -13,7 +13,6 @@ import {
   IoLogOut
 } from 'react-icons/io5';
 
-
 // bootstrap components
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -28,9 +27,9 @@ function Navbar({ logout, history, auth }) {
   return (
     <nav className="nav-bar primary-bg-color quinary-frame">
       <div className="search">
-        <i>
-          <Link to="/">Site icon</Link>
-        </i>
+        <Link to="/">
+          <i className="site-icon primary-font-color">Odinbook</i>
+        </Link>
       </div>
 
       <ul className="navigation-links">

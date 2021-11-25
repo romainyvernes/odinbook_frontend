@@ -4,11 +4,10 @@ import {
   GET_ERRORS,
   DELETE_FRIEND_REQUEST,
   GET_FRIENDS,
-  GET_INCOMING_FRIEND_REQUESTS,
-  GET_OUTGOING_FRIEND_REQUESTS,
   DELETE_FRIEND,
   DELETE_FRIEND_FROM_AUTH,
-  ADD_FRIEND_TO_AUTH
+  ADD_FRIEND_TO_AUTH,
+  GET_ACTION,
 } from "./types";
 import axios from 'axios';
 
@@ -158,6 +157,15 @@ export const getFriends = (username) => dispatch => {
       type: GET_FRIENDS,
       payload: response.data
     });
+
+    // store action in redux store to confirm above action was dispatched
+    dispatch({
+      type: GET_ACTION,
+      payload: {
+        type: GET_FRIENDS,
+        payload: response.data
+      }
+    });
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
@@ -169,22 +177,17 @@ export const getFriends = (username) => dispatch => {
 export const getIncomingFriendRequests = (username) => dispatch => {
   axios.get(`/api/users/${username}/requests?received=true`).then((response) => {
     dispatch({
-      type: GET_INCOMING_FRIEND_REQUESTS,
-      payload: response.data
+      type: GET_FRIENDS,
+      payload: response.data.friendRequestsReceived
     });
-  }).catch((err) => {
-    dispatch({
-      type: GET_ERRORS,
-      payload: err.response
-    });
-  });
-};
 
-export const getOutgoingFriendRequests = (username) => dispatch => {
-  axios.get(`/api/users/${username}/requests?sent=true`).then((response) => {
+    // store action in redux store to confirm above action was dispatched
     dispatch({
-      type: GET_OUTGOING_FRIEND_REQUESTS,
-      payload: response.data
+      type: GET_ACTION,
+      payload: {
+        type: GET_FRIENDS,
+        payload: response.data
+      }
     });
   }).catch((err) => {
     dispatch({

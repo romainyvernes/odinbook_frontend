@@ -3,6 +3,26 @@
   width: 40%;
 }
 
+.snapshot a:hover {
+  text-decoration: underline;
+}
+
+.snapshot .friends-count {
+  margin-top: 0.3em;
+}
+
+.snapshot .friends ul {
+  margin-top: 0.8em;
+  display: grid;
+  align-items: end;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 100px;
+}
+
+.snapshot h6 {
+  font-size: 0.9em;
+}
+
 .profile-posts {
   width: 60%;
 }

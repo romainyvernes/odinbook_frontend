@@ -5,6 +5,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  padding: 0 0.7em;
 }
 
 /* when modal is enabled, disable sticky position for nav-bar so its children's
@@ -21,6 +22,17 @@ LEFTMOST AREA IN NAVIGATION BAR WITH WEBSITE ICON & SEARCH BAR
 .search {
   position: relative;
   z-index: 2000;
+}
+
+.site-icon {
+  font-weight: 900;
+  margin-left: 0.2em;
+  font-size: 1.5em;
+  vertical-align: bottom;
+}
+  
+.search a:hover {
+  text-decoration: none;
 }
 
 /*******

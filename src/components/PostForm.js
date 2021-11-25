@@ -62,7 +62,9 @@ function PostForm({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body as={"form"} onSubmit={handlePostSubmit} className="post-form">
-        <h3>{auth.user.name}</h3>
+        <div className="user">
+          <h3>{auth.user.name}</h3>
+        </div>
         <textarea type="text" 
                 placeholder={
                   postForm.profile.id === auth.user.id

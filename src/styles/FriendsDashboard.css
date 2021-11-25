@@ -5,6 +5,7 @@
 
 .friends-dashboard main {
   padding: 2em;
+  flex-grow: 1;
 }
 
 .friends-dashboard h2 {

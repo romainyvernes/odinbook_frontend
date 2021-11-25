@@ -96,7 +96,11 @@ function Post({
           <a href={`/${data.author.username}`} rel="author">
             <h3>{data.author.name}</h3>
           </a>
-          <time dateTime={data.date} className="post-date secondary-font-color">{data.date}</time>
+          <time dateTime={data.date} className="post-date secondary-font-color">
+            {new Date(data.date).toLocaleDateString(
+              'en-US', { month: 'long', day: 'numeric', year: 'numeric' }
+            )}
+          </time>
         </div>
         <PrivateComponent component={DropdownMenu} parent={data} items={dropdownItems} />
       </header>

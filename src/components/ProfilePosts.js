@@ -15,16 +15,27 @@ function ProfilePosts({ user, friends, posts }) {
   return (
     <>
       <section className="snapshot">
-        <article className="primary-frame primary-bg-color">
+        <article className="friends primary-frame primary-bg-color">
           <header>
             <h2>Friends</h2>
+            <p className="friends-count secondary-font-color">
+              {
+                `${friendsArr.length} friend${
+                  friendsArr.length > 1 
+                    ? 's' 
+                    : ''
+                }`
+              }
+            </p>
           </header>
           {
             friendsArr.length > 0
               ? <ul>
                   {friendsArr.slice(0, 9).map((friend) => (
                     <li key={friend.username}>
-                      <a href={`/${friend.username}`}>{friend.name}</a>
+                      <a href={`/${friend.username}`}>
+                        <h6 className="light-bold">{friend.name}</h6>
+                      </a>
                     </li>
                   ))}
                 </ul>

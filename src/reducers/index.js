@@ -5,6 +5,7 @@ import postReducer from "./postReducer";
 import commentReducer from "./commentReducer";
 import overlaysReducer from "./overlaysReducer";
 import friendReducer from "./friendReducer";
+import actionReducer from "./actionReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   posts: postReducer,
   comments: commentReducer,
   overlays: overlaysReducer,
-  friends: friendReducer
+  friends: friendReducer,
+  action: actionReducer,
 });

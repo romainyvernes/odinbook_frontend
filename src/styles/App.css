@@ -56,6 +56,12 @@
   padding: 1em;
 }
 
+.septenary-frame {
+  border-radius: 7px;
+  padding: 0.8em;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
 /*************
   TEXT STYLING
 **************/
@@ -75,6 +81,10 @@
 
 .light-bold {
   font-weight: 600;
+}
+
+.regular-bold {
+  font-weight: 700;
 }
 
 /*************
@@ -156,6 +166,10 @@ button[type="submit"]:disabled {
 
 .modal-body {
   overflow: scroll;
+}
+
+.modal-title {
+  font-size: 1.5em;
 }
 
 /********************

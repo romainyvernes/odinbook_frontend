@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import decodeHtml from '../utils/htmlDecoder';
+
+// redux actions
 import { deleteComment, loadComments } from '../actions/commentActions';
 import { addReaction, deleteReaction } from '../actions/reactionActions';
 
@@ -117,7 +120,7 @@ function Comment({
                   <a href={`/${data.author.username}`} rel="author">
                     <h4>{data.author.name}</h4>
                   </a>
-                  <p>{data.content}</p>
+                  <p>{decodeHtml(data.content)}</p>
                   {
                     data.reactions.length > 0
                       ? <LikeButton data={data} />
@@ -145,7 +148,11 @@ function Comment({
                 </div>
                 <i>&middot;</i>
                 <button className="comment-date">
-                  <time dateTime={data.date}>{data.date}</time>
+                  <time dateTime={data.date}>
+                  {new Date(data.date).toLocaleDateString(
+                    'en-US', { month: 'long', day: 'numeric', year: 'numeric' }
+                  )}
+                  </time>
                 </button>
               </div>
             </div>
