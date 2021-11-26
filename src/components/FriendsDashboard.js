@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
 
 // stylesheet
 import '../styles/FriendsDashboard.css';
@@ -23,6 +21,7 @@ import {
 
 // react components
 import FriendsList from './FriendsList';
+import AccountDashboard from './AccountDashboard';
 
 /* this component is only meant to display the authenticated user's friends
 within his/her account. A separate component should be used to display any 
@@ -52,69 +51,72 @@ function FriendsDashboard({
     declineFriendRequest(auth.user.username, parentId);
   };
 
+  const navItems = [
+    {
+      path: "/friends",
+      props: {
+        className: "dashboard-link sidebar-link hovered-link"
+      },
+      icon: FaUserFriends,
+      heading: "All Friends"
+    },
+    {
+      path: "/friends/requests",
+      props: {
+        className: "dashboard-link sidebar-link hovered-link"
+      },
+      icon: BsFillPersonPlusFill,
+      heading: "Friend Requests"
+    },
+  ];
+
+  const mainItems = [
+    {
+      path: "/friends",
+      component: FriendsList,
+      componentProps: {
+        heading: "All Friends",
+        getApiData: () => {
+          getFriends(auth.user.username);
+        },
+        buttonItems: [
+          {
+            label: "Unfriend",
+            function: handleDeleteFriend
+          }
+        ]
+      }
+    },
+    {
+      path: "/friends/requests",
+      component: FriendsList,
+      componentProps: {
+        heading: "Friend Requests",
+        getApiData: () => {
+          getIncomingFriendRequests(auth.user.username);
+        },
+        buttonItems: [
+          {
+            label: "Accept",
+            function: handleAddFriend
+          },
+          {
+            label: "Decline",
+            function: handleDeclineRequest,
+            props: {
+              className: "secondary-bg-color"
+            }
+          }
+        ]
+      }
+    }
+  ];
+
   return (
-    <div className="friends-dashboard">
-      <aside className="quinary-frame primary-bg-color">
-        <header>
-          <h1>Friends</h1>
-        </header>
-        <ul>
-          <li>
-            <NavLink exact to={"/friends"} 
-                    activeClassName="selected"
-                    className="friends-link sidebar-link hovered-link" >
-              <i><FaUserFriends /></i>
-              <h6>All Friends</h6>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink exact to={"/friends/requests"} 
-                    activeClassName="selected"
-                    className="friends-link sidebar-link hovered-link" >
-              <i><BsFillPersonPlusFill /></i>
-              <h6>Friend Requests</h6>
-            </NavLink>
-          </li>
-        </ul>
-      </aside>
-      <main>
-        <Switch>
-          <Route exact path="/friends" render={() => (
-            <FriendsList heading={"All Friends"}
-                          key={uuid()}
-                          getApiData={() => {
-                            getFriends(auth.user.username);
-                          }}
-                          buttonItems={[
-                            {
-                              label: "Unfriend",
-                              function: handleDeleteFriend
-                            }
-                          ]} />
-          )} />
-          <Route path="/friends/requests" render={() => (
-            <FriendsList heading={"Friend Requests"}
-                          key={uuid()}
-                          getApiData={() => {
-                            getIncomingFriendRequests(auth.user.username);
-                          }}
-                          buttonItems={[
-                            {
-                              label: "Accept",
-                              function: handleAddFriend
-                            },
-                            {
-                              label: "Decline",
-                              function: handleDeclineRequest,
-                              props: {
-                                className: "secondary-bg-color"
-                              }
-                            }
-                          ]} />
-          )} />
-        </Switch>
-      </main>
-    </div>
+    <AccountDashboard heading="Friends" 
+                      navItems={navItems} 
+                      mainItems={mainItems}
+                      className="friends-dashboard" />
   );
 }
 

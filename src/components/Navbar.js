@@ -10,8 +10,9 @@ import {
   IoHomeSharp, 
   IoPeopleOutline, 
   IoPeopleSharp,
-  IoLogOut
+  IoLogOut,
 } from 'react-icons/io5';
+import { IoMdSettings } from 'react-icons/io';
 
 // bootstrap components
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -22,7 +23,7 @@ import '../styles/Navbar.css';
 function Navbar({ logout, history, auth }) {
   const onLogoutClick = () => {
     logout(history);
-  }; 
+  };
   
   return (
     <nav className="nav-bar primary-bg-color quinary-frame">
@@ -61,7 +62,13 @@ function Navbar({ logout, history, auth }) {
                 <hr className="secondary-font-color" />
               </li>
               <li>
-                <Dropdown.Item onClick={onLogoutClick} className="logout-btn hovered-link">
+                <Dropdown.Item href="/settings" className="dropdown-btn hovered-link">
+                  <i><IoMdSettings /></i>
+                  <h6>Settings</h6>
+                </Dropdown.Item>
+              </li>
+              <li>
+                <Dropdown.Item onClick={onLogoutClick} className="dropdown-btn hovered-link">
                   <i><IoLogOut /></i>
                   <h6>Log out</h6>
                 </Dropdown.Item>

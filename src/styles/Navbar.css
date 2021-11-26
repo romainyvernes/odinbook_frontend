@@ -140,12 +140,12 @@ dropdown menu */
   font-weight: 500;
 }
 
-.logout-btn.dropdown-item {
+.dropdown-btn.dropdown-item {
   display: flex;
   align-items: center;
 }
 
-.logout-btn i {
+.dropdown-btn i {
   font-size: 1.5em;
   margin-right: 0.5em;
 }

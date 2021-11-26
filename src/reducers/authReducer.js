@@ -6,6 +6,7 @@ import {
   DELETE_FRIEND_REQUEST, 
   USER_LOGIN, 
   USER_LOGOUT,
+  UPDATE_USER,
 } from '../actions/types';
 
 const initialState = {
@@ -96,6 +97,17 @@ export default function(state = initialState, { type, payload }) {
         user: {
           ...state.user,
           friends: updatedFriends
+        }
+      };
+    
+    case UPDATE_USER:
+      const { username, name } = payload;
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          username,
+          name
         }
       };
 

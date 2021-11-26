@@ -35,6 +35,7 @@ import PrivateRoute from './components/PrivateRoute';
 import PostForm from './components/PostForm';
 import ReactionsList from './components/ReactionsList';
 import Register from './components/auth/Register';
+import SettingsDashboard from './components/SettingsDashboard';
 
 function App({ 
   auth, 
@@ -102,6 +103,7 @@ function App({
               <Switch>
                 <Route exact path="/" render={() => <Newsfeed key={uuid()} />} />
                 <PrivateRoute path="/friends" component={FriendsDashboard} />
+                <PrivateRoute path="/settings" component={SettingsDashboard} />
                 <PrivateRoute path="/:username" component={Profile} />
               </Switch>
              </>

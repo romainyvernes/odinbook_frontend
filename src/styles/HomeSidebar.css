@@ -1,27 +1,29 @@
-.sidebar {
+.home-sidebar {
   width: 250px;
   height: 100%;
   padding: 1em 0.8em;
   overflow: scroll;
+  /* necessary to keep content beside sidebar centered along entire viewport
+  width */
   position: absolute;
   left: 0;
 }
 
-.sidebar li {
+.home-sidebar li {
   border-radius: 7px;
 }
 
-.sidebar li:hover {
+.home-sidebar li:hover {
   background-color: #e4e6eb;
 }
 
 /* increase size of friends icon to match user icon */
-.sidebar li:nth-child(2) i {
+.home-sidebar li:nth-child(2) i {
   font-size: 1.8em;
   margin: 0 0.3em 0 -0.1em;
 }
 
-.sidebar li:first-child i {
+.home-sidebar li:first-child i {
   font-size: 1.5em;
   margin-right: 0.4em;
 }

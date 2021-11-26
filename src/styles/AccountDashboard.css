@@ -1,0 +1,39 @@
+.account-dashboard {
+  display: flex;
+  height: 100%;
+}
+
+.account-dashboard main {
+  padding: 2em;
+  flex-grow: 1;
+}
+
+.account-dashboard h2 {
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}
+
+.account-dashboard aside {
+  min-width: 350px;
+  height: 100%;
+  padding: 1em 0.5em;
+}
+
+.account-dashboard aside header {
+  padding: 0 0.6em 1em 0.6em;
+}
+
+.account-dashboard aside h1 {
+  font-weight: 700;
+  font-size: 1.4em;
+}
+
+.dashboard-link i {
+  font-size: 1.5em;
+  margin-right: 0.5em;
+}
+
+.dashboard-link.selected {
+  background: #f0f2f5;
+  border-radius: 7px;
+}

@@ -32,3 +32,4 @@ export const DELETE_FRIEND_FROM_AUTH = 'DELETE_FRIEND_FROM_AUTH';
 export const GET_FRIENDS = 'GET_FRIENDS';
 export const GET_ACTION = 'GET_ACTION';
 export const CLEAR_ACTION = 'CLEAR_ACTION';
+export const UPDATE_USER = 'UPDATE_USER';

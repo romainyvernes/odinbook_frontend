@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import PropTypes from 'prop-types';
 import { Switch, Route, NavLink } from "react-router-dom";
 
 // stylesheet
 import '../styles/Profile.css';
+
+// redux action types
+import { GET_ERRORS } from '../actions/types';
 
 // redux actions
 import { getPosts } from '../actions/postActions';
@@ -25,6 +28,7 @@ function Profile({
   posts,
   saveFriends, 
 }) {
+  const dispatch = useDispatch();
   const [user, setUser] = useState({});
   
   // retrieve user info, posts, and comments upon mounting
@@ -42,7 +46,10 @@ function Profile({
       // save friends to redux store
       saveFriends(response.data.user.friends);
     }).catch((err) => {
-      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
     });
   }, []);
   

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 //stylesheets
-import '../styles/Sidebar.css';
+import '../styles/HomeSidebar.css';
 
 // icons
 import { BsPersonCircle } from 'react-icons/bs';
@@ -12,7 +12,7 @@ import { IoPeopleCircleOutline } from 'react-icons/io5';
 
 function Sidebar({ auth }) {
   return (
-    <aside className="sidebar">
+    <aside className="home-sidebar">
       <ul>
         <li>
           <Link to={`/${auth.user.username}`}

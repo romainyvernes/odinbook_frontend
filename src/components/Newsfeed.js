@@ -1,20 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import PostsList from './PostsList';
+
+// redux action types
+import { GET_ERRORS } from '../actions/types';
+
+// redux actions
 import { getPosts } from '../actions/postActions';
 
 // stylesheets
 import '../styles/Newsfeed.css';
 
-// components
+// react components
 import AddPostSection from './AddPostSection';
-import Sidebar from './Sidebar';
+import HomeSidebar from './HomeSidebar';
+import PostsList from './PostsList';
 
 // component to display recent posts by any user on the platform
 function Newsfeed({ auth, getPosts, posts }) {
+  const dispatch = useDispatch();
+
   // retrieve recent posts from API upon mounting
   useEffect(() => {
     /* NOTE: API call is made locally rather than in redux action because the 
@@ -23,13 +30,16 @@ function Newsfeed({ auth, getPosts, posts }) {
       // save posts being displayed to redux store
       getPosts(response.data);
     }).catch((err) => {
-      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
     });
   }, []);
 
   return (
     <div className="newsfeed">
-      <Sidebar />
+      <HomeSidebar />
 
       <main>
         <AddPostSection />
