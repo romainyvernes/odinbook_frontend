@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -18,13 +19,26 @@ function AccountInfoItem({
   deleteAccount,
   auth,
   updateAccount,
+  errors,
+  userData,
 }) {
   const [showForm, setShowForm] = useState(false);
-  const [formInput, setFormInput] = useState(content);
+  const [formInput, setFormInput] = useState({});
 
+  // update object in local state based on the type of content passed in
   useEffect(() => {
-    switch(heading) {
-      
+    switch (heading) {
+      case "Name":
+        setFormInput(content);
+        break;
+      case "Email address":
+        setFormInput({ email: content });
+        break;
+      case "Password":
+        setFormInput({ password: content });
+        break;
+      default:
+        return;
     }
   }, []);
 
@@ -41,14 +55,28 @@ function AccountInfoItem({
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    // remove name property from local state if it exists
+    const { name, ...rest } = formInput;
+
+    const {
+      email,
+      first_name,
+      last_name,
+    } = userData;
 
     const body = {
-      ...formInput
+      email,
+      firstName: first_name,
+      lastName: last_name,
+      ...rest
     };
 
     updateAccount(body, auth.user.username);
     
-    toggleFormDisplay();
+    // close form only if previous update did not generate an error
+    if (JSON.stringify(errors) === '{}') {
+      toggleFormDisplay();
+    }
   };
 
   const renderFormContent = () => {
@@ -75,28 +103,7 @@ function AccountInfoItem({
                     required />
             </label>
             <div className="validation">
-              <Button type="submit">Submit</Button>
-              <Button variant="secondary" onClick={toggleFormDisplay}>
-                Cancel
-              </Button>
-            </div>
-          </>
-        );
-
-      case "Username":
-        setFormInput({
-          username: content
-        });
-
-        return (
-          <>
-            <input type="text" 
-                    placeholder="Username"
-                    value={formInput}
-                    onChange={onInputChange}
-                    required />
-            <div className="validation">
-              <Button type="submit">Submit</Button>
+              <Button onClick={handleFormSubmit}>Submit</Button>
               <Button variant="secondary" onClick={toggleFormDisplay}>
                 Cancel
               </Button>
@@ -105,19 +112,16 @@ function AccountInfoItem({
         );
 
       case "Email address":
-        setFormInput({
-          email: content
-        });
-
         return (
           <>
             <input type="email" 
                     placeholder="Email address"
-                    value={formInput}
+                    name="email"
+                    value={formInput.email}
                     onChange={onInputChange}
                     required />
             <div className="validation">
-              <Button type="submit">Submit</Button>
+              <Button onClick={handleFormSubmit}>Submit</Button>
               <Button variant="secondary" onClick={toggleFormDisplay}>
                 Cancel
               </Button>
@@ -126,19 +130,16 @@ function AccountInfoItem({
         );
 
       case "Password":
-        setFormInput({
-          password: content
-        });
-
         return (
           <>
             <input type="text" 
                     placeholder="Password"
-                    value={formInput}
+                    name="password"
+                    value={formInput.password}
                     onChange={onInputChange}
                     required />
             <div className="validation">
-              <Button type="submit">Submit</Button>
+              <Button onClick={handleFormSubmit}>Submit</Button>
               <Button variant="secondary" onClick={toggleFormDisplay}>
                 Cancel
               </Button>
@@ -175,8 +176,7 @@ function AccountInfoItem({
     <li className="account-info-item">
       {
         showForm
-          ? <form onSubmit={handleFormSubmit}
-                  className="sub-wrapper secondary-bg-color">
+          ? <form className="sub-wrapper secondary-bg-color">
               <h3>{heading}</h3>
               <div className="content">
                 {renderFormContent()}
@@ -185,7 +185,9 @@ function AccountInfoItem({
           : <div className="info-display sub-wrapper hovered-link" 
                   onClick={toggleFormDisplay}>
               <h3>{heading}</h3>
-              <p className="content">{content.name || content}</p>
+              <p className="content">
+                {formInput[Object.keys(formInput)[0]] || ""}
+              </p>
               <button className="primary-font-color">{btnLabel}</button>
             </div>
       }
@@ -197,10 +199,12 @@ AccountInfoItem.propTypes = {
   auth: PropTypes.object.isRequired,
   deleteAccount: PropTypes.func.isRequired,
   updateAccount: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  errors: state.errors,
 })
 
 const mapDispatchToProps = {

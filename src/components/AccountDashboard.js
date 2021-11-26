@@ -31,8 +31,8 @@ export default function AccountDashboard({ heading, mainItems, navItems, classNa
         <Switch>
           {
             mainItems.map((item, index) => (
-              <Route key={uuid()} exact={index === 0} path={item.path} render={() => (
-                <item.component key={uuid()} {...item.componentProps} />
+              <Route key={uuid()} exact={index === 0} path={item.path} render={(props) => (
+                <item.component {...props} key={uuid()} {...item.componentProps} />
               )} />
             ))
           }
