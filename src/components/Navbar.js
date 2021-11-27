@@ -1,8 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useRef } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { withRouter, NavLink, Link } from 'react-router-dom';
 import { logout } from '../actions/authActions';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
+// stylesheet
+import '../styles/Navbar.css';
 
 // icons
 import { 
@@ -13,16 +17,55 @@ import {
   IoLogOut,
 } from 'react-icons/io5';
 import { IoMdSettings } from 'react-icons/io';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { BsArrowLeft } from 'react-icons/bs';
 
 // bootstrap components
 import Dropdown from 'react-bootstrap/Dropdown';
+import Spinner from 'react-bootstrap/Spinner';
 
-// stylesheet
-import '../styles/Navbar.css';
+// redux action types
+import { GET_ERRORS } from '../actions/types';
 
 function Navbar({ logout, history, auth }) {
+  const dispatch = useDispatch();
+  const [searchResults, setSearchResults] = useState([]);
+  const loading = useRef(false);
+  const searchInputEl = useRef();
+  
   const onLogoutClick = () => {
     logout(history);
+  };
+
+  const handleSearchInputFocus = () => {
+    setTimeout(() => {
+      searchInputEl.current.focus();
+    }, 250)
+  };
+
+  const handleSearch = (e) => {
+    if (e.target.value !== '') {
+      // display loading animation until API call is completed
+      loading.current = true;
+
+      axios.get(`/api/users?name=${e.target.value}`).then((response) => {
+        loading.current = false;
+        setSearchResults(response.data.slice(0, 8));
+      }).catch((err) => {
+        loading.current = false;
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response
+        });
+      });
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  const handleCloseDropdown = () => {
+    // simulate click outside menu to trigger bootstrap built-in function
+    document.querySelector('body').click();
   };
   
   return (
@@ -31,6 +74,43 @@ function Navbar({ logout, history, auth }) {
         <Link to="/">
           <i className="site-icon primary-font-color">Odinbook</i>
         </Link>
+        <Dropdown className="search-btn">
+          <Dropdown.Toggle>
+            <i className="secondary-bg-color search-icon secondary-font-color"
+            onClick={handleSearchInputFocus}>
+              <AiOutlineSearch />
+            </i>
+          </Dropdown.Toggle>
+          
+          <Dropdown.Menu>
+            <div className="top">
+              <button className="return-btn secondary-font-color secondary-bg-color-hover"
+                      onClick={handleCloseDropdown}>
+                <i><BsArrowLeft /></i>
+              </button>
+              <input onChange={handleSearch} 
+                    type="text" 
+                    placeholder="Search Odinbook"
+                    className="secondary-bg-color secondary-frame"
+                    ref={searchInputEl} />
+            </div>
+            <ul>
+              {
+                loading.current
+                  ? <Spinner variant="primary" animation="border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  : searchResults.map((user) => (
+                      <li key={user.id}>
+                        <Dropdown.Item href={`/${user.username}`}>
+                          {user.name}
+                        </Dropdown.Item>
+                      </li>
+                    ))
+              }
+            </ul>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
 
       <ul className="navigation-links">

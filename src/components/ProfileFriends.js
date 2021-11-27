@@ -101,7 +101,7 @@ function ProfileFriends({
       </header>
       {
         friendsArr.length > 0
-          ? <ul className="friends-list">
+          ? <ul className="profile-friends-list">
               {
                 friendsArr.map((friend) => (
                   <li key={friend.id} className="senary-frame">

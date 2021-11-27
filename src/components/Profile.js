@@ -17,6 +17,9 @@ import {
   saveFriends,
 } from "../actions/friendActions";
 
+// bootstrap components
+import Spinner from 'react-bootstrap/Spinner';
+
 // components
 import ProfilePosts from "./ProfilePosts";
 import ProfileFriends from "./ProfileFriends";
@@ -94,7 +97,9 @@ function Profile({
               </main>
             </>
           : <>
-              Loading...
+              <Spinner variant="primary" animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
             </>
       }
     </div>

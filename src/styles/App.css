@@ -173,6 +173,16 @@ button[type="submit"]:disabled {
 }
 
 /********************
+  BOOTSTRAP SPINNER
+*********************/
+
+.spinner-border.text-primary {
+  margin: 1em auto 0 auto;
+  display: block;
+}
+
+
+/********************
   NAVIGATION MENU
 *********************/
 

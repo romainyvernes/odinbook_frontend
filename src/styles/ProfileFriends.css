@@ -2,7 +2,7 @@
   width: 100%;
 }
 
-.profile-friends .friends-list {
+.profile-friends .profile-friends-list {
   margin-top: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -10,7 +10,7 @@
   gap: 10px;
 }
 
-.profile-friends .friends-list > li {
+.profile-friends .profile-friends-list > li {
   display: flex;
   justify-content: space-between;
   align-items: center;

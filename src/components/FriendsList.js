@@ -12,6 +12,7 @@ import '../styles/FriendsList.css';
 
 // bootstrap components
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
 function FriendsList({ 
   friends, 
@@ -47,7 +48,9 @@ function FriendsList({
     <>
       {
         loading.current
-          ? <p>Loading</p>
+          ? <Spinner variant="primary" animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
           : <>
               <h2>{heading}</h2>
               <ul className="friends-list">
