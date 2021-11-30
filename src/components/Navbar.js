@@ -135,9 +135,14 @@ function Navbar({ logout, history, auth }) {
           <Dropdown.Menu variant="light">
             <ul>
               <li>
-                <Dropdown.Item href={`/${auth.user.username}`} className="hovered-link">
-                  <h2>{auth.user.name}</h2>
-                  <p className="secondary-font-color">See your profile</p>
+                <Dropdown.Item href={`/${auth.user.username}`} className="top-link hovered-link">
+                  <img src={auth.user.picture.url} 
+                        alt="user's profile avatar"
+                        className="user-picture" />
+                  <div>
+                    <h2>{auth.user.name}</h2>
+                    <p className="secondary-font-color">See your profile</p>
+                  </div>
                 </Dropdown.Item>
                 <hr className="secondary-font-color" />
               </li>

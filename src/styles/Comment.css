@@ -12,6 +12,16 @@
   align-items: center;
 }
 
+.comment a[rel="author"]:first-child {
+  align-self: flex-start;
+  margin-top: 0.2em;
+}
+
+.comment .user-picture {
+  height: 30px;
+  margin-right: 0.5em;
+}
+
 .comment .sub-sub-wrapper .comment-main {
   flex-grow: 1;
 }
@@ -23,7 +33,7 @@
 }
 
 .comment-btns {
-  margin: 0.3em 0 0 1em;
+  margin: 0.3em 0 0 3.6em;
   display: flex;
   align-items: center;
 }
@@ -62,7 +72,7 @@ corner of comment-main container */
 }
 
 .more-comments-btn {
-  margin: 0.3em 0 0 1em;
+  margin: 0.3em 0 0 3.2em;
 }
 
 .arrow-icon {

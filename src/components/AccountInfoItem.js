@@ -55,23 +55,8 @@ function AccountInfoItem({
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // remove name property from local state if it exists
-    const { name, ...rest } = formInput;
 
-    const {
-      email,
-      first_name,
-      last_name,
-    } = userData;
-
-    const body = {
-      email,
-      firstName: first_name,
-      lastName: last_name,
-      ...rest
-    };
-
-    updateAccount(body, auth.user.username);
+    updateAccount(formInput, auth.user.username);
     
     // close form only if previous update did not generate an error
     if (JSON.stringify(errors) === '{}') {

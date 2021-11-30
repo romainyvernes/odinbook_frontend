@@ -16,6 +16,14 @@
   border-radius: 7px;
 }
 
+.user-picture {
+  border-radius: 50%;
+}
+
+.friend-picture {
+  border-radius: 10px;
+}
+
 /******************
   CONTAINER STYLING
 *******************/
@@ -58,7 +66,6 @@
 
 .septenary-frame {
   border-radius: 7px;
-  padding: 0.8em;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -85,6 +92,10 @@
 
 .regular-bold {
   font-weight: 700;
+}
+
+.light-bold.btn {
+  font-weight: 600;
 }
 
 /*************

@@ -13,12 +13,17 @@
 
 .profile-header {
   text-align: center;
+  padding-top: 2.5em;
+}
+
+.profile-header .user-picture {
+  height: 150px;
 }
 
 .profile h1 {
   font-size: 1.8em;
   font-weight: 700;
-  padding: 1.5em 0 0.5em 0;
+  margin: 0.7em 0 1em 0;
 }
 
 .profile-nav {

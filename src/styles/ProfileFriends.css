@@ -3,11 +3,25 @@
 }
 
 .profile-friends .profile-friends-list {
-  margin-top: 1em;
+  margin-top: 1.5em;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 90px;
   gap: 10px;
+}
+
+.friend-id-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.profile-friends .link-wrapper {
+  height: 80px;
+  width: 80px;
+  margin-right: 1em;
+}
+
+.profile-friends .friend-picture {
+  width: 100%;
 }
 
 .profile-friends .profile-friends-list > li {

@@ -12,4 +12,11 @@
 
 .post-form .user {
   margin-left: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+}
+
+.post-form .user-picture {
+  height: 40px;
 }

@@ -92,15 +92,22 @@ function Post({
   return (
     <li className="post primary-frame primary-bg-color">
       <header>
-        <div>
+        <div className="sub-header">
           <a href={`/${data.author.username}`} rel="author">
-            <h3>{data.author.name}</h3>
+            <img src={data.author.picture.url} 
+                alt="user's profile avatar"
+                className="user-picture" />
           </a>
-          <time dateTime={data.date} className="post-date secondary-font-color">
-            {new Date(data.date).toLocaleDateString(
-              'en-US', { month: 'long', day: 'numeric', year: 'numeric' }
-            )}
-          </time>
+          <div>
+            <a href={`/${data.author.username}`} rel="author">
+              <h3>{data.author.name}</h3>
+            </a>
+            <time dateTime={data.date} className="post-date secondary-font-color">
+              {new Date(data.date).toLocaleDateString(
+                'en-US', { month: 'long', day: 'numeric', year: 'numeric' }
+              )}
+            </time>
+          </div>
         </div>
         <PrivateComponent component={DropdownMenu} parent={data} items={dropdownItems} />
       </header>

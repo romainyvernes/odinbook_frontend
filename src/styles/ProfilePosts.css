@@ -12,11 +12,14 @@
 }
 
 .snapshot .friends ul {
-  margin-top: 0.8em;
+  margin-top: 1em;
   display: grid;
   align-items: end;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-rows: 100px;
+}
+
+.snapshot .friend-picture {
+  width: 100%;
 }
 
 .snapshot h6 {

@@ -59,18 +59,27 @@ function FriendsList({
                     ? friendsArr.map((friend) => (
                         <li key={friend.username} 
                             className="septenary-frame primary-bg-color">
-                          <h3 className="regular-bold">{friend.name}</h3>
-                          {
-                            buttonItems.map((button) => (
-                              <Button key={uuid()} 
-                                      {...button.props} 
-                                      onClick={() => {
-                                        button.function(friend.id);
-                                      }}>
-                                {button.label}
-                              </Button>
-                            ))
-                          }
+                          <a href={`/${friend.username}`} className="link-wrapper">
+                            <img src={friend.picture.url} 
+                                alt="user's profile avatar" />
+                          </a>
+                          <div className="bottom">
+                            <a href={`/${friend.username}`}>
+                              <h3 className="regular-bold">{friend.name}</h3>
+                            </a>
+                            {
+                              buttonItems.map((button) => (
+                                <Button key={uuid()} 
+                                        {...button.props} 
+                                        onClick={() => {
+                                          button.function(friend.id);
+                                        }}
+                                        className="light-bold">
+                                  {button.label}
+                                </Button>
+                              ))
+                            }
+                          </div>
                         </li>
                     ))
                     : <p>There is no one here.</p> 

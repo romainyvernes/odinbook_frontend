@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import '../styles/HomeSidebar.css';
 
 // icons
-import { BsPersonCircle } from 'react-icons/bs';
 import { IoPeopleCircleOutline } from 'react-icons/io5';
 
 function Sidebar({ auth }) {
@@ -17,7 +16,9 @@ function Sidebar({ auth }) {
         <li>
           <Link to={`/${auth.user.username}`}
                 className="hovered-link secondary-bg-color-hover sidebar-link">
-            <i className="primary-font-color"><BsPersonCircle /></i>
+            <img src={auth.user.picture.url} 
+                 alt="user's profile avatar"
+                 className="user-picture" />
             <h6>{auth.user.name}</h6>
           </Link>
         </li>

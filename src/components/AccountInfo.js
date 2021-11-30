@@ -16,13 +16,13 @@ import AccountInfoItem from './AccountInfoItem'
 
 function AccountInfo({ heading, auth, ...rest }) {
   const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState([]);
+  const [infoItems, setInfoItems] = useState([]);
   const [userData, setUserData] = useState(null);
   
   useEffect(() => {
     axios.get(`/api/users/${auth.user.username}?accountInfo=true`)
          .then((response) => {
-            setUserInfo([
+            setInfoItems([
               {
                 heading: "Name",
                 content: {
@@ -44,7 +44,6 @@ function AccountInfo({ heading, auth, ...rest }) {
               },
               {
                 heading: "Account management",
-                content: "",
                 btnLabel: "View"
               },
             ]);
@@ -63,7 +62,7 @@ function AccountInfo({ heading, auth, ...rest }) {
       <h2>{heading}</h2>
       <ul className="account-info-list">
         {
-          userInfo.map((item) => (
+          infoItems.map((item) => (
             <AccountInfoItem heading={item.heading}
                               content={item.content}
                               btnLabel={item.btnLabel}

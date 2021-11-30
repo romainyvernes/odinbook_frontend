@@ -29,7 +29,8 @@ function Profile({
   match, 
   getPosts, 
   posts,
-  saveFriends, 
+  saveFriends,
+  auth 
 }) {
   const dispatch = useDispatch();
   const [user, setUser] = useState({});
@@ -62,7 +63,14 @@ function Profile({
         user.name !== undefined
           ? <>
               <header className="profile-header primary-bg-color quinary-frame">
-                <h1>{user.name}</h1>
+                <div>
+                  <button>
+                    <img src={auth.user.picture.url} 
+                          alt="user's profile avatar"
+                          className="user-picture" />
+                  </button>
+                  <h1>{user.name}</h1>
+                </div>
                 <div className="profile-nav">
                   <ul className="navigation-links">
                     <li>
@@ -110,10 +118,12 @@ Profile.propTypes = {
   posts: PropTypes.array.isRequired,
   getPosts: PropTypes.func.isRequired,
   saveFriends: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   posts: state.posts,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { 

@@ -63,6 +63,11 @@ function PostForm({
       </Modal.Header>
       <Modal.Body as={"form"} onSubmit={handlePostSubmit} className="post-form">
         <div className="user">
+          <a href={`/${auth.user.username}`} rel="author" className="left">
+            <img src={auth.user.picture.url} 
+                alt="user's profile avatar"
+                className="user-picture" />
+          </a>
           <h3>{auth.user.name}</h3>
         </div>
         <textarea type="text" 

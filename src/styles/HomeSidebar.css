@@ -25,5 +25,9 @@
 
 .home-sidebar li:first-child i {
   font-size: 1.5em;
-  margin-right: 0.4em;
+}
+
+.home-sidebar .user-picture {
+  height: 25px;
+  margin-right: 0.6em;
 }

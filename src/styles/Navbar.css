@@ -121,6 +121,16 @@ MIDDLE AREA IN NAVIGATION BAR WITH LINKS TO DIFFERENT PAGES OF A USER'S ACCOUNT
 RIGHTMOST AREA IN NAVIGATION BAR
 *******/
 
+.nav-bar .dropdown-menu .user-picture {
+  height: 50px;
+  margin-right: 0.5em;
+}
+
+.nav-bar .top-link {
+  display: flex;
+  align-items: center;
+}
+
 /* only works when modal is enabled */
 .navigation-buttons {
   position: relative;

@@ -105,9 +105,16 @@ function ProfileFriends({
               {
                 friendsArr.map((friend) => (
                   <li key={friend.id} className="senary-frame">
-                    <a href={`/${friend.username}`}>
-                      <h3>{friend.name}</h3>
-                    </a>
+                    <div className="friend-id-wrapper">
+                      <a href={`/${friend.username}`} className="link-wrapper">
+                        <img src={friend.picture.url} 
+                            alt="user's profile avatar"
+                            className="friend-picture" />
+                      </a>
+                      <a href={`/${friend.username}`}>
+                        <h3>{friend.name}</h3>
+                      </a>
+                    </div>
                     {
                       // only display something if listed user is not 
                       // authenticated user, and display an add friend button

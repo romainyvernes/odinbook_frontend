@@ -34,6 +34,11 @@ function ProfilePosts({ user, friends, posts }) {
                   {friendsArr.slice(0, 9).map((friend) => (
                     <li key={friend.username}>
                       <a href={`/${friend.username}`}>
+                        <img src={friend.picture.url} 
+                            alt="user's profile avatar"
+                            className="friend-picture" />
+                      </a>
+                      <a href={`/${friend.username}`}>
                         <h6 className="light-bold">{friend.name}</h6>
                       </a>
                     </li>

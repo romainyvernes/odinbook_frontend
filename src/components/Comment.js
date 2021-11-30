@@ -116,6 +116,11 @@ function Comment({
                             toggleEditComment={toggleEditComment} />
           : <div className="sub-wrapper">
               <div className="sub-sub-wrapper">
+                <a href={`/${data.author.username}`} rel="author">
+                  <img src={data.author.picture.url} 
+                      alt="user's profile avatar"
+                      className="user-picture" />
+                </a>
                 <div className="comment-main secondary-bg-color tertiary-frame">
                   <a href={`/${data.author.username}`} rel="author">
                     <h4>{data.author.name}</h4>

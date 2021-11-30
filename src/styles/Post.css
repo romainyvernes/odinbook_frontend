@@ -8,6 +8,15 @@
   justify-content: space-between;
 }
 
+.post .sub-header {
+  display: flex;
+  gap: 0.5em;
+}
+
+.post .user-picture {
+  height: 40px;
+}
+
 .post-date {
   font-size: 0.8em;
 }
