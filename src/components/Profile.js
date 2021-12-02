@@ -13,9 +13,8 @@ import { GET_ERRORS } from '../actions/types';
 
 // redux actions
 import { getPosts } from '../actions/postActions';
-import { 
-  saveFriends,
-} from "../actions/friendActions";
+import { saveFriends } from "../actions/friendActions";
+import { enableUploadPicture } from "../actions/overlaysActions";
 
 // bootstrap components
 import Spinner from 'react-bootstrap/Spinner';
@@ -30,7 +29,8 @@ function Profile({
   getPosts, 
   posts,
   saveFriends,
-  auth 
+  auth,
+  enableUploadPicture,
 }) {
   const dispatch = useDispatch();
   const [user, setUser] = useState({});
@@ -64,8 +64,8 @@ function Profile({
           ? <>
               <header className="profile-header primary-bg-color quinary-frame">
                 <div>
-                  <button>
-                    <img src={auth.user.picture.url} 
+                  <button onClick={enableUploadPicture}>
+                    <img src={user.picture.url} 
                           alt="user's profile avatar"
                           className="user-picture" />
                   </button>
@@ -119,6 +119,7 @@ Profile.propTypes = {
   getPosts: PropTypes.func.isRequired,
   saveFriends: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  enableUploadPicture: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -129,4 +130,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, { 
   getPosts, 
   saveFriends,
+  enableUploadPicture,
 })(Profile);

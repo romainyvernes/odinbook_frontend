@@ -4,7 +4,9 @@ import {
   ENABLE_REACTIONS_LIST,
   DISABLE_REACTIONS_LIST,
   ENABLE_SIGNUP_FORM,
-  DISABLE_SIGNUP_FORM
+  DISABLE_SIGNUP_FORM,
+  ENABLE_UPLOAD_PICTURE,
+  DISABLE_UPLOAD_PICTURE
 } from "./types";
 
 export const enablePostForm = (post = {}, profile = {}) => dispatch => {
@@ -45,5 +47,17 @@ export const enableSignupForm = () => dispatch => {
 export const disableSignupForm = () => dispatch => {
   dispatch({
     type: DISABLE_SIGNUP_FORM
+  });
+};
+
+export const enableUploadPicture = () => dispatch => {
+  dispatch({
+    type: ENABLE_UPLOAD_PICTURE
+  });
+};
+
+export const disableUploadPicture = () => dispatch => {
+  dispatch({
+    type: DISABLE_UPLOAD_PICTURE
   });
 };

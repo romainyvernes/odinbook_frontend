@@ -19,7 +19,8 @@ import { verifyAuth } from './actions/authActions';
 import { 
   disablePostForm, 
   disableReactionsList, 
-  disableSignupForm 
+  disableSignupForm,
+  disableUploadPicture,
 } from './actions/overlaysActions';
 
 // stylesheet
@@ -36,6 +37,7 @@ import PostForm from './components/PostForm';
 import ReactionsList from './components/ReactionsList';
 import Register from './components/auth/Register';
 import SettingsDashboard from './components/SettingsDashboard';
+import UploadPicture from './components/UploadPicture';
 
 function App({ 
   auth, 
@@ -44,7 +46,8 @@ function App({
   overlays,
   disablePostForm,
   disableReactionsList,
-  disableSignupForm
+  disableSignupForm,
+  disableUploadPicture,
 }) {
   
   useEffect(() => {
@@ -52,7 +55,7 @@ function App({
     verifyAuth();
   }, []);
 
-  const { postForm, reactionsList, signupForm } = overlays;
+  const { postForm, reactionsList, signupForm, uploadPicture } = overlays;
 
   const handleHideModal = () => {
     if (postForm.isEnabled) {
@@ -63,6 +66,9 @@ function App({
     }
     if (signupForm.isEnabled) {
       disableSignupForm();
+    }
+    if (uploadPicture.isEnabled) {
+      disableUploadPicture();
     }
   };
 
@@ -84,7 +90,7 @@ function App({
         <Modal show={handleShowModal()} 
               onHide={handleHideModal}
               backdropClassName="overlay-bg"
-              dialogClassName="quaternary-frame">
+              dialogClassName={`quaternary-frame ${uploadPicture.isEnabled ? "upload-picture" : ""}`}>
           {
             postForm.isEnabled && <PostForm />
           }
@@ -93,6 +99,9 @@ function App({
           }
           {
             signupForm.isEnabled && <Register />
+          }
+          {
+            uploadPicture.isEnabled && <UploadPicture />
           }
         </Modal>
         
@@ -122,6 +131,7 @@ App.propTypes = {
   disablePostForm: PropTypes.func.isRequired,
   disableReactionsList: PropTypes.func.isRequired,
   disableSignupForm: PropTypes.func.isRequired,
+  disableUploadPicture: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -137,4 +147,5 @@ export default connect(mapStateToProps, {
   disablePostForm,
   disableReactionsList,
   disableSignupForm,
+  disableUploadPicture,
 })(App);

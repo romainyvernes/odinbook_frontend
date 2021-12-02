@@ -86,6 +86,20 @@ LEFTMOST AREA IN NAVIGATION BAR WITH WEBSITE ICON & SEARCH BAR
   text-decoration: none;
 }
 
+.search .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.search .dropdown-item h6 {
+  font-weight: 400;
+}
+
+.search .dropdown-menu .user-picture {
+  height: 30px;
+}
+
 /*******
 MIDDLE AREA IN NAVIGATION BAR WITH LINKS TO DIFFERENT PAGES OF A USER'S ACCOUNT
 *******/
@@ -121,12 +135,12 @@ MIDDLE AREA IN NAVIGATION BAR WITH LINKS TO DIFFERENT PAGES OF A USER'S ACCOUNT
 RIGHTMOST AREA IN NAVIGATION BAR
 *******/
 
-.nav-bar .dropdown-menu .user-picture {
+.navigation-buttons .dropdown-menu .user-picture {
   height: 50px;
   margin-right: 0.5em;
 }
 
-.nav-bar .top-link {
+.navigation-buttons .top-link {
   display: flex;
   align-items: center;
 }

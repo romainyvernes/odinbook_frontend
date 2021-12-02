@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -16,9 +15,16 @@ function ReactionsList({ overlays }) {
         {
           overlays.reactionsList.reactions.map((reaction) => (
             <li key={reaction._id}>
-              <Link to={`/${reaction.author.username}`}>
-                <h3>{reaction.author.name}</h3>
-              </Link>
+              <div className="user">
+                <a href={`/${reaction.author.username}`}>
+                  <img src={reaction.author.picture.url} 
+                        alt="user's profile avatar"
+                        className="user-picture" />
+                </a>
+                <a href={`/${reaction.author.username}`}>
+                  <h3>{reaction.author.name}</h3>
+                </a>
+              </div>
             </li>
           ))
         }

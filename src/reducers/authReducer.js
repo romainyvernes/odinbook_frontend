@@ -101,13 +101,13 @@ export default function(state = initialState, { type, payload }) {
       };
     
     case UPDATE_USER:
-      const { username, name } = payload;
+      const { name, picture } = payload;
       return {
         ...state,
         user: {
           ...state.user,
-          username,
-          name
+          name,
+          picture
         }
       };
 

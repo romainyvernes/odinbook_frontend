@@ -103,7 +103,10 @@ function Navbar({ logout, history, auth }) {
                   : searchResults.map((user) => (
                       <li key={user.id}>
                         <Dropdown.Item href={`/${user.username}`}>
-                          {user.name}
+                          <img src={user.picture.url} 
+                                alt="user's profile avatar"
+                                className="user-picture" />
+                          <h6>{user.name}</h6>
                         </Dropdown.Item>
                       </li>
                     ))
