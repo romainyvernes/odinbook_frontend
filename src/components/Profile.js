@@ -16,6 +16,9 @@ import { getPosts } from '../actions/postActions';
 import { saveFriends } from "../actions/friendActions";
 import { enableUploadPicture } from "../actions/overlaysActions";
 
+// icons
+import { BsCameraFill } from 'react-icons/bs';
+
 // bootstrap components
 import Spinner from 'react-bootstrap/Spinner';
 
@@ -64,11 +67,20 @@ function Profile({
           ? <>
               <header className="profile-header primary-bg-color quinary-frame">
                 <div>
-                  <button onClick={enableUploadPicture}>
-                    <img src={user.picture.url} 
-                          alt="user's profile avatar"
-                          className="user-picture" />
-                  </button>
+                  {
+                    user.username === auth.user.username
+                      ? <button onClick={enableUploadPicture} className="profile-upload-btn">
+                          <img src={user.picture.url} 
+                              alt="user's profile avatar"
+                              className="user-picture" />
+                          <div className="profile-upload-icon">
+                            <BsCameraFill />
+                          </div>
+                        </button>
+                      : <img src={user.picture.url} 
+                              alt="user's profile avatar"
+                              className="user-picture" />
+                  }
                   <h1>{user.name}</h1>
                 </div>
                 <div className="profile-nav">

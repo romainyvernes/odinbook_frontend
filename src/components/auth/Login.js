@@ -42,11 +42,18 @@ function Login({ auth, errors, login, history, enableSignupForm }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(e.target)
-
     const body = {
       email,
       password
+    };
+
+    login(body);
+  };
+
+  const handleLoginAsGuest = () => {
+    const body = {
+      email: "guestuser@test.com",
+      password: "guestuser"
     };
 
     login(body);
@@ -73,24 +80,20 @@ function Login({ auth, errors, login, history, enableSignupForm }) {
           </button>
         </Form>
 
-        <Form onSubmit={handleSubmit} className="guest-form">
-          <Form.Control type="hidden" 
-                        name="email"
-                        value="guestuser@test.com" />
-          <Form.Control type="hidden" 
-                        name="password"
-                        value="guestuser" />
-          <button className="tertiary-bg-color tertiary-font-color validation-btn"
-                  type="submit">
-            Log In As Guest
-          </button>
-        </Form>
+        <button className="tertiary-bg-color tertiary-font-color validation-btn guest-btn"
+                onClick={handleLoginAsGuest}>
+          Log In As Guest
+        </button>
 
-        <Button className="signup-btn" 
-                variant="success" 
-                onClick={enableSignupForm}>
-          Create new account
-        </Button>
+        <hr />
+
+        <div className="signup-wrapper">
+          <Button className="signup-btn validation-btn" 
+                  variant="success" 
+                  onClick={enableSignupForm}>
+            Create new account
+          </Button>
+        </div>
       </section>
     </div>
   );

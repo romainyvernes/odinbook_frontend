@@ -23,6 +23,7 @@ export default function(state = initialState, { type, payload }) {
     
       // eslint-disable-next-line array-callback-return
       payload.map((newComment) => {
+        
         // add new comment to its parent comment when it is a reply to a comment
         if (newComment.post_id !== newComment.parent_id) {
           // look for the new comment's parent comment and add it to
@@ -36,6 +37,14 @@ export default function(state = initialState, { type, payload }) {
 
               if (index > -1) { // implies comment was found
                 comment.replies[index] = newComment;
+
+                // remove existing comment from state to preserve comments order
+                for (let i = 0; i < newStateArr.length; i++) {
+                  if (newStateArr[i].id === newComment.id) {
+                    newStateArr.splice(i, 1);
+                    break;
+                  }
+                }
               } else {
                 comment.replies.push(newComment);
               }

@@ -95,6 +95,10 @@ function Comment({
     });
   }
 
+  if (data.content === "Yet another") {
+    console.log(repliesDisplayed)
+  }
+
   const dropdownItems = [
     {
       label: "Delete",
@@ -163,25 +167,27 @@ function Comment({
             </div>
       }
       {
-        // if there are replies to display, display them as a list
-        repliesDisplayed.length > 0 && (
-          <CommentsList comments={data.replies} />
+        // if a comment has replies but the user has never asked to display
+        // them before, a "load replies" button should appear instead 
+        data.replies.length > 0
+          && repliesDisplayed.length < data.replies.length
+          && (
+            <div className="more-comments-btn light-bold secondary-font-color">
+              <BsArrowReturnRight className="arrow-icon" />
+              <button onClick={handleLoadComments}>
+                View {data.replies.length - repliesDisplayed.length} more {
+                  data.replies.length > 1 
+                    ? 'replies' 
+                    : 'reply'
+                }
+              </button>
+            </div>
         )
       }
       {
-        // if a comment has replies but the user has never asked to display
-        // them before, a "load replies" button should appear instead 
-        repliesDisplayed.length === 0 && data.replies.length > 0 && (
-          <div className="more-comments-btn light-bold secondary-font-color">
-            <BsArrowReturnRight className="arrow-icon" />
-            <button onClick={handleLoadComments}>
-              View {data.replies.length} more {
-                data.replies.length > 1 
-                  ? 'replies' 
-                  : 'reply'
-              }
-            </button>
-          </div>
+        // if there are replies to display, display them as a list
+        repliesDisplayed.length > 0 && (
+          <CommentsList comments={repliesDisplayed} />
         )
       }
       {

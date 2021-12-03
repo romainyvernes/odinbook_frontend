@@ -149,12 +149,15 @@ function Navbar({ logout, history, auth }) {
                 </Dropdown.Item>
                 <hr className="secondary-font-color" />
               </li>
-              <li>
-                <Dropdown.Item href="/settings" className="dropdown-btn hovered-link">
-                  <i><IoMdSettings /></i>
-                  <h6>Settings</h6>
-                </Dropdown.Item>
-              </li>
+              {
+                auth.user.username !== 'guestuser'
+                  && <li>
+                      <Dropdown.Item href="/settings" className="dropdown-btn hovered-link">
+                        <i><IoMdSettings /></i>
+                        <h6>Settings</h6>
+                      </Dropdown.Item>
+                    </li>
+              }
               <li>
                 <Dropdown.Item onClick={onLogoutClick} className="dropdown-btn hovered-link">
                   <i><IoLogOut /></i>
