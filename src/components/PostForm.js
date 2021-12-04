@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import decodeHtml from '../utils/htmlDecoder';
 
 // bootstrap components
 import Modal from 'react-bootstrap/Modal';
@@ -96,7 +97,7 @@ function PostForm({
                     ? `What's on your mind?`
                     : `Write something to ${postForm.profile.first_name}...`
                 }
-                value={postContent}
+                value={decodeHtml(postContent)}
                 onChange={onContentChange}
                 required></textarea>
         <button ref={submitBtn} 

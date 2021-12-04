@@ -64,6 +64,8 @@ function Newsfeed({ auth, getPosts, posts }) {
                   </p>
         }
       </main>
+
+      <div className="invisible"></div>
     </div>
   );
 }

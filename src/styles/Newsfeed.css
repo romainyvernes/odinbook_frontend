@@ -1,6 +1,13 @@
+.newsfeed {
+  display: flex;
+  justify-content: space-between;
+}
+
 .newsfeed main {
-  width: 500px;
-  height: 100%;
-  margin: 0 auto;
   padding: 1em 0;
+  width: 500px;
+}
+
+.invisible {
+  width: 150px;
 }

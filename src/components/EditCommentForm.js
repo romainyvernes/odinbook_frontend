@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import decodeHtml from '../utils/htmlDecoder';
+
+// redux actions
 import { updateComment } from '../actions/commentActions';
 
 function EditCommentForm({ comment, updateComment, toggleEditComment }) {
@@ -38,7 +41,7 @@ function EditCommentForm({ comment, updateComment, toggleEditComment }) {
                   ? 'comment'
                   : 'reply'
               }...`} 
-              value={updatedComment.content}
+              value={decodeHtml(updatedComment.content)}
               onChange={onUpdateCommentChange}
               onKeyDown={handleKeyPress}
               ref={input}

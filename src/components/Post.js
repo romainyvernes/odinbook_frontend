@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import decodeHtml from '../utils/htmlDecoder';
 
 // redux actions
 import { addReaction, deleteReaction } from '../actions/reactionActions';
 import { deletePost } from '../actions/postActions';
 import { enablePostForm } from '../actions/overlaysActions';
+
+// redux action types
+import { GET_ERRORS } from '../actions/types';
 
 // stylesheets
 import '../styles/Post.css';
@@ -32,9 +38,10 @@ function Post({
   posts,
   enablePostForm,
 }) {
-  
+  const [commentsCount, setCommentsCount] = useState(0);
   const [isFocused, setIsFocused] = useState(false);
   const [enableComments, setEnableComments] = useState(true);
+  const dispatch = useDispatch();
 
   const toggleLike = () => {
     // look for an existing reaction by authenticated user
@@ -76,6 +83,18 @@ function Post({
     setEnableComments(!enableComments);
   };
 
+  // upon component mount, retrieve count of all comments for the post
+  useEffect(() => {
+    axios.get(`/api/comments?postId=${posts[postIndex].id}`).then((response) => {
+      setCommentsCount(response.data.length);
+    }).catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err
+      });
+    }); 
+  }, [comments]);
+
   const dropdownItems = [
     {
       label: "Delete",
@@ -110,7 +129,7 @@ function Post({
         <PrivateComponent component={DropdownMenu} parent={posts[postIndex]} items={dropdownItems} />
       </header>
 
-      <p className="post-content">{posts[postIndex].content}</p>
+      <p className="post-content">{decodeHtml(posts[postIndex].content)}</p>
 
       <div className="post-data secondary-font-color">
         {
@@ -118,11 +137,9 @@ function Post({
                       hidden={posts[postIndex].reactions.length === 0} />
         }
         {
-          comments[posts[postIndex].id] && comments[posts[postIndex].id].length > 0 && 
+          commentsCount > 0 && 
             <button onClick={toggleCommentArea}>
-              {`${comments[posts[postIndex].id].length} Comment${
-                comments[posts[postIndex].id].length > 1 ? 's' : ''
-              }`}
+              {`${commentsCount} Comment${commentsCount > 1 ? 's' : ''}`}
             </button>
         }
       </div>
@@ -150,7 +167,7 @@ function Post({
       {
         // list of comments
         enableComments
-         ? comments[posts[postIndex].id] && comments[posts[postIndex].id].length > 0
+         ? comments[posts[postIndex].id]?.length > 0
             ? <CommentsList comments={comments[posts[postIndex].id].filter((comment) => (
               comment.parent_id === posts[postIndex].id
             ))} />
