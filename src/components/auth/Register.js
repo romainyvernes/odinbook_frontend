@@ -76,32 +76,62 @@ function Register({ auth, errors, register, history }) {
         </div>
       </Modal.Header>
       <Modal.Body as={"form"} onSubmit={handleSubmit} className="signup-form">
-        <Form.Control type="text" 
-                      name="first-name"
-                      placeholder="First name"
-                      value={firstName}
-                      onChange={onChange} />
-        <Form.Control type="text" 
-                      name="last-name"
-                      placeholder="Last name"
-                      value={lastName}
-                      onChange={onChange} />
-        <Form.Control type="text" 
-                      name="username"
-                      placeholder="Username"
-                      value={username}
-                      onChange={onChange} />
-        <Form.Control type="text" 
-                      name="email"
-                      placeholder="Email"
-                      value={email} 
-                      onChange={onChange} />
-        <Form.Control type="text" 
-                      name="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={onChange} />
-        <Button className="signup-btn" variant="success">
+        <Form.Group>
+          <Form.Control type="text" 
+                        name="first-name"
+                        placeholder="First name"
+                        value={firstName}
+                        onChange={onChange}
+                        isInvalid={errors?.data.firstName} />
+          <Form.Control.Feedback type="invalid">
+            {errors?.data?.firstName?.msg}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control type="text" 
+                        name="last-name"
+                        placeholder="Last name"
+                        value={lastName}
+                        onChange={onChange}
+                        isInvalid={errors?.data.lastName} />
+          <Form.Control.Feedback type="invalid">
+            {errors?.data?.lastName?.msg}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control type="text" 
+                        name="username"
+                        placeholder="Username"
+                        value={username}
+                        onChange={onChange}
+                        isInvalid={errors?.data.username} />
+          <Form.Control.Feedback type="invalid">
+            {errors?.data?.username?.msg}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control type="text" 
+                        name="email"
+                        placeholder="Email"
+                        value={email} 
+                        onChange={onChange}
+                        isInvalid={errors?.data.email} />
+          <Form.Control.Feedback type="invalid">
+            {errors?.data?.email?.msg}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Control type="text" 
+                        name="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={onChange}
+                        isInvalid={errors?.data.password} />
+          <Form.Control.Feedback type="invalid">
+            {errors?.data?.password?.msg}
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Button className="signup-btn" variant="success" type="submit">
           Sign Up
         </Button>
       </Modal.Body>

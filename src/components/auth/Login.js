@@ -59,21 +59,35 @@ function Login({ auth, errors, login, history, enableSignupForm }) {
     login(body);
   };
 
+  console.log(errors)
+
   return (
     <div className="login">
       <h1 className="site-name primary-font-color">odinbook</h1>
       <section className="primary-frame primary-bg-color">
         <Form onSubmit={handleSubmit} className="login-form">
-          <Form.Control type="text" 
-                        name="email"
-                        placeholder="Email"
-                        value={email} 
-                        onChange={onChange} />
-          <Form.Control type="text" 
-                        name="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={onChange} />
+          <Form.Group>
+            <Form.Control type="text" 
+                          name="email"
+                          placeholder="Email"
+                          value={email} 
+                          onChange={onChange}
+                          isInvalid={errors?.data?.email} />
+            <Form.Control.Feedback type="invalid">
+              {errors?.data?.email?.msg}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group>
+            <Form.Control type="text" 
+                          name="password"
+                          placeholder="Password"
+                          value={password}
+                          onChange={onChange}
+                          isInvalid={errors?.data?.password} />
+            <Form.Control.Feedback type="invalid">
+              {errors?.data?.password?.msg}
+            </Form.Control.Feedback>
+          </Form.Group>
           <button className="tertiary-bg-color tertiary-font-color validation-btn"
                   type="submit">
             Log In
