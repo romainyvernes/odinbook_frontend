@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // bootstrap components
@@ -12,16 +13,25 @@ import '../styles/PostForm.css';
 import { updatePost, addPost } from '../actions/postActions';
 import { disablePostForm } from '../actions/overlaysActions';
 
+// redux action types
+import { CLEAR_ACTION } from '../actions/types';
+
 function PostForm({  
   updatePost, 
   auth, 
   addPost,
   disablePostForm,
   overlays: { postForm, ...otherKeys},
+  action,
 }) {
 
   const [postContent, setPostContent] = useState(postForm?.post?.content || '');
   const submitBtn = useRef();
+  const dispatch = useDispatch();
+
+  // store action object in redux state when component mounts to be able to
+  // compare it with future changes
+  const actionObj = useRef(action);
 
   useEffect(() => {
     if (postContent === '') {
@@ -34,6 +44,18 @@ function PostForm({
   const onContentChange = (e) => {
     setPostContent(e.target.value);
   };
+
+  useEffect(() => {
+    // detect when action creator above has updated redux store
+    if (JSON.stringify(actionObj.current) !== JSON.stringify(action)) {
+      /* once new post creation is confirmed, disable post form, which will
+      trigger re-render of parent component (Newsfeed.js/Profile.js) where
+      getPosts is called */
+      disablePostForm();
+      
+      dispatch({ type: CLEAR_ACTION });
+    }
+  }, [action]);
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
@@ -50,8 +72,6 @@ function PostForm({
 
       addPost(body);
     }
-    
-    disablePostForm();
   };
 
   return (
@@ -100,7 +120,8 @@ PostForm.propTypes = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  overlays: state.overlays
+  overlays: state.overlays,
+  action: state.action,
 });
 
 export default connect(mapStateToProps, { 

@@ -6,7 +6,8 @@ import {
   UPDATE_POST,
   ADD_POST,
   MAP_POST_TO_COMMENTS,
-  UNMAP_POST_TO_COMMENTS
+  UNMAP_POST_TO_COMMENTS,
+  GET_ACTION
 } from "./types";
 import axios from 'axios';
 
@@ -68,6 +69,15 @@ export const updatePost = (post) => dispatch => {
       type: UPDATE_POST,
       payload: response.data
     });
+
+    // store action in redux store to confirm above actions were dispatched
+    dispatch({
+      type: GET_ACTION,
+      payload: {
+        type: UPDATE_POST,
+        payload: response.data
+      }
+    });
   }).catch((err) => {
     dispatch({
       type: GET_ERRORS,
@@ -86,6 +96,15 @@ export const addPost = (body) => dispatch => {
     dispatch({
       type: MAP_POST_TO_COMMENTS,
       payload: response.data
+    });
+
+    // store action in redux store to confirm above actions were dispatched
+    dispatch({
+      type: GET_ACTION,
+      payload: {
+        type: MAP_POST_TO_COMMENTS,
+        payload: response.data
+      }
     });
   }).catch((err) => {
     dispatch({

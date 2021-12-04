@@ -5,13 +5,16 @@ import PropTypes from 'prop-types';
 // bootstrap components
 import Modal from 'react-bootstrap/Modal';
 
+// stylesheet
+import '../styles/ReactionsList.css';
+
 function ReactionsList({ overlays }) {
   return (
     <>
       <Modal.Header closeButton>
         <Modal.Title as={"h2"}>Likes</Modal.Title>
       </Modal.Header>
-      <Modal.Body as={'ul'}>
+      <Modal.Body as={'ul'} className="reactions-list">
         {
           overlays.reactionsList.reactions.map((reaction) => (
             <li key={reaction._id}>

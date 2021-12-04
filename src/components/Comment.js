@@ -95,10 +95,6 @@ function Comment({
     });
   }
 
-  if (data.content === "Yet another") {
-    console.log(repliesDisplayed)
-  }
-
   const dropdownItems = [
     {
       label: "Delete",
@@ -131,9 +127,8 @@ function Comment({
                   </a>
                   <p>{decodeHtml(data.content)}</p>
                   {
-                    data.reactions.length > 0
-                      ? <LikeButton data={data} />
-                      : <div></div>
+                    <LikeButton reactions={data.reactions} 
+                                hidden={data.reactions.length === 0} />
                   }
                 </div>
                 <PrivateComponent component={DropdownMenu} parent={data} items={dropdownItems} />
@@ -176,7 +171,7 @@ function Comment({
               <BsArrowReturnRight className="arrow-icon" />
               <button onClick={handleLoadComments}>
                 View {data.replies.length - repliesDisplayed.length} more {
-                  data.replies.length > 1 
+                  data.replies.length - repliesDisplayed.length > 1 
                     ? 'replies' 
                     : 'reply'
                 }

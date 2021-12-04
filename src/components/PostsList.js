@@ -4,8 +4,8 @@ import Post from './Post';
 export default function PostsList({ posts }) {
   return (
     <ul>
-      {posts.map((post) => (
-        <Post key={post.id} data={post} />
+      {posts.map((post, index) => (
+        <Post key={post.id} postIndex={index} />
       ))
       }
     </ul>

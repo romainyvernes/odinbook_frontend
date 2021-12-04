@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -23,7 +23,7 @@ import LikeButton from './LikeButton';
 import DropdownMenu from './DropdownMenu';
 
 function Post({ 
-  data, 
+  postIndex, 
   comments, 
   auth, 
   addReaction, 
@@ -32,28 +32,26 @@ function Post({
   posts,
   enablePostForm,
 }) {
-  // NOTE: posts is only passed in as a prop to force re-render when a single
-  // post is updated in redux store
-  const post = useRef(data);
+  
   const [isFocused, setIsFocused] = useState(false);
   const [enableComments, setEnableComments] = useState(true);
 
   const toggleLike = () => {
     // look for an existing reaction by authenticated user
-    const currentReaction = data.reactions.find((reaction) => (
+    const currentReaction = posts[postIndex].reactions.find((reaction) => (
       reaction.author.id === auth.user.id
     ));
     
     if (currentReaction) {
-      deleteReaction(currentReaction, post.current);
+      deleteReaction(currentReaction, posts[postIndex]);
     } else {
       const body = {
-        parentId: post.current.id,
-        profileId: post.current.destination_profile.id,
+        parentId: posts[postIndex].id,
+        profileId: posts[postIndex].destination_profile.id,
         value: 'Like'
       };
       
-      addReaction(body, post.current);
+      addReaction(body, posts[postIndex]);
     }
   };
 
@@ -63,11 +61,11 @@ function Post({
   };
 
   const handleDeletePost = () => {
-    deletePost(post.current);
+    deletePost(posts[postIndex]);
   };
 
   const handleUpdatePost = () => {
-    enablePostForm(post.current);
+    enablePostForm(posts[postIndex]);
   };
 
   const disableAddCommentFocus = () => {
@@ -93,38 +91,37 @@ function Post({
     <li className="post primary-frame primary-bg-color">
       <header>
         <div className="sub-header">
-          <a href={`/${data.author.username}`} rel="author">
-            <img src={data.author.picture.url} 
+          <a href={`/${posts[postIndex].author.username}`} rel="author">
+            <img src={posts[postIndex].author.picture.url} 
                 alt="user's profile avatar"
                 className="user-picture" />
           </a>
           <div>
-            <a href={`/${data.author.username}`} rel="author">
-              <h3>{data.author.name}</h3>
+            <a href={`/${posts[postIndex].author.username}`} rel="author">
+              <h3>{posts[postIndex].author.name}</h3>
             </a>
-            <time dateTime={data.date} className="post-date secondary-font-color">
-              {new Date(data.date).toLocaleDateString(
+            <time dateTime={posts[postIndex].date} className="post-date secondary-font-color">
+              {new Date(posts[postIndex].date).toLocaleDateString(
                 'en-US', { month: 'long', day: 'numeric', year: 'numeric' }
               )}
             </time>
           </div>
         </div>
-        <PrivateComponent component={DropdownMenu} parent={data} items={dropdownItems} />
+        <PrivateComponent component={DropdownMenu} parent={posts[postIndex]} items={dropdownItems} />
       </header>
 
-      <p className="post-content">{data.content}</p>
+      <p className="post-content">{posts[postIndex].content}</p>
 
       <div className="post-data secondary-font-color">
         {
-          data.reactions.length > 0
-            ? <LikeButton data={data} />
-            : <div></div>
+          <LikeButton reactions={posts[postIndex].reactions} 
+                      hidden={posts[postIndex].reactions.length === 0} />
         }
         {
-          comments[data.id] && comments[data.id].length > 0 && 
+          comments[posts[postIndex].id] && comments[posts[postIndex].id].length > 0 && 
             <button onClick={toggleCommentArea}>
-              {`${comments[data.id].length} Comment${
-                comments[data.id].length > 1 ? 's' : ''
+              {`${comments[posts[postIndex].id].length} Comment${
+                comments[posts[postIndex].id].length > 1 ? 's' : ''
               }`}
             </button>
         }
@@ -132,7 +129,7 @@ function Post({
 
       <div className="post-btns secondary-font-color light-bold">
         {
-          data.reactions.find((reaction) => (
+          posts[postIndex].reactions.find((reaction) => (
             reaction.author.id === auth.user.id
           ))
             ? <button onClick={toggleLike} className="primary-font-color post-btn hovered-link">
@@ -153,9 +150,9 @@ function Post({
       {
         // list of comments
         enableComments
-         ? comments[data.id] && comments[data.id].length > 0
-            ? <CommentsList comments={comments[data.id].filter((comment) => (
-              comment.parent_id === data.id
+         ? comments[posts[postIndex].id] && comments[posts[postIndex].id].length > 0
+            ? <CommentsList comments={comments[posts[postIndex].id].filter((comment) => (
+              comment.parent_id === posts[postIndex].id
             ))} />
             : <p className="no-data-msg">Be the first to comment.</p>
          : null
@@ -164,9 +161,9 @@ function Post({
       {
         enableComments
           ? <AddCommentForm type="comment" 
-                            parentId={data.id} 
-                            profileId={data.destination_profile.id}
-                            postId={data.id}
+                            parentId={posts[postIndex].id} 
+                            profileId={posts[postIndex].destination_profile.id}
+                            postId={posts[postIndex].id}
                             isFocused={isFocused}
                             disableAddCommentFocus={disableAddCommentFocus} />
           : null
