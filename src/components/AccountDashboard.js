@@ -5,6 +5,8 @@ import { v4 as uuid } from 'uuid';
 // stylesheet
 import '../styles/AccountDashboard.css';
 
+import Error from './Error';
+
 export default function AccountDashboard({ heading, mainItems, navItems, className }) {
   return (
     <div className={`account-dashboard ${className}`}>
@@ -36,6 +38,7 @@ export default function AccountDashboard({ heading, mainItems, navItems, classNa
               )} />
             ))
           }
+          <Route path={`${mainItems[0].path}/*`} component={Error} />
         </Switch>
       </main>
     </div>

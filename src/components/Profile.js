@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { connect, useDispatch } from "react-redux";
 import PropTypes from 'prop-types';
@@ -26,6 +26,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import ProfilePosts from "./ProfilePosts";
 import ProfileFriends from "./ProfileFriends";
 import FriendButton from "./FriendButton";
+import Error from "./Error";
 
 function Profile({ 
   match, 
@@ -37,6 +38,7 @@ function Profile({
 }) {
   const dispatch = useDispatch();
   const [user, setUser] = useState({});
+  const loading = useRef(true);
   
   // retrieve user info, posts, and comments upon mounting
   useEffect(() => {
@@ -44,6 +46,8 @@ function Profile({
     NOTE: API call is made locally rather than in redux action because the route
     differs in each component where posts appear */
     axios.get(`/api/users/${match.params.username}`).then((response) => {
+      loading.current = false;
+      
       // save info about owner of profile displayed to local state
       setUser(response.data.user);
       
@@ -53,6 +57,8 @@ function Profile({
       // save friends to redux store
       saveFriends(response.data.user.friends);
     }).catch((err) => {
+      loading.current = false;
+
       dispatch({
         type: GET_ERRORS,
         payload: err
@@ -63,59 +69,62 @@ function Profile({
   return (
     <div className="profile">
       {
-        user.name !== undefined
-          ? <>
-              <header className="profile-header primary-bg-color quinary-frame">
-                <div>
-                  {
-                    user.username === auth.user.username
-                      ? <button onClick={enableUploadPicture} className="profile-upload-btn">
-                          <img src={user.picture.url} 
-                              alt="user's profile avatar"
-                              className="user-picture" />
-                          <div className="profile-upload-icon">
-                            <BsCameraFill />
-                          </div>
-                        </button>
-                      : <img src={user.picture.url} 
-                              alt="user's profile avatar"
-                              className="user-picture" />
-                  }
-                  <h1>{user.name}</h1>
-                </div>
-                <div className="profile-nav">
-                  <ul className="navigation-links">
-                    <li>
-                      <NavLink exact to={`/${user.username}`} 
-                              activeClassName="selected" 
-                              className="nav-link hovered-link light-bold">
-                        Posts
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink exact to={`/${user.username}/friends`} 
-                              activeClassName="selected" 
-                              className="nav-link hovered-link light-bold">
-                        Friends
-                      </NavLink>
-                    </li>
-                  </ul>
+        !loading.current
+          ? user.name !== undefined
+            ? <>
+                <header className="profile-header primary-bg-color quinary-frame">
                   <div>
-                    <FriendButton parent={user} />
+                    {
+                      user.username === auth.user.username
+                        ? <button onClick={enableUploadPicture} className="profile-upload-btn">
+                            <img src={user.picture.url} 
+                                alt="user's profile avatar"
+                                className="user-picture" />
+                            <div className="profile-upload-icon">
+                              <BsCameraFill />
+                            </div>
+                          </button>
+                        : <img src={user.picture.url} 
+                                alt="user's profile avatar"
+                                className="user-picture" />
+                    }
+                    <h1>{user.name}</h1>
                   </div>
-                </div>
-              </header>
-              <main>
-                <Switch>
-                  <Route exact path="/:username" render={() => (
-                    <ProfilePosts user={user} />
-                  )} />
-                  <Route path="/:username/friends" render={() => (
-                    <ProfileFriends user={user} />
-                  )} />
-                </Switch>
-              </main>
-            </>
+                  <div className="profile-nav">
+                    <ul className="navigation-links">
+                      <li>
+                        <NavLink exact to={`/${user.username}`} 
+                                activeClassName="selected" 
+                                className="nav-link hovered-link light-bold">
+                          Posts
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink exact to={`/${user.username}/friends`} 
+                                activeClassName="selected" 
+                                className="nav-link hovered-link light-bold">
+                          Friends
+                        </NavLink>
+                      </li>
+                    </ul>
+                    <div>
+                      <FriendButton parent={user} />
+                    </div>
+                  </div>
+                </header>
+                <main>
+                  <Switch>
+                    <Route exact path="/:username" render={() => (
+                      <ProfilePosts user={user} />
+                    )} />
+                    <Route path="/:username/friends" render={() => (
+                      <ProfileFriends user={user} />
+                    )} />
+                    <Route path="/:username/*" component={Error} />
+                  </Switch>
+                </main>
+              </>
+            : null
           : <>
               <Spinner variant="primary" animation="border" role="status">
                 <span className="visually-hidden">Loading...</span>

@@ -39,7 +39,7 @@ function FriendsList({
     // detect when action creator above has updated redux store
     if (JSON.stringify(actionObj.current) !== JSON.stringify(action)) {
       loading.current = false;
-      setFriendsArray(Object.keys(friends).map((key) => friends[key])); 
+      setFriendsArray(Object.keys(friends).map((key) => friends[key]));
       dispatch({ type: CLEAR_ACTION });
     }
   }, [action]);

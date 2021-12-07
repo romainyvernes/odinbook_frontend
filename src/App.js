@@ -112,22 +112,23 @@ function App({
         }
       </Modal>
 
-
-      <Switch>
-        <Route path="/error" component={Error} />
       {
         auth.isAuthenticated
-          ? <>
-            <Navbar />
-            <Route exact path="/" render={() => <Newsfeed key={uuid()} />} />
-            <PrivateRoute path="/friends" component={FriendsDashboard} />
-            <PrivateRoute path="/settings" component={SettingsDashboard} />
-            <PrivateRoute path="/:username" component={Profile} />
-        
-            </>
+          && <Navbar />
+      }
+
+      <Route exact path="/error" component={Error} />
+
+      {
+        auth.isAuthenticated
+          ? <Switch>
+              <Route exact path="/" render={() => <Newsfeed key={uuid()} />} />
+              <PrivateRoute path="/friends" component={FriendsDashboard} />
+              <PrivateRoute path="/settings" component={SettingsDashboard} />
+              <PrivateRoute path="/:username" component={Profile} />
+            </Switch>
           : <Route exact path="/" component={Login} />
       }
-      </Switch>
     </div>
   );
 }
