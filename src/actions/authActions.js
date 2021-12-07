@@ -7,7 +7,6 @@ import {
   DISABLE_SIGNUP_FORM,
   DISABLE_POST_FORM,
   DISABLE_REACTIONS_LIST,
-  UPDATE_USER,
 } from './types';
 import axios from 'axios';
 
@@ -76,20 +75,6 @@ export const verifyAuth = () => dispatch => {
   axios.get('/api/auth/verify').then((response) => {
     dispatch({
       type: USER_LOGIN,
-      payload: response.data
-    });
-  }).catch((err) => {
-    dispatch({
-      type: GET_ERRORS,
-      payload: err.response
-    });
-  });
-};
-
-export const updateAccount = (body, username) => dispatch => {
-  axios.put(`/api/users/${username}`, body).then((response) => {
-    dispatch({
-      type: UPDATE_USER,
       payload: response.data
     });
   }).catch((err) => {

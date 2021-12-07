@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
+import axios from 'axios';
 
 // redux actions
-import { deleteAccount, updateAccount } from '../actions/authActions';
+import { deleteAccount } from '../actions/authActions';
+
+// redux action types
+import { UPDATE_USER } from '../actions/types';
 
 // stylesheet
 import '../styles/AccountInfoItem.css';
@@ -19,12 +23,14 @@ function AccountInfoItem({
   btnLabel,
   deleteAccount,
   auth,
-  updateAccount,
-  errors,
-  userData,
 }) {
   const [showForm, setShowForm] = useState(false);
   const [formInput, setFormInput] = useState({});
+  /* handle errors locally to prevent re-render of parent component, which
+  causes present component to remount without allowing user to make 
+  corrections */
+  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
 
   // update object in local state based on the type of content passed in
   useEffect(() => {
@@ -41,6 +47,10 @@ function AccountInfoItem({
       default:
         return;
     }
+
+    return () => {
+      setErrors({});
+    };
   }, []);
 
   const onInputChange = (e) => {
@@ -57,12 +67,18 @@ function AccountInfoItem({
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    updateAccount(formInput, auth.user.username);
-    
-    // close form only if previous update did not generate an error
-    if (JSON.stringify(errors) === '{}') {
-      toggleFormDisplay();
-    }
+    axios.put(`/api/users/${auth.user.username}`, formInput)
+        .then((response) => {
+          dispatch({
+            type: UPDATE_USER,
+            payload: response.data
+          });
+
+          // close form since update was successful
+          toggleFormDisplay();
+        }).catch((err) => {
+          setErrors(err.response);
+        });
   };
 
   const renderFormContent = () => {
@@ -204,17 +220,13 @@ function AccountInfoItem({
 AccountInfoItem.propTypes = {
   auth: PropTypes.object.isRequired,
   deleteAccount: PropTypes.func.isRequired,
-  updateAccount: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors,
 })
 
 const mapDispatchToProps = {
-  updateAccount,
   deleteAccount,
 };
 

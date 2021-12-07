@@ -14,10 +14,9 @@ import { GET_ERRORS } from '../actions/types';
 // react components
 import AccountInfoItem from './AccountInfoItem'
 
-function AccountInfo({ heading, auth, ...rest }) {
+function AccountInfo({ heading, auth }) {
   const dispatch = useDispatch();
   const [infoItems, setInfoItems] = useState([]);
-  const [userData, setUserData] = useState(null);
   
   useEffect(() => {
     axios.get(`/api/users/${auth.user.username}?accountInfo=true`)
@@ -47,12 +46,10 @@ function AccountInfo({ heading, auth, ...rest }) {
                 btnLabel: "View"
               },
             ]);
-
-            setUserData(response.data);
          }).catch((err) => {
           dispatch({
             type: GET_ERRORS,
-            payload: err
+            payload: err.response
           });
         });
   }, []);
@@ -66,7 +63,6 @@ function AccountInfo({ heading, auth, ...rest }) {
             <AccountInfoItem heading={item.heading}
                               content={item.content}
                               btnLabel={item.btnLabel}
-                              userData = {userData}
                               key={uuid()} />
           ))
         }
