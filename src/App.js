@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { 
-  BrowserRouter as Router, 
   Route, 
-  Switch 
+  Switch,
+  withRouter,
 } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -38,6 +38,7 @@ import ReactionsList from './components/ReactionsList';
 import Register from './components/auth/Register';
 import SettingsDashboard from './components/SettingsDashboard';
 import UploadPicture from './components/UploadPicture';
+import Error from './components/Error';
 
 function App({ 
   auth, 
@@ -48,7 +49,14 @@ function App({
   disableReactionsList,
   disableSignupForm,
   disableUploadPicture,
+  history,
 }) {
+  useEffect(() => {
+    // forward all errors to error page
+    if (errors?.response?.status >= 400) {
+      history.push('/error');
+    }
+  }, [errors]);
   
   useEffect(() => {
     // check once, upon rendering of App, whether user is already authenticated
@@ -85,41 +93,42 @@ function App({
   };
   
   return (
-    <Router>
-      <div className="App">
-        <Modal show={handleShowModal()} 
-              onHide={handleHideModal}
-              backdropClassName="overlay-bg"
-              dialogClassName={`quaternary-frame ${uploadPicture.isEnabled ? "upload-picture" : ""}`}>
-          {
-            postForm.isEnabled && <PostForm />
-          }
-          {
-            reactionsList.isEnabled && <ReactionsList />
-          }
-          {
-            signupForm.isEnabled && <Register />
-          }
-          {
-            uploadPicture.isEnabled && <UploadPicture />
-          }
-        </Modal>
-        
+    <div className="App">
+      <Modal show={handleShowModal()} 
+            onHide={handleHideModal}
+            backdropClassName="overlay-bg"
+            dialogClassName={`quaternary-frame ${uploadPicture.isEnabled ? "upload-picture" : ""}`}>
         {
-          auth.isAuthenticated
-           ? <>
-              <Navbar />
-              <Switch>
-                <Route exact path="/" render={() => <Newsfeed key={uuid()} />} />
-                <PrivateRoute path="/friends" component={FriendsDashboard} />
-                <PrivateRoute path="/settings" component={SettingsDashboard} />
-                <PrivateRoute path="/:username" component={Profile} />
-              </Switch>
-             </>
-           : <Route exact path="/" component={Login} />
+          postForm.isEnabled && <PostForm />
         }
-      </div>
-    </Router>
+        {
+          reactionsList.isEnabled && <ReactionsList />
+        }
+        {
+          signupForm.isEnabled && <Register />
+        }
+        {
+          uploadPicture.isEnabled && <UploadPicture />
+        }
+      </Modal>
+
+
+      <Switch>
+        <Route path="/error" component={Error} />
+      {
+        auth.isAuthenticated
+          ? <>
+            <Navbar />
+            <Route exact path="/" render={() => <Newsfeed key={uuid()} />} />
+            <PrivateRoute path="/friends" component={FriendsDashboard} />
+            <PrivateRoute path="/settings" component={SettingsDashboard} />
+            <PrivateRoute path="/:username" component={Profile} />
+        
+            </>
+          : <Route exact path="/" component={Login} />
+      }
+      </Switch>
+    </div>
   );
 }
 
@@ -148,4 +157,4 @@ export default connect(mapStateToProps, {
   disableReactionsList,
   disableSignupForm,
   disableUploadPicture,
-})(App);
+})(withRouter(App));
