@@ -6,6 +6,7 @@
 .account-dashboard main {
   padding: 2em;
   flex-grow: 1;
+  overflow: scroll;
 }
 
 .account-dashboard h2 {

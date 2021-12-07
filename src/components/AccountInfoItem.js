@@ -11,6 +11,7 @@ import '../styles/AccountInfoItem.css';
 
 // bootstrap components
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 function AccountInfoItem({ 
   heading, 
@@ -70,22 +71,28 @@ function AccountInfoItem({
         return (
           <>
             <label className="secondary-font-color light-bold">
-              First 
-              <input type="text"
-                    placeholder="First name"
-                    name="firstName"
-                    value={formInput.firstName}
-                    onChange={onInputChange}
-                    required />
+              <span>First</span>
+              <Form.Control type="text"
+                            placeholder="First name"
+                            name="firstName"
+                            value={formInput.firstName}
+                            onChange={onInputChange}
+                            isInvalid={errors?.data?.firstName} />
+              <Form.Control.Feedback type="invalid">
+                {errors?.data?.firstName?.msg}
+              </Form.Control.Feedback>
             </label>
             <label className="secondary-font-color light-bold">
-              Last
-              <input type="text" 
+              <span>Last</span>
+              <Form.Control type="text" 
                     placeholder="Last name"
                     name="lastName"
                     value={formInput.lastName}
                     onChange={onInputChange}
-                    required />
+                    isInvalid={errors?.data?.lastName} />
+              <Form.Control.Feedback type="invalid">
+                {errors?.data?.lastName?.msg}
+              </Form.Control.Feedback>
             </label>
             <div className="validation">
               <Button onClick={handleFormSubmit}>Submit</Button>
@@ -99,12 +106,15 @@ function AccountInfoItem({
       case "Email address":
         return (
           <>
-            <input type="email" 
+            <Form.Control type="email" 
                     placeholder="Email address"
                     name="email"
                     value={formInput.email}
                     onChange={onInputChange}
-                    required />
+                    isInvalid={errors?.data?.email} />
+            <Form.Control.Feedback type="invalid">
+              {errors?.data?.email?.msg}
+            </Form.Control.Feedback>
             <div className="validation">
               <Button onClick={handleFormSubmit}>Submit</Button>
               <Button variant="secondary" onClick={toggleFormDisplay}>
@@ -117,12 +127,15 @@ function AccountInfoItem({
       case "Password":
         return (
           <>
-            <input type="text" 
+            <Form.Control type="text" 
                     placeholder="Password"
                     name="password"
                     value={formInput.password}
                     onChange={onInputChange}
-                    required />
+                    isInvalid={errors?.data?.password} />
+            <Form.Control.Feedback type="invalid">
+              {errors?.data?.password?.msg}
+            </Form.Control.Feedback>
             <div className="validation">
               <Button onClick={handleFormSubmit}>Submit</Button>
               <Button variant="secondary" onClick={toggleFormDisplay}>
@@ -163,9 +176,15 @@ function AccountInfoItem({
         showForm
           ? <form className="sub-wrapper secondary-bg-color">
               <h3>{heading}</h3>
-              <div className="content">
+              <Form.Group className={
+                `content ${
+                  heading === 'Account management' 
+                    ? 'account-management' 
+                    : ''
+                }`
+              }>
                 {renderFormContent()}
-              </div>
+              </Form.Group>
             </form>
           : <div className="info-display sub-wrapper hovered-link" 
                   onClick={toggleFormDisplay}>
@@ -173,7 +192,9 @@ function AccountInfoItem({
               <p className="content">
                 {formInput[Object.keys(formInput)[0]] || ""}
               </p>
-              <button className="primary-font-color">{btnLabel}</button>
+              <button className="primary-font-color expand-btn">
+                {btnLabel}
+              </button>
             </div>
       }
     </li>

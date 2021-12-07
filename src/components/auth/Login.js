@@ -59,8 +59,6 @@ function Login({ auth, errors, login, history, enableSignupForm }) {
     login(body);
   };
 
-  console.log(errors)
-
   return (
     <div className="login">
       <h1 className="site-name primary-font-color">odinbook</h1>
