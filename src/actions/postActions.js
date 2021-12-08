@@ -10,6 +10,7 @@ import {
   GET_ACTION
 } from "./types";
 import axios from 'axios';
+import { socket } from '../index';
 
 export const getPosts = (posts) => dispatch => {
   // object to store all comments by their id to facilitate lookup
@@ -44,6 +45,9 @@ export const getPosts = (posts) => dispatch => {
 
 export const deletePost = (post) => dispatch => {
   axios.delete(`/api/posts/${post.id}`).then((response) => {
+    // send deleted post back to server to broadcast to other users
+    socket.emit('delete post', post);
+
     dispatch({
       type: DELETE_POST,
       payload: post
@@ -65,6 +69,9 @@ export const updatePost = (post) => dispatch => {
   axios.put(`/api/posts/${post.id}`, {  
     content: post.content
   }).then((response) => {
+    // send updated post back to server to broadcast to other users
+    socket.emit('update post', response.data);
+
     dispatch({
       type: UPDATE_POST,
       payload: response.data
@@ -88,6 +95,9 @@ export const updatePost = (post) => dispatch => {
 
 export const addPost = (body) => dispatch => {
   axios.post('/api/posts', body).then((response) => {
+    // send new post back to server to broadcast to other users
+    socket.emit('new post', response.data);
+
     dispatch({
       type: ADD_POST,
       payload: response.data

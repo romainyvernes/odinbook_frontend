@@ -6,10 +6,17 @@ import {
   DELETE_POST_REACTION
 } from "./types";
 import axios from 'axios';
+import { socket } from '../index';
 
 export const addReaction = (body, parentElement) => dispatch => {
   axios.post('/api/reactions', body).then((response) => {
     if (parentElement.post_id) { // implies parent must be a comment
+      // send new reaction back to server to broadcast to other users
+      socket.emit('new reaction', {
+        comment: parentElement,
+        reaction: response.data
+      });
+
       dispatch({
         type: ADD_COMMENT_REACTION,
         payload: {
@@ -18,6 +25,12 @@ export const addReaction = (body, parentElement) => dispatch => {
         }
       });
     } else {
+      // send new reaction back to server to broadcast to other users
+      socket.emit('new reaction', {
+        post: parentElement,
+        reaction: response.data
+      });
+
       dispatch({
         type: ADD_POST_REACTION,
         payload: {
@@ -37,6 +50,12 @@ export const addReaction = (body, parentElement) => dispatch => {
 export const deleteReaction = (reaction, parentElement) => dispatch => {
   axios.delete(`/api/reactions/${reaction._id}`).then((response) => {
     if (parentElement.post_id) { // implies parent must be a comment
+      // send deleted reaction back to server to broadcast to other users
+      socket.emit('delete reaction', {
+        comment: parentElement,
+        reaction
+      });
+      
       dispatch({
         type: DELETE_COMMENT_REACTION,
         payload: {
@@ -45,6 +64,12 @@ export const deleteReaction = (reaction, parentElement) => dispatch => {
         }
       });
     } else {
+      // send deleted reaction back to server to broadcast to other users
+      socket.emit('delete reaction', {
+        post: parentElement,
+        reaction
+      });
+
       dispatch({
         type: DELETE_POST_REACTION,
         payload: {

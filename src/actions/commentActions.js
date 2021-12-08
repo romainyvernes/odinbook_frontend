@@ -5,9 +5,13 @@ import {
   UPDATE_COMMENT
 } from "./types";
 import axios from 'axios';
+import { socket } from '../index';
 
 export const addComment = (body) => dispatch => {
   axios.post('/api/comments', body).then((response) => {
+    // send new comment back to server to broadcast to other users
+    socket.emit('new comment', response.data);
+
     dispatch({
       type: ADD_COMMENT,
       payload: [response.data]
@@ -23,6 +27,9 @@ export const addComment = (body) => dispatch => {
 
 export const deleteComment = (comment) => dispatch => {
   axios.delete(`/api/comments/${comment.id}`).then((response) => {
+    // send deleted comment back to server to broadcast to other users
+    socket.emit('delete comment', comment);
+
     dispatch({
       type: DELETE_COMMENT,
       payload: comment
@@ -39,6 +46,9 @@ export const updateComment = (comment) => dispatch => {
   axios.put(`/api/comments/${comment.id}`, {  
     content: comment.content
   }).then((response) => {
+    // send updated comment back to server to broadcast to other users
+    socket.emit('update comment', response.data);
+
     dispatch({
       type: UPDATE_COMMENT,
       payload: response.data
