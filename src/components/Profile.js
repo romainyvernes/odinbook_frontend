@@ -107,7 +107,7 @@ function Profile({
                         </NavLink>
                       </li>
                     </ul>
-                    <div>
+                    <div className="friend-btn">
                       <FriendButton parent={user} />
                     </div>
                   </div>

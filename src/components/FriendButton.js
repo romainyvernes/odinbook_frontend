@@ -14,6 +14,9 @@ import {
   declineFriendRequest
 } from "../actions/friendActions";
 
+// stylesheet
+import '../styles/FriendButton.css';
+
 function FriendButton({ 
   parent,
   auth, 
@@ -67,8 +70,10 @@ function FriendButton({
         if (shortVersion !== true) {
           return (
             <>
-              <Button onClick={handleAcceptRequest}>Accept friend request</Button>
-              <Button onClick={handleDeclineRequest}>Decline friend request</Button>
+              <Button onClick={handleAcceptRequest}>Accept request</Button>
+              <Button onClick={handleDeclineRequest} className="reg-display">
+                Decline friend request
+              </Button>
             </>
           );
         } else {
@@ -76,7 +81,7 @@ function FriendButton({
         }
       } else if (auth.user.outgoingFriendRequests[parent.id]) {
         if (shortVersion !== true) {
-          return <Button onClick={handleCancelRequest}>Cancel friend request</Button>;
+          return <Button onClick={handleCancelRequest}>Cancel request</Button>;
         } else {
           return null;
         }

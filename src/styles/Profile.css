@@ -2,13 +2,13 @@
   display: flex;
   justify-content: center;
   padding-top: 15px;
-  width: 830px;
-  margin: 0 auto;
+  gap: 1em;
 }
 
 .profile main,
 .profile-nav {
-  width: 830px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .profile-header {
@@ -27,7 +27,6 @@
 }
 
 .profile-nav {
-  margin: 0 auto;
   border-top: 1px solid #ccc;
   display: flex;
   justify-content: space-between;
@@ -61,4 +60,20 @@
   font-size: 1.1em;
   display: flex;
   align-items: center;
+}
+
+.profile .friend-btn {
+  display: flex;
+  gap: 1em;
+}
+
+@media screen and (max-width: 1023px) {
+  .profile main {
+    flex-direction: column;
+  }
+
+  .profile main,
+  .profile-nav {
+    margin: 0 1em;
+  }
 }

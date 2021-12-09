@@ -29,3 +29,9 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@media screen and (max-width: 767px) {
+  .profile-friends .profile-friends-list {
+    grid-template-columns: 1fr;
+  }
+}

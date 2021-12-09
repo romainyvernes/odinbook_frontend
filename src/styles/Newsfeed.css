@@ -11,3 +11,17 @@
 .invisible {
   width: 150px;
 }
+
+@media screen and (max-width: 1023px) {
+  .invisible {
+    display: none;
+  }
+
+  .newsfeed {
+    justify-content: center;
+  }
+
+  .newsfeed main {
+    margin: 0 1em;
+  }
+}

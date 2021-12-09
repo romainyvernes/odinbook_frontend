@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink, Switch, Route } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
@@ -8,13 +8,25 @@ import '../styles/AccountDashboard.css';
 import Error from './Error';
 
 export default function AccountDashboard({ heading, mainItems, navItems, className }) {
+  const [showNav, setShowNav] = useState(false);
+
+  const toggleNavigation = () => {
+    setShowNav(!showNav);
+  };
+
   return (
     <div className={`account-dashboard ${className}`}>
       <aside className="quinary-frame primary-bg-color">
         <header>
           <h1>{heading}</h1>
+          <div className="sm-display toggle-btn">
+            <button onClick={toggleNavigation} 
+                    className={`burger-btn${showNav ? ' open' : ''}`}>
+              <div className="burger-icon"></div>
+            </button>
+          </div>
         </header>
-        <ul>
+        <ul className={showNav ? 'show' : undefined}>
           {
             navItems.map((item) => (
               <li key={uuid()}>
@@ -33,8 +45,8 @@ export default function AccountDashboard({ heading, mainItems, navItems, classNa
         <Switch>
           {
             mainItems.map((item, index) => (
-              <Route key={uuid()} exact={index === 0} path={item.path} render={(props) => (
-                <item.component {...props} key={uuid()} {...item.componentProps} />
+              <Route key={index} exact={index === 0} path={item.path} render={(props) => (
+                <item.component {...props} {...item.componentProps} />
               )} />
             ))
           }

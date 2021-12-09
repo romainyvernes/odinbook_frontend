@@ -72,7 +72,10 @@ function Navbar({ logout, history, auth }) {
     <nav className="nav-bar primary-bg-color quinary-frame">
       <div className="search">
         <Link to="/">
-          <i className="site-icon primary-font-color">Odinbook</i>
+          <i className="site-icon primary-font-color reg-display">Odinbook</i>
+          <i className="site-icon tertiary-font-color tertiary-bg-color sm-display">
+            0
+          </i>
         </Link>
         <Dropdown className="search-btn">
           <Dropdown.Toggle>

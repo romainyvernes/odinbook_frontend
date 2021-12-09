@@ -27,3 +27,9 @@
   height: 25px;
   margin-right: 0.6em;
 }
+
+@media screen and (max-width: 1023px) {
+  .home-sidebar {
+    display: none;
+  }
+}

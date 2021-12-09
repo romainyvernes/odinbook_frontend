@@ -151,7 +151,7 @@ function Comment({
                   <button onClick={onReplyClick}>Reply</button>
                 </div>
                 <i>&middot;</i>
-                <button className="comment-date">
+                <button className="comment-date reg-display">
                   <time dateTime={data.date}>
                   {new Date(data.date).toLocaleDateString(
                     'en-US', { month: 'long', day: 'numeric', year: 'numeric' }

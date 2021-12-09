@@ -21,16 +21,25 @@ LEFTMOST AREA IN NAVIGATION BAR WITH WEBSITE ICON & SEARCH BAR
 /* only works when modal is enabled */
 .search {
   position: relative;
-  z-index: 2000;
+  z-index: 2001;
   display: flex;
   align-items: center;
 }
 
 .site-icon {
   font-weight: 900;
+}
+
+.site-icon.reg-display {
   margin: 0 0.4em 0 0.2em;
   font-size: 1.5em;
   vertical-align: bottom;
+}
+
+.site-icon.sm-display {
+  padding: 0.35em 0.4em;
+  border-radius: 50%;
+  font-size: 1.6em;
 }
 
 .search-icon {
@@ -39,13 +48,20 @@ LEFTMOST AREA IN NAVIGATION BAR WITH WEBSITE ICON & SEARCH BAR
   border-radius: 50%;
 }
 
+/* override default setting that places dropdown menu relative to the button
+that activates it */
+.search .dropdown {
+  position: static;
+}
+
 .search .dropdown-menu {
-  margin: -45px 0 0 -145px;
+  margin: -2px 0 0 -11px;
   width: 330px;
   max-height: 500px;
   padding: 0.5em;
   box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2);
   border: none;
+  transform: none !important;
 }
 
 .search .dropdown-menu .top {
@@ -105,7 +121,7 @@ MIDDLE AREA IN NAVIGATION BAR WITH LINKS TO DIFFERENT PAGES OF A USER'S ACCOUNT
 *******/
 
 .nav-bar .nav-link {
-  width: 100px;
+  max-width: 100px;
 }
 
 .icon {
