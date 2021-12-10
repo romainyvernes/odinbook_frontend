@@ -82,7 +82,7 @@ function Register({ auth, errors, register, history }) {
                         placeholder="First name"
                         value={firstName}
                         onChange={onChange}
-                        isInvalid={errors?.data.firstName} />
+                        isInvalid={errors?.data?.firstName} />
           <Form.Control.Feedback type="invalid">
             {errors?.data?.firstName?.msg}
           </Form.Control.Feedback>
@@ -93,7 +93,7 @@ function Register({ auth, errors, register, history }) {
                         placeholder="Last name"
                         value={lastName}
                         onChange={onChange}
-                        isInvalid={errors?.data.lastName} />
+                        isInvalid={errors?.data?.lastName} />
           <Form.Control.Feedback type="invalid">
             {errors?.data?.lastName?.msg}
           </Form.Control.Feedback>
@@ -104,7 +104,7 @@ function Register({ auth, errors, register, history }) {
                         placeholder="Username"
                         value={username}
                         onChange={onChange}
-                        isInvalid={errors?.data.username} />
+                        isInvalid={errors?.data?.username} />
           <Form.Control.Feedback type="invalid">
             {errors?.data?.username?.msg}
           </Form.Control.Feedback>
@@ -115,7 +115,7 @@ function Register({ auth, errors, register, history }) {
                         placeholder="Email"
                         value={email} 
                         onChange={onChange}
-                        isInvalid={errors?.data.email} />
+                        isInvalid={errors?.data?.email} />
           <Form.Control.Feedback type="invalid">
             {errors?.data?.email?.msg}
           </Form.Control.Feedback>
@@ -126,7 +126,7 @@ function Register({ auth, errors, register, history }) {
                         placeholder="Password"
                         value={password}
                         onChange={onChange}
-                        isInvalid={errors?.data.password} />
+                        isInvalid={errors?.data?.password} />
           <Form.Control.Feedback type="invalid">
             {errors?.data?.password?.msg}
           </Form.Control.Feedback>
