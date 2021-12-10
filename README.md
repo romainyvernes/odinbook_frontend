@@ -10,11 +10,11 @@ Front-end part of a MERN application that recreates some of the main features of
  - Manage your account settings to update your name, email, or password, and to delete your account (disabled on guest user account)
 
 ### Core technologies
-React (UI)
-Redux (state management)
-React bootstrap (UI)
-Axios (API calls)
-Socket.io client (real-time features)
+ - React (UI)
+ - Redux (state management)
+ - React bootstrap (UI)
+ - Axios (API calls)
+ - Socket.io client (real-time features)
 
 ### Preview
 [Live App](https://odinbook-social.herokuapp.com/)
