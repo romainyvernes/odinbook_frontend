@@ -50,5 +50,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://odinbook-social.herokuapp.com/"
+  "homepage": "https://odinbook-social.herokuapp.com/",
+  "proxy": "http://localhost:5000/"
 }
