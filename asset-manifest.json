@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/odinbook_frontend/static/css/main.f1bac85c.chunk.css",
-    "main.js": "/odinbook_frontend/static/js/main.83b75a39.chunk.js",
-    "main.js.map": "/odinbook_frontend/static/js/main.83b75a39.chunk.js.map",
-    "runtime-main.js": "/odinbook_frontend/static/js/runtime-main.5720c8c5.js",
-    "runtime-main.js.map": "/odinbook_frontend/static/js/runtime-main.5720c8c5.js.map",
-    "static/css/2.76fa1158.chunk.css": "/odinbook_frontend/static/css/2.76fa1158.chunk.css",
-    "static/js/2.4c760001.chunk.js": "/odinbook_frontend/static/js/2.4c760001.chunk.js",
-    "static/js/2.4c760001.chunk.js.map": "/odinbook_frontend/static/js/2.4c760001.chunk.js.map",
-    "index.html": "/odinbook_frontend/index.html",
-    "static/css/2.76fa1158.chunk.css.map": "/odinbook_frontend/static/css/2.76fa1158.chunk.css.map",
-    "static/css/main.f1bac85c.chunk.css.map": "/odinbook_frontend/static/css/main.f1bac85c.chunk.css.map",
-    "static/js/2.4c760001.chunk.js.LICENSE.txt": "/odinbook_frontend/static/js/2.4c760001.chunk.js.LICENSE.txt"
+    "main.css": "/static/css/main.f1bac85c.chunk.css",
+    "main.js": "/static/js/main.83b75a39.chunk.js",
+    "main.js.map": "/static/js/main.83b75a39.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.ea1a4197.js",
+    "runtime-main.js.map": "/static/js/runtime-main.ea1a4197.js.map",
+    "static/css/2.76fa1158.chunk.css": "/static/css/2.76fa1158.chunk.css",
+    "static/js/2.4c760001.chunk.js": "/static/js/2.4c760001.chunk.js",
+    "static/js/2.4c760001.chunk.js.map": "/static/js/2.4c760001.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.76fa1158.chunk.css.map": "/static/css/2.76fa1158.chunk.css.map",
+    "static/css/main.f1bac85c.chunk.css.map": "/static/css/main.f1bac85c.chunk.css.map",
+    "static/js/2.4c760001.chunk.js.LICENSE.txt": "/static/js/2.4c760001.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.5720c8c5.js",
+    "static/js/runtime-main.ea1a4197.js",
     "static/css/2.76fa1158.chunk.css",
     "static/js/2.4c760001.chunk.js",
     "static/css/main.f1bac85c.chunk.css",
