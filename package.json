@@ -51,7 +51,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://odinbook-boqn.onrender.com/",
+  "homepage": "https://romainyvernes.github.io/odinbook_frontend/",
   "proxy": "http://localhost:5000/",
   "devDependencies": {
     "gh-pages": "^5.0.0"
